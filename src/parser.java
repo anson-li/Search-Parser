@@ -40,7 +40,7 @@ public class parser {
 			String sCurrentLine;
 			br = new BufferedReader(new FileReader("data.txt"));
 			while ((sCurrentLine = br.readLine()) != null) {
-				String replaced = pattern.matcher(scurrentLine).replaceAll("$1");
+				String replaced = pattern.matcher(sCurrentLine).replaceAll("$1");
 				//System.out.println(sCurrentLine);
 				System.out.println(replaced);
 			}
