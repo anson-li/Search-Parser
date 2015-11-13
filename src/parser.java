@@ -26,94 +26,88 @@
 * and I is the review id.
 **/
 
-import com.sleepycat.db.*
+import com.sleepycat.db.*;
 import java.io.*;
 
 public class parser {
 
-public static void main(String[] args){
+	public static void main(String[] args){
 
-	try {
+		try { 
+		
+			// sample code used to read file
+			// taken from http://www.java-tips.org/java-se-tips-100019/18-java-io/2028-how-to-read-file-in-java.html
+			File file = new File("data.txt");
+			FileInputStream fis = null;
+	  	BufferedInputStream bis = null;
+	 		DataInputStream dis = null;
 
-		// sample code used to read file
-		// taken from http://www.java-tips.org/java-se-tips-100019/18-java-io/2028-how-to-read-file-in-java.html
-		File file = new File("data.txt");
-		FileInputStream fis = null;
-    	BufferedInputStream bis = null;
-   		DataInputStream dis = null;
+	    fis = new FileInputStream(file);
 
-   		try {
-	      fis = new FileInputStream(file);
-	 
-	      // Here BufferedInputStream is added for fast reading.
-	      bis = new BufferedInputStream(fis);
-	      dis = new DataInputStream(bis);
-	 
-	      // dis.available() returns 0 if the file does not have more lines.
-	      while (dis.available() != 0) {
-	 
-	      // this statement reads the line from the file and print it to
-	        // the console.
-	        System.out.println(dis.readLine());
-	      }
-	 
-	      // dispose all the resources after using them.
-	      fis.close();
-	      bis.close();
-	      dis.close();
-	 
-	    } catch (FileNotFoundException e) {
-	      e.printStackTrace();
-	    } catch (IOException e) {
-	      e.printStackTrace();
+	    // Here BufferedInputStream is added for fast reading.
+	    bis = new BufferedInputStream(fis);
+	    dis = new DataInputStream(bis);
+
+	    // dis.available() returns 0 if the file does not have more lines.
+	    while (dis.available() != 0) {
+
+	    // this statement reads the line from the file and print it to
+	      // the console.
+	      System.out.println(dis.readLine());
 	    }
 
-		// demo code
-		//database configuration
-		DatabaseConfig dbConfig = new DatabaseConfig();
-		dbConfig.setType(DatabaseType.BTREE);
-		dbConfig.setAllowCreate(true);
-		dbConfig.setSortedDuplicates(true); // setting flag for apllowing duplicates
-		
-		//Create a database 
-		Database std_db = new Database("alphabets.db", null, dbConfig);
-		OperationStatus oprStatus;
+	    // dispose all the resources after using them.
+	    fis.close();
+	    bis.close();
+	    dis.close();
 
-		//Inserting Data into a database
-		DatabaseEntry key = new DatabaseEntry();
-		DatabaseEntry data = new DatabaseEntry();
+			// demo code
+			//database configuration
+			DatabaseConfig dbConfig = new DatabaseConfig();
+			dbConfig.setType(DatabaseType.BTREE);
+			dbConfig.setAllowCreate(true);
+			dbConfig.setSortedDuplicates(true); // setting flag for apllowing duplicates
+			
+			//Create a database 
+			Database std_db = new Database("alphabets.db", null, dbConfig);
+			OperationStatus oprStatus;
 
-		//Other variables
-		String id = "1";
-		String name="I";
-		data.setData(name.getBytes());
-		data.setSize(name.length()); 
-		key.setData(id.getBytes()); 
-		key.setSize(id.length());
-		oprStatus = std_db.put(null, key, data);
+			//Inserting Data into a database
+			DatabaseEntry key = new DatabaseEntry();
+			DatabaseEntry data = new DatabaseEntry();
 
-		id = "1";
-		name="J";
-		data.setData(name.getBytes());
-		data.setSize(name.length()); 
-		key.setData(id.getBytes()); 
-		key.setSize(id.length());
-		oprStatus = std_db.put(null, key, data);
+			//Other variables
+			String id = "1";
+			String name="I";
+			data.setData(name.getBytes());
+			data.setSize(name.length()); 
+			key.setData(id.getBytes()); 
+			key.setSize(id.length());
+			oprStatus = std_db.put(null, key, data);
 
-		id = "1";
-		name="K";
-		data.setData(name.getBytes());
-		data.setSize(name.length()); 
-		key.setData(id.getBytes()); 
-		key.setSize(id.length());
-		oprStatus = std_db.put(null, key, data);
+			id = "1";
+			name="J";
+			data.setData(name.getBytes());
+			data.setSize(name.length()); 
+			key.setData(id.getBytes()); 
+			key.setSize(id.length());
+			oprStatus = std_db.put(null, key, data);
 
-		// Closing the connection
-    		std_db.close();
+			id = "1";
+			name="K";
+			data.setData(name.getBytes());
+			data.setSize(name.length()); 
+			key.setData(id.getBytes()); 
+			key.setSize(id.length());
+			oprStatus = std_db.put(null, key, data);
 
-  } // end of try 
+			// Closing the connection
+	    		std_db.close();
 
-  catch (Exception ex) 
-   { ex.getMessage();} 
+	  } // end of try 
 
+	  catch (Exception ex) 
+	   { ex.getMessage();} 
+
+	}
 }
