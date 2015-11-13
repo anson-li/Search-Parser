@@ -33,36 +33,27 @@ public class parser {
 
 	public static void main(String[] args){
 
-		try { 
-		
-			// sample code used to read file
-			// taken from http://www.java-tips.org/java-se-tips-100019/18-java-io/2028-how-to-read-file-in-java.html
-			File file = new File("data.txt");
-			FileInputStream fis = null;
-	  	BufferedInputStream bis = null;
-	 		DataInputStream dis = null;
+		// reference @ http://www.mkyong.com/java/how-to-read-file-from-java-bufferedreader-example/
+		BufferedReader br = null;
+		try {
+			String sCurrentLine;
+			br = new BufferedReader(new FileReader("data.txt"));
+			while ((sCurrentLine = br.readLine()) != null) {
+				System.out.println(sCurrentLine);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 
-	    fis = new FileInputStream(file);
-
-	    // Here BufferedInputStream is added for fast reading.
-	    bis = new BufferedInputStream(fis);
-	    dis = new DataInputStream(bis);
-
-	    // dis.available() returns 0 if the file does not have more lines.
-	    while (dis.available() != 0) {
-
-	    // this statement reads the line from the file and print it to
-	      // the console.
-	      System.out.println(dis.readLine());
-	    }
-
-	    // dispose all the resources after using them.
-	    fis.close();
-	    bis.close();
-	    dis.close();
-
-			// demo code
-			//database configuration
+		// demo code
+		//database configuration
+		try {
 			DatabaseConfig dbConfig = new DatabaseConfig();
 			dbConfig.setType(DatabaseType.BTREE);
 			dbConfig.setAllowCreate(true);
