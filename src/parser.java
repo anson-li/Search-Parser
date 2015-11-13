@@ -17,18 +17,13 @@
 * sequence of alphanumeric and underscore '_' characters, i.e [0-9a-zA-Z_] or the character class \w in Perl or Python. 
 * The format of the file is as follows: for every term T in a product title of a review with id I, there is a row in 
 * this file of the form T',I where T' is the lowercase form of T. That means, terms must be converted to all lowercase before 
-* writing them in this file. Here is the respective file for our sample file with 10 records.
+* writing them in this file.
 *
 * rterms.txt: This file includes terms of length 3 or more characters extracted from the fields review summary and 
 * review text. The file format and the way a term is defined is the as given above for the filepterms.txt. 
-* Here is the respective file for our sample file with 10 records.
 *
 * scores.txt: This file includes one line for each review record in the form of sc:I where sc is the review score 
-* and I is the review id. Here is the respective file for our sample file with 10 records.
-*
-* These files can also be found at directory ~drafiei/291/pub on the lab machines. 
-* In the same directory, you would also find larger size files (such as 1k and 10k records) that you may want to use 
-* in the testings of your programs.
+* and I is the review id.
 **/
 
 import com.sleepycat.db.*
