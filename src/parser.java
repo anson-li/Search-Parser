@@ -35,11 +35,14 @@ public class parser {
 
 		// reference @ http://www.mkyong.com/java/how-to-read-file-from-java-bufferedreader-example/
 		BufferedReader br = null;
+		Patterm pattern = Pattern.compile("^.*?:");
 		try {
 			String sCurrentLine;
 			br = new BufferedReader(new FileReader("data.txt"));
 			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
+				String replaced = pattern.matcher(scurrentLine).replaceAll("$1");
+				//System.out.println(sCurrentLine);
+				System.out.println(replaced);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
