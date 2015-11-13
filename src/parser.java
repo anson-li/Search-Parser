@@ -28,6 +28,7 @@
 
 import com.sleepycat.db.*;
 import java.io.*;
+import java.util.*;
 
 public class parser {
 
@@ -35,7 +36,7 @@ public class parser {
 
 		// reference @ http://www.mkyong.com/java/how-to-read-file-from-java-bufferedreader-example/
 		BufferedReader br = null;
-		Patterm pattern = Pattern.compile("^.*?:");
+		Pattern pattern = Pattern.compile("^.*?:");
 		try {
 			String sCurrentLine;
 			br = new BufferedReader(new FileReader("data.txt"));
