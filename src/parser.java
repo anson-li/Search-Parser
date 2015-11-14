@@ -26,6 +26,31 @@
 * and I is the review id.
 **/
 
+/*
+Intended table design:
+
+create table PRODUCT {
+	productId CHAR[15],
+	title CHAR[150],
+	price INT,
+	PRIMARY KEY (productId)
+}
+
+create table REVIEW {
+	userId CHAR[15],
+	productId CHAR[15],
+	profileName CHAR[50],
+	helpfulness CHAR[10],
+	score DOUBLE,
+	time DATETIME,
+	summary CHAR[50],
+	text CHAR[500],
+	PRIMARY KEY (userId, productId),
+	FOREIGN KEY(productId) ON DELETE CASCADE
+}
+
+*/
+
 import com.sleepycat.db.*;
 import java.io.*;
 import java.util.regex.*;
