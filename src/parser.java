@@ -66,17 +66,18 @@ public class parser {
 		// reference @ http://www.mkyong.com/java/how-to-read-file-from-java-bufferedreader-example/
 		BufferedReader br = null;
 
-		File reviewsFile = new File("./reviews.txt");
-		File ptermsFile = new File("./pterms.txt");
-		File rtermsFile = new File("./rterms.txt");
-		File scoresFile = new File("./scores.txt");
-
-		PrintWriter reviewsWriter = new PrintWriter(reviewsFile, "UTF-8");
-		PrintWriter ptermsWriter = new PrintWriter(ptermsFile, "UTF-8");
-		PrintWriter rtermsWriter = new PrintWriter(rtermsFile, "UTF-8");
-		PrintWriter scoresWriter = new PrintWriter(scoresFile, "UTF-8");
-
 		try {
+
+			File reviewsFile = new File("./reviews.txt");
+			File ptermsFile = new File("./pterms.txt");
+			File rtermsFile = new File("./rterms.txt");
+			File scoresFile = new File("./scores.txt");
+
+			PrintWriter reviewsWriter = new PrintWriter(reviewsFile, "UTF-8");
+			PrintWriter ptermsWriter = new PrintWriter(ptermsFile, "UTF-8");
+			PrintWriter rtermsWriter = new PrintWriter(rtermsFile, "UTF-8");
+			PrintWriter scoresWriter = new PrintWriter(scoresFile, "UTF-8");
+
 			String sCurrentLine;
 			br = new BufferedReader(new FileReader("./data.txt"));
 			Integer counter = 1;
