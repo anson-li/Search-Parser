@@ -20,19 +20,19 @@ public class Product {
     private String price;
 
     public void setID(String data) {
-            productId = data;
+            this.productId = data;
     }
 
     public void setTitle(String data) {
-            title = data;
+            this.title = data;
     }
 
     public void setPrice(String data) {
-            price = data;
+            this.price = data;
     }
 
-    public String getID() { return productId; }
-    public String getTitle() { return title; }
-    public String getPrice() { return price; }
+    public String getID() { return this.productId; }
+    public String getTitle() { return this.title; }
+    public String getPrice() { return this.price; }
 
 } 

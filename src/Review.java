@@ -31,44 +31,44 @@ public class Review {
     private String text;
 
     public void setUserID(String data) {
-        userId = data;
+        this.userId = data;
     }
 
     public void setProductID(String data) {
-        productId = data;
+        this.productId = data;
     }
 
     public void setProfileName(String data) {
-        profileName = data;
+        this.profileName = data;
     }
 
     public void setHelpfulness(String data) {
-        helpfulness = data;
+        this.helpfulness = data;
     }
 
     public void setScore(Double data) {
-        score = data;
+        this.score = data;
     }
 
     public void setTime(String data) {
-        time = data;
+        this.time = data;
     }
 
     public void setSummary(String data) {
-        summary = data;
+        this.summary = data;
     }
 
     public void setText(String data) {
-        text = data;
+        this.text = data;
     }
 
-    public String getUserID() { return userId; }
-    public String getProductID() { return productId; }
-    public String getProfileName() { return profileName; }
-    public String getHelpfulness() { return helpfulness; }
-    public Double getScore() { return score; }
-    public String getTime() { return time; }
-    public String getSummary() { return summary; }
-    public String getText() { return text; }
+    public String getUserID() { return this.userId; }
+    public String getProductID() { return this.productId; }
+    public String getProfileName() { return this.profileName; }
+    public String getHelpfulness() { return this.helpfulness; }
+    public Double getScore() { return this.score; }
+    public String getTime() { return this.time; }
+    public String getSummary() { return this.summary; }
+    public String getText() { return this.text; }
 
 } 
