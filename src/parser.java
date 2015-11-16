@@ -146,6 +146,7 @@ public class parser {
 					reviewsWriter.println(counter+","+product.getID()+",\""+product.getTitle()+"\","+product.getPrice()+","+review.getUserID()+
 						",\""+review.getProfileName()+"\","+review.getHelpfulness()+","+review.getScore()+","+review.getTime()+",\""+review.getSummary()+"\",\""+
 						review.getText()+"\"");
+					scoresWriter.println(review.getScore()+","+counter);
 
 					product = new Product(); // clear items
 					review = new Review();
