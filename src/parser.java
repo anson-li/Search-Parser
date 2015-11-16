@@ -56,8 +56,6 @@ import com.sleepycat.db.*;
 import java.io.*;
 import java.util.regex.*;
 import java.lang.*;
-//import c291proj2.Review;
-//import c291proj2.Product;
 
 public class Parser {
 
