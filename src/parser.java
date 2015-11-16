@@ -148,6 +148,16 @@ public class parser {
 						review.getText()+"\"");
 					scoresWriter.println(review.getScore()+","+counter);
 
+					// dev for pterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
+					String[] parts = line.replace("!","").split("[\\W]");
+					for (String part in parts) {
+						/**
+						* FIXME: Change split regex to include underscore character, _ . 
+						*/
+						ptermsWriter.println(part.toLowerCase() + "," + counter); 
+					}
+
+
 					product = new Product(); // clear items
 					review = new Review();
 					counter++;
