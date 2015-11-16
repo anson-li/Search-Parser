@@ -146,13 +146,12 @@ public class parser {
 			e.printStackTrace();
 		} finally {
 			try {
+				reviewsWriter.close();
 				if (br != null)br.close();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
-
-		reviewsWriter.close();
 
 		// demo code
 		//database configuration
