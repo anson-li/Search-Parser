@@ -1,7 +1,5 @@
 # CMPUT 291 Project 2
 
-## TBD
-
 ## References:
 Berkeley DB development structure, C / Java-based.
 
@@ -10,3 +8,20 @@ Satyen Akolkar and Anson Li
 
 ## Project structure:
 /ref contains reference code for Berkeley DB using Python, C, or Java implementation.
+
+## How to use:
+The program is setup in three stages:
+
+###1. Parsing of text file and generation of four main text files
+First, simply compile every related function:
+
+	javac Review.java Product.java parser.java 
+
+Then, run the first program with:
+
+	java parser 
+
+This results in the generation and the completion of the four main textfiles: reviews.txt, pterms.txt, rterms.txt, and scores.txt.
+
+####2. Building indexes
+In progress...
