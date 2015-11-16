@@ -131,7 +131,7 @@ public class parser {
 					*/
 
 					reviewsWriter.println(counter+","+product.getID()+",\""+product.getTitle()+"\","+product.getPrice()+","+review.getUserID()+
-						",\""+review.getProfileName()+"\","+review.getHelpfulness+","+review.getScore+","+review.getTime()+",\""+review.getSummary()+"\",\""+
+						",\""+review.getProfileName()+"\","+review.getHelpfulness()+","+review.getScore()+","+review.getTime()+",\""+review.getSummary()+"\",\""+
 						review.getText()+"\"");
 					counter++;
 				}
