@@ -19,13 +19,8 @@ create table REVIEW {
 
 public class Review {
 
-    @PrimaryKey
     private String userId;
-
-    // is there a foreign key? 
-    @SecondaryKey(relate=MANY_TO_ONE)
     private String productId;
-    
     private String profileName;
     private String helpfulness;
     private Double score;
