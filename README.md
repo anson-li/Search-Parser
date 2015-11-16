@@ -14,7 +14,13 @@ Satyen Akolkar and Anson Li
 The program is setup in three stages:
 
 ###1. Parsing of text file and generation of four main text files
-First, simply compile every related function:
+Before you begin to use Berkeley DB, please enter the following commands into the terminal to instantiate the paths:
+
+	export CLASSPATH=$CLASSPATH:.:/usr/share/java/db.jar
+	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/oracle/lib
+
+These ensure that the proper libaries are referenced for Berkeley DB production.
+Once you have setup the correct paths, enter the /src folder. Then, simply compile every related function:
 
 	javac Review.java Product.java parser.java 
 
