@@ -13,7 +13,9 @@ create table PRODUCT {
 
 public class Product {
 
+    @PrimaryKey
     private String productId;
+    
     private String title;
     private int price;
 

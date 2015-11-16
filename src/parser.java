@@ -64,7 +64,7 @@ public class parser {
 		Pattern pattern = Pattern.compile("^.*?:");
 		try {
 			String sCurrentLine;
-			br = new BufferedReader(new FileReader("data.txt"));
+			br = new BufferedReader(new FileReader("./data.txt"));
 			while ((sCurrentLine = br.readLine()) != null) {
 				String replaced = sCurrentLine.split(":")[0];
 				//System.out.println(sCurrentLine);
