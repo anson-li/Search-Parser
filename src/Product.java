@@ -1,3 +1,5 @@
+//package c291proj2;
+
 import com.sleepycat.db.*;
 
 /*
@@ -15,22 +17,22 @@ public class Product {
 
     private String productId;
     private String title;
-    private Double price;
+    private String price;
 
     public void setID(String data) {
-            productId = data;
+            this.productId = data;
     }
 
     public void setTitle(String data) {
-            title = data;
+            this.title = data;
     }
 
-    public void setPrice(Double data) {
-            price = data;
+    public void setPrice(String data) {
+            this.price = data;
     }
 
-    public String getID() { return productId; }
-    public String getTitle() { return title; }
-    public Double getPrice() { return price; }
+    public String getID() { return this.productId; }
+    public String getTitle() { return this.title; }
+    public String getPrice() { return this.price; }
 
 } 
