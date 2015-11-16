@@ -79,9 +79,9 @@ public class parser {
 			String sCurrentLine;
 			br = new BufferedReader(new FileReader("./data.txt"));
 			Integer counter = 1;
+			Product product = new Product();
+			Review review = new Review();
 			while ((sCurrentLine = br.readLine()) != null) {
-				Product product = new Product();
-				Review review = new Review();
 				// currentline holds the full value, but can be a simple space
 				if (!sCurrentLine.equals("")) {
 					String replaced = sCurrentLine.split(":", 2)[0].replaceAll("\"", "&quot;").replaceAll("\\\\","\\\\\\\\");
@@ -146,6 +146,9 @@ public class parser {
 					reviewsWriter.println(counter+","+product.getID()+",\""+product.getTitle()+"\","+product.getPrice()+","+review.getUserID()+
 						",\""+review.getProfileName()+"\","+review.getHelpfulness()+","+review.getScore()+","+review.getTime()+",\""+review.getSummary()+"\",\""+
 						review.getText()+"\"");
+
+					product = new Product(); // clear items
+					review = new Review();
 					counter++;
 				}
 			}
