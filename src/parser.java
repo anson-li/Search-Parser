@@ -144,7 +144,9 @@ public class parser {
 						/**
 						* FIXME: Change split regex to include underscore character, _ . 
 						*/
-						ptermsWriter.println(part.toLowerCase() + "," + counter); 
+						if (part.length() >= 3) {
+							ptermsWriter.println(part.toLowerCase() + "," + counter); 
+						}
 					}
 
 
