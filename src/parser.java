@@ -59,7 +59,7 @@ import java.lang.*;
 import c291proj2.Review;
 import c291proj2.Product;
 
-public class parser {
+public class Parser {
 
 	public static void main(String[] args){
 
