@@ -81,7 +81,9 @@ public class parser {
 						product.setTitle(value);
 						break;
 					case "product/price":
-						product.setPrice(Integer.valueOf(value));
+						if (value.equals("unknown")) {} else {
+							product.setPrice(Integer.valueOf(value));
+						}
 						break;
 					case "review/userId":
 						review.setUserID(value);
