@@ -69,49 +69,53 @@ public class parser {
 			Review review = new Review();
 			br = new BufferedReader(new FileReader("./data.txt"));
 			while ((sCurrentLine = br.readLine()) != null) {
-				// currentline holds the full value
-				String replaced = sCurrentLine.split(":", 2)[0];
-				String value = sCurrentLine.split(":", 2)[1]; // doesn't account for any further splits...
-				switch (replaced) {
-					case "product/productId":
-						product.setID(value);
-						review.setProductID(value);
-						break;
-					case "product/title":
-						product.setTitle(value);
-						break;
-					case "product/price":
-						if (value.equals(" unknown")) {} else {
-							product.setPrice(Integer.valueOf(value));
-						}
-						break;
-					case "review/userId":
-						review.setUserID(value);
-						break;
-					case "review/profileName":
-						review.setProfileName(value);
-						break;
-					case "review/helpfulness":
-						review.setHelpfulness(value);
-						break;
-					case "review/score":
-						review.setScore(Double.valueOf(value));
-						break;
-					case "review/time":
-						review.setTime(value);
-						break;
-					case "review/summary":
-						review.setSummary(value);
-						break;
-					case "review/text":
-						review.setText(value);
-						break;
-					default:
-						throw new IllegalArgumentException("Invalid value entered: " + replaced);
+				// currentline holds the full value, but can be a simple space
+				if (sCurrentLine != "" {
+					String replaced = sCurrentLine.split(":", 2)[0];
+					String value = sCurrentLine.split(":", 2)[1]; // doesn't account for any further splits...
+					switch (replaced) {
+						case "product/productId":
+							product.setID(value);
+							review.setProductID(value);
+							break;
+						case "product/title":
+							product.setTitle(value);
+							break;
+						case "product/price":
+							if (value.equals(" unknown")) {} else {
+								product.setPrice(Integer.valueOf(value));
+							}
+							break;
+						case "review/userId":
+							review.setUserID(value);
+							break;
+						case "review/profileName":
+							review.setProfileName(value);
+							break;
+						case "review/helpfulness":
+							review.setHelpfulness(value);
+							break;
+						case "review/score":
+							review.setScore(Double.valueOf(value));
+							break;
+						case "review/time":
+							review.setTime(value);
+							break;
+						case "review/summary":
+							review.setSummary(value);
+							break;
+						case "review/text":
+							review.setText(value);
+							break;
+						default:
+							throw new IllegalArgumentException("Invalid value entered: " + replaced);
+					}
+					//System.out.println(sCurrentLine);
+					System.out.println(replaced + ": " + value);
+				} else {
+					System.out.println("newline reached; next item read.");
+					// add functionality for shipping off the current review and adding in the next one.
 				}
-				//System.out.println(sCurrentLine);
-				System.out.println(replaced + ": " + value);
-
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
