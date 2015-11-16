@@ -70,7 +70,7 @@ public class parser {
 			br = new BufferedReader(new FileReader("./data.txt"));
 			while ((sCurrentLine = br.readLine()) != null) {
 				// currentline holds the full value, but can be a simple space
-				if (sCurrentLine != "") {
+				if (!sCurrentLine.equals("")) {
 					String replaced = sCurrentLine.split(":", 2)[0];
 					String value = sCurrentLine.split(":", 2)[1]; // doesn't account for any further splits...
 					switch (replaced) {
