@@ -90,43 +90,33 @@ public class parser {
 						case "product/productId":
 							product.setID(value);
 							review.setProductID(value);
-							System.out.println(replaced + ": " + review.getProductID());
 							break;
 						case "product/title":
 							product.setTitle(value);
-							System.out.println(replaced + ": " + product.getTitle());
 							break;
 						case "product/price":
 							product.setPrice(value);
-							System.out.println(replaced + ": " + product.getPrice());
 							break;
 						case "review/userId":
 							review.setUserID(value);
-							System.out.println(replaced + ": " + review.getUserID());
 							break;
 						case "review/profileName":
 							review.setProfileName(value);
-							System.out.println(replaced + ": " + review.getProfileName());
 							break;
 						case "review/helpfulness":
 							review.setHelpfulness(value);
-							System.out.println(replaced + ": " + review.getHelpfulness());
 							break;
 						case "review/score":
 							review.setScore(Double.valueOf(value));
-							System.out.println(replaced + ": " + review.getScore());
 							break;
 						case "review/time":
 							review.setTime(value);
-							System.out.println(replaced + ": " + review.getTime());
 							break;
 						case "review/summary":
 							review.setSummary(value);
-							System.out.println(replaced + ": " + review.getSummary());
 							break;
 						case "review/text":
 							review.setText(value);
-							System.out.println(replaced + ": " + review.getText());
 							break;
 						default:
 							throw new IllegalArgumentException("Invalid value entered: " + replaced);
@@ -164,6 +154,8 @@ public class parser {
 				}
 			}
 			reviewsWriter.close();
+			ptermsWriter.close();
+			scoresWriter.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
