@@ -57,7 +57,7 @@ import java.io.*;
 import java.util.regex.*;
 import java.lang.*;
 
-public class Parser {
+public class parser {
 
 	public static void main(String[] args){
 
