@@ -150,7 +150,7 @@ public class parser {
 
 					// dev for pterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
 					String[] parts = line.replace("!","").split("[\\W]");
-					for (String part in parts) {
+					for (String part: parts) {
 						/**
 						* FIXME: Change split regex to include underscore character, _ . 
 						*/
