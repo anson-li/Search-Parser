@@ -87,13 +87,13 @@ public class parser {
 						review.setUserID(value);
 						break;
 					case "review/profileName":
-						review.setProfileName(Double.valueOf(value));
+						review.setProfileName(value);
 						break;
 					case "review/helpfulness":
 						review.setHelpfulness(value);
 						break;
 					case "review/score":
-						review.setScore(value);
+						review.setScore(Double.valueOf(value));
 						break;
 					case "review/time":
 						review.setTime(value);
