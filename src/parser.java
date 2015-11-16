@@ -142,11 +142,11 @@ public class parser {
 					counter++;
 				}
 			}
+			reviewsWriter.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				reviewsWriter.close();
 				if (br != null)br.close();
 			} catch (IOException ex) {
 				ex.printStackTrace();
