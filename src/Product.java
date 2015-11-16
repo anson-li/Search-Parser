@@ -31,6 +31,6 @@ public class Product {
 
     public String getID() { return productId; }
     public String getTitle() { return title; }
-    public int getPrice() { return price; }
+    public Double getPrice() { return price; }
 
 } 
