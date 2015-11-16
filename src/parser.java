@@ -83,7 +83,7 @@ public class parser {
 							break;
 						case "product/price":
 							if (value.equals(" unknown")) {} else {
-								product.setPrice(Integer.valueOf(value));
+								product.setPrice(Double.valueOf(value));
 							}
 							break;
 						case "review/userId":

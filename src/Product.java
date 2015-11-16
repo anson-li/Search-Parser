@@ -25,7 +25,7 @@ public class Product {
             title = data;
     }
 
-    public void setPrice(int data) {
+    public void setPrice(Double data) {
             price = data;
     }
 
