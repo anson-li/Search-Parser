@@ -7,8 +7,8 @@ Berkeley DB development structure, C / Java-based.
 Satyen Akolkar and Anson Li
 
 ## Project structure:
-/ref contains reference code for Berkeley DB using Python, C, or Java implementation.
-/src contains the code used for the project base.
+* /ref contains reference code for Berkeley DB using Python, C, or Java implementation.
+* /src contains the code used for the project base.
 
 ## How to use:
 The program is setup in three stages:
