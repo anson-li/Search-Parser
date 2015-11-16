@@ -71,14 +71,10 @@ public class parser {
 		File rtermsFile = new File("./rterms.txt");
 		File scoresFile = new File("./scores.txt");
 
-		try {
-			PrintWriter reviewsWriter = new PrintWriter(reviewsFile, "UTF-8");
-			PrintWriter ptermsWriter = new PrintWriter(ptermsFile, "UTF-8");
-			PrintWriter rtermsWriter = new PrintWriter(rtermsFile, "UTF-8");
-			PrintWriter scoresWriter = new PrintWriter(scoresFile, "UTF-8");
-		} catch (FileNotFoundException e) {
-			e.getMessage();
-		}
+		PrintWriter reviewsWriter = new PrintWriter(reviewsFile, "UTF-8");
+		PrintWriter ptermsWriter = new PrintWriter(ptermsFile, "UTF-8");
+		PrintWriter rtermsWriter = new PrintWriter(rtermsFile, "UTF-8");
+		PrintWriter scoresWriter = new PrintWriter(scoresFile, "UTF-8");
 
 		try {
 			String sCurrentLine;
@@ -145,7 +141,7 @@ public class parser {
 					counter++;
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
