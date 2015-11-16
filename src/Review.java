@@ -1,3 +1,5 @@
+package c291proj2;
+
 import com.sleepycat.db.*;
 
 /*
@@ -20,7 +22,7 @@ create table REVIEW {
 public class Review {
 
     private String userId;
-    private String productId;
+    private String productId;P
     private String profileName;
     private String helpfulness;
     private Double score;

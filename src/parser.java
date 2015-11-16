@@ -50,11 +50,14 @@ create table REVIEW {
 }
 
 */
+package c291proj2;
 
 import com.sleepycat.db.*;
 import java.io.*;
 import java.util.regex.*;
 import java.lang.*;
+import c291proj2.Review;
+import c291proj2.Product;
 
 public class parser {
 
