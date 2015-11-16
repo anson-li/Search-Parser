@@ -123,15 +123,6 @@ public class parser {
 					}
 					//System.out.println(sCurrentLine);
 				} else {
-					System.out.println("newline reached; next item read.");
-					// add functionality for shipping off the current review and adding in the next one.
-
-					/*
-					PrintWriter reviewsWriter = new PrintWriter("./reviews.txt", "UTF-8");
-					PrintWriter ptermsWriter = new PrintWriter("./pterms.txt", "UTF-8");
-					PrintWriter rtermsWriter = new PrintWriter("./rterms.txt", "UTF-8");
-					PrintWriter scoresWriter = new PrintWriter("./scores.txt", "UTF-8");
-					*/
 
 					reviewsWriter.println(counter+","+product.getID()+",\""+product.getTitle()+"\","+product.getPrice()+","+review.getUserID()+
 						",\""+review.getProfileName()+"\","+review.getHelpfulness()+","+review.getScore()+","+review.getTime()+",\""+review.getSummary()+"\",\""+
@@ -139,8 +130,8 @@ public class parser {
 					scoresWriter.println(review.getScore()+","+counter);
 
 					// dev for pterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
-					String[] parts = product.getTitle().replace("!","").split("[\\W]");
-					for (String part: parts) {
+					String[] titleParts = product.getTitle().replace("!","").split("[\\W]");
+					for (String part: titleParts) {
 						/**
 						* FIXME: Change split regex to include underscore character, _ . 
 						*/
@@ -149,7 +140,27 @@ public class parser {
 						}
 					}
 
+					// dev for rterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
+					String[] sumParts = review.getSummary().replace("!","").split("[\\W]");
+					for (String part: sumParts) {
+						/**
+						* FIXME: Change split regex to include underscore character, _ . 
+						*/
+						if (part.length() >= 3) {
+							rtermsWriter.println(part.toLowerCase() + "," + counter); 
+						}
+					}
 
+					// dev for rterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
+					String[] txtParts = review.getText().replace("!","").split("[\\W]");
+					for (String part: txtParts) {
+						/**
+						* FIXME: Change split regex to include underscore character, _ . 
+						*/
+						if (part.length() >= 3) {
+							rtermsWriter.println(part.toLowerCase() + "," + counter); 
+						}
+					}
 					product = new Product(); // clear items
 					review = new Review();
 					counter++;
@@ -157,6 +168,7 @@ public class parser {
 			}
 			reviewsWriter.close();
 			ptermsWriter.close();
+			rtermsWriter.close();
 			scoresWriter.close();
 		} catch (Exception e) {
 			e.printStackTrace();
