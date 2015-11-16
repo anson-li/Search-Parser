@@ -62,13 +62,19 @@ public class parser {
 
 		// reference @ http://www.mkyong.com/java/how-to-read-file-from-java-bufferedreader-example/
 		BufferedReader br = null;
-		Pattern pattern = Pattern.compile("^.*?:");
+
+		PrintWriter reviewsWriter = new PrintWriter("./reviews.txt", "UTF-8");
+		PrintWriter ptermsWriter = new PrintWriter("./pterms.txt", "UTF-8");
+		PrintWriter rtermsWriter = new PrintWriter("./rterms.txt", "UTF-8");
+		PrintWriter scoresWriter = new PrintWriter("./scores.txt", "UTF-8");
+
 		try {
 			String sCurrentLine;
-			Product product = new Product();
-			Review review = new Review();
 			br = new BufferedReader(new FileReader("./data.txt"));
+			Integer counter = 1;
 			while ((sCurrentLine = br.readLine()) != null) {
+				Product product = new Product();
+				Review review = new Review();
 				// currentline holds the full value, but can be a simple space
 				if (!sCurrentLine.equals("")) {
 					String replaced = sCurrentLine.split(":", 2)[0].replaceAll("\"", "&quot;").replaceAll("\\","\\\\");
@@ -82,9 +88,7 @@ public class parser {
 							product.setTitle(value);
 							break;
 						case "product/price":
-							if (value.equals(" unknown")) {} else {
-								product.setPrice(Double.valueOf(value));
-							}
+							product.setPrice(value);
 							break;
 						case "review/userId":
 							review.setUserID(value);
@@ -115,6 +119,18 @@ public class parser {
 				} else {
 					System.out.println("newline reached; next item read.");
 					// add functionality for shipping off the current review and adding in the next one.
+
+					/*
+					PrintWriter reviewsWriter = new PrintWriter("./reviews.txt", "UTF-8");
+					PrintWriter ptermsWriter = new PrintWriter("./pterms.txt", "UTF-8");
+					PrintWriter rtermsWriter = new PrintWriter("./rterms.txt", "UTF-8");
+					PrintWriter scoresWriter = new PrintWriter("./scores.txt", "UTF-8");
+					*/
+
+					reviewsWriter.println(counter+","+product.getID()+",\""+product.getTitle()+"\","+product.getPrice()+","+review.getUserID()+
+						",\""+review.getProfileName()+"\","+review.getHelpfulness+","+review.getScore+","+review.getTime()+",\""+review.getSummary()+"\",\""+
+						review.getText()+"\"");
+					counter++;
 				}
 			}
 		} catch (IOException e) {
@@ -126,6 +142,8 @@ public class parser {
 				ex.printStackTrace();
 			}
 		}
+
+		reviewsWriter.close();
 
 		// demo code
 		//database configuration
@@ -177,42 +195,4 @@ public class parser {
 	   { ex.getMessage();} 
 
 	}
-
-	/* Reference at : https://docs.oracle.com/cd/E17277_02/html/GettingStartedGuide/dbtUsage.html#inventory
-	// Implement this abstract method. Used to convert
-    // a DatabaseEntry to an Inventory object.
-    public Object entryToObject(TupleInput ti) {
-
-        String sku = ti.readString();
-        String itemName = ti.readString();
-        String category = ti.readString();
-        String vendor = ti.readString();
-        int vendorInventory = ti.readInt();
-        float vendorPrice = ti.readFloat();
-
-        Inventory inventory = new Inventory();
-        inventory.setSku(sku);
-        inventory.setItemName(itemName);
-        inventory.setCategory(category);
-        inventory.setVendor(vendor);
-        inventory.setVendorInventory(vendorInventory);
-        inventory.setVendorPrice(vendorPrice);
-
-        return inventory;
-    }
-
-    // Implement this abstract method. Used to convert a
-    // Inventory object to a DatabaseEntry object.
-    public void objectToEntry(Object object, TupleOutput to) {
-
-        Inventory inventory = (Inventory)object;
-
-        to.writeString(inventory.getSku());
-        to.writeString(inventory.getItemName());
-        to.writeString(inventory.getCategory());
-        to.writeString(inventory.getVendor());
-        to.writeInt(inventory.getVendorInventory());
-        to.writeFloat(inventory.getVendorPrice());
-    }
-    */
 }

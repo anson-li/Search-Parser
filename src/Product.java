@@ -15,7 +15,7 @@ public class Product {
 
     private String productId;
     private String title;
-    private Double price;
+    private String price;
 
     public void setID(String data) {
             productId = data;
@@ -25,12 +25,12 @@ public class Product {
             title = data;
     }
 
-    public void setPrice(Double data) {
+    public void setPrice(String data) {
             price = data;
     }
 
     public String getID() { return productId; }
     public String getTitle() { return title; }
-    public Double getPrice() { return price; }
+    public String getPrice() { return price; }
 
 } 
