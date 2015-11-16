@@ -15,7 +15,7 @@ public class Product {
 
     private String productId;
     private String title;
-    private int price;
+    private Double price;
 
     public void setID(String data) {
             productId = data;
