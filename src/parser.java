@@ -85,7 +85,7 @@ public class parser {
 				// currentline holds the full value, but can be a simple space
 				if (!sCurrentLine.equals("")) {
 					String replaced = sCurrentLine.split(": ", 2)[0].replaceAll("\"", "&quot;").replaceAll("\\\\","\\\\\\\\");
-					String value = sCurrentLine.split(": ", 2)[1]; // doesn't account for any further splits...
+					String value = sCurrentLine.split(": ", 2)[1].replaceAll("\"", "&quot;").replaceAll("\\\\","\\\\\\\\"); // doesn't account for any further splits...
 					switch (replaced) {
 						case "product/productId":
 							product.setID(value);
