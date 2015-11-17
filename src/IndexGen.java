@@ -30,10 +30,11 @@ public class IndexGen{
 
 	//http://www.mkyong.com/java/how-to-execute-shell-command-from-java/
 	private String executeCommand(String command) {
+		String[] cmd = { "/bin/sh", "-c", command);
 		StringBuffer output = new StringBuffer();
 		Process p;
 		try {
-			p = Runtime.getRuntime().exec(command);
+			p = Runtime.getRuntime().exec(cmd);
 			p.waitFor();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line = "";			
