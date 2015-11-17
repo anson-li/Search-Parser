@@ -12,7 +12,7 @@ public static void main(String[] args){
 	try {
 		//database configuration
 		DatabaseConfig dbConfig = new DatabaseConfig();
-		dbConfig.setType(DatabaseType.BTREE);
+		dbConfig.setType(DatabaseType.HASH);
 		dbConfig.setAllowCreate(true);
 		dbConfig.setSortedDuplicates(true); // setting flag for allowing duplicates
 		
