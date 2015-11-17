@@ -11,6 +11,7 @@ public class IndexGen{
 	public static void main(String[] args){
 		// Sorts text file and puts it on stdin / perl sorts / db_load parses into hash
 		IndexGen shell = new IndexGen();
+		shell.executeCommand("ls");
 		String output;
 		output = shell.executeCommand("sort -u reviews.txt | perl break.pl | db_load -c duplicates=1 rw.idx -T -t hash");
 		System.out.println("RW.IDX : Process complete! Result: " + output);
