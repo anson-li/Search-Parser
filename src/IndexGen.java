@@ -7,10 +7,9 @@ public class IndexGen{
 
 	public static void main(String[] args){
 		// have to execute everything through the following process:
-		IndexGen shell = new IndexGen();
-		shell.executeCommand("sort -u -o rterms.txt rterms.txt");
-		shell.executeCommand("sort -u -o pterms.txt pterms.txt");
-		shell.executeCommand("sort -u -o scores.txt scores.txt");
+		executeCommand("sort -u -o rterms.txt rterms.txt");
+		executeCommand("sort -u -o pterms.txt pterms.txt");
+		executeCommand("sort -u -o scores.txt scores.txt");
 
 	}
 
