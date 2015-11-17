@@ -22,7 +22,7 @@ Before you begin to use Berkeley DB, please enter the following commands into th
 These ensure that the proper libaries are referenced for Berkeley DB production.
 Once you have setup the correct paths, enter the /src folder. Then, simply compile every related function:
 
-	javac Review.java Product.java parser.java 
+	javac Review.java Product.java parser.java IndexGen.java
 
 Then, run the first program with:
 
@@ -31,10 +31,8 @@ Then, run the first program with:
 This results in the generation and the completion of the four main textfiles: reviews.txt, pterms.txt, rterms.txt, and scores.txt.
 
 ####2. Building indexes
-First, sort the generated text files using the following instructions:
+Create the indexes required for part three using the aforementioned program:
 
-	sort -u -o rterms.txt rterms.txt
-	sort -u -o pterms.txt pterms.txt
-	sort -u -o scores.txt scores.txt
+	java IndexGen
 
-These text files will be updated on their own files, so there's no need to resort the files after.
+Once this is run, the .idx values for all files will be generated.
