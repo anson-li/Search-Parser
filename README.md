@@ -30,6 +30,12 @@ Then, run the first program with:
 
 This results in the generation and the completion of the four main textfiles: reviews.txt, pterms.txt, rterms.txt, and scores.txt.
 
+to compare the file to the sample on eClass run the following where the eclass version is (review_eClass.txt, pterms_eClass.txt ...)
+
+	diff reviews_eClass.txt reviews.txt
+	
+If there is any output, the two files do not match. If there is no output then the files are identical.
+
 ####2. Building indexes
 Create the indexes required for part three using the aforementioned program:
 
