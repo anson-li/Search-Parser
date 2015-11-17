@@ -7,6 +7,8 @@ public class IndexGen{
 
 public static void main(String[] args){
 
+	BufferedReader br = null;
+
 	try {
 		//database configuration
 		DatabaseConfig dbConfig = new DatabaseConfig();
