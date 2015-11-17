@@ -12,5 +12,5 @@ public static void main(String[] args){
 	shell.executeCommand("sort -u -o pterms.txt pterms.txt");
 	shell.executeCommand("sort -u -o scores.txt scores.txt");
 
-
+}
 }
