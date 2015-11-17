@@ -5,24 +5,16 @@ import java.lang.*;
 
 public class IndexGen{
 
+	/* Test .idx files:
+	   db_dump rw.idx -da
+	*/
 	public static void main(String[] args){
-		// have to execute everything through the following process:
+		// Sorts text file and puts it on stdin / perl sorts / db_load parses into hash
 		IndexGen shell = new IndexGen();
-		shell.executeCommand("sort -u -o rterms.txt rterms.txt");
-		shell.executeCommand("sort -u -o pterms.txt pterms.txt");
-		shell.executeCommand("sort -u -o scores.txt scores.txt");
-
-		/* shell commands to be used when generating rdx:
-		** Sorts text file and puts it on stdin / perl sorts / db_load parses into hash
-		** First one is tested ; others are demo
-		sort -u reviews.txt | perl break.pl | db_load -c duplicates=1 rw.idx -T -t hash
-		sort -u pterms.txt | perl break.pl | db_load -c duplicates=1 pt.idx -T -t btree
-		sort -u rterms.txt | perl break.pl | db_load -c duplicates=1 rt.idx -T -t btree
-		sort -u scores.txt | perl break.pl | db_load -c duplicates=1 sc.idx -T -t btree
-
-		** Test .idx files:
-		db_dump rw.idx -da
-		*/
+		shell.executeCommand("sort -u reviews.txt | perl break.pl | db_load -c duplicates=1 rw.idx -T -t hash");
+		shell.executeCommand("sort -u pterms.txt | perl break.pl | db_load -c duplicates=1 pt.idx -T -t btree");
+		shell.executeCommand("sort -u rterms.txt | perl break.pl | db_load -c duplicates=1 rt.idx -T -t btree");
+		shell.executeCommand("sort -u scores.txt | perl break.pl | db_load -c duplicates=1 sc.idx -T -t btree");	
 	}
 
 	//http://www.mkyong.com/java/how-to-execute-shell-command-from-java/
