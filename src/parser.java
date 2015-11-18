@@ -130,7 +130,7 @@ public class parser {
 					scoresWriter.println(review.getScore()+","+counter);
 
 					// dev for pterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
-					String[] titleParts = product.getTitle().replace("!","").split("[\\W]");
+					String[] titleParts = product.getTitle().replace("!"," ").split("[\\W]");
 					for (String part: titleParts) {
 						/**
 						* FIXME: Change split regex to include underscore character, _ . 
@@ -141,7 +141,7 @@ public class parser {
 					}
 
 					// dev for rterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
-					String[] sumParts = review.getSummary().replace("!","").split("[\\W]");
+					String[] sumParts = review.getSummary().replace("!"," ").split("[\\W]");
 					for (String part: sumParts) {
 						/**
 						* FIXME: Change split regex to include underscore character, _ . 
@@ -152,7 +152,7 @@ public class parser {
 					}
 
 					// dev for rterms: http://stackoverflow.com/questions/10038377/for-loop-to-separate-a-string-with-spaces-java
-					String[] txtParts = review.getText().replace("!","").split("[\\W]");
+					String[] txtParts = review.getText().replace("!"," ").split("[\\W]");
 					for (String part: txtParts) {
 						/**
 						* FIXME: Change split regex to include underscore character, _ . 
