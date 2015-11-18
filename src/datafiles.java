@@ -13,18 +13,6 @@ public class datafiles {
     product = new Product();
     review = new Review();
   }
-   
-  private class Pterm{
-    
-  }
-  
-  private class Rterm{
-    
-  }
-  
-  private class Scores{
-    
-  }
   
   private enum FIELDS {PRODUCT_ID,
                        PRODUCT_TITLE,
