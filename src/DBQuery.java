@@ -42,7 +42,34 @@ public class DBQuery {
 	public static void main(String[] args) {
 		System.out.println("Enter your query below:");
 		BufferedReader buffer=new BufferedReader(new InputStreamReader(System.in));
-		String line = buffer.readLine();
+		String line = "";
+		try { line = buffer.readLine(); }
+		catch (Exception e) {}
 		System.out.println("You input " + line);
+		
+		
+		
+		try {
+		OperationStatus oprStatus;
+		Database std_db = new Database("rw.idx", null, null);
+		Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
+		DatabaseEntry key = new DatabaseEntry();
+		DatabaseEntry data = new DatabaseEntry();
+		
+		String searchkey = "1";
+		key.setData(searchkey.getBytes()); 
+		key.setSize(searchkey.length());
+
+		// Returns OperationStatus
+		oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
+		
+		while (oprStatus == OperationStatus.SUCCESS)
+		{
+			String s = new String(data.getData( ));
+			System.out.println(s);
+			oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
+			// get next duplicate
+		}}
+		catch (Exception e) {}
 	}
 }
