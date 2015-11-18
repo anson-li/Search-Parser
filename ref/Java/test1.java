@@ -4,6 +4,8 @@ import com.sleepycat.db.*;
 public class test1{
 
 public static void main(String[] args){
+	
+	// create a hash index on reviews.txt with review id as key and the full review record as data
 	try { 
 
 		//database configuration
