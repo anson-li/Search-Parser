@@ -77,7 +77,7 @@ public class parser {
 			PrintWriter scoresWriter = new PrintWriter(scoresFile, "UTF-8");
 
 			String sCurrentLine;
-			br = new BufferedReader(new FileReader("./data.txt"));
+			br = new BufferedReader(new InputStreamReader(System.in));
 			Integer counter = 1;
 			Product product = new Product();
 			Review review = new Review();

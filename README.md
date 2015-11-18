@@ -26,7 +26,7 @@ Once you have setup the correct paths, enter the /src folder. Then, simply compi
 
 Then, run the first program with:
 
-	java parser 
+	cat data.txt | java parser 
 
 This results in the generation and the completion of the four main textfiles: reviews.txt, pterms.txt, rterms.txt, and scores.txt.
 
