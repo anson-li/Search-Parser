@@ -233,14 +233,14 @@ public class DBQuery {
 					
 				}
 				catch (Exception e) {}
-			} else if (kappa.matches("%.*") && !kappa.matches(.*%)) {
+			} else if (kappa.matches("%.*") && !kappa.matches(".*%")) {
 				// only apply regex at the beginning of the value to match keys
 				// grab all keys
 				// compile list of 'special' keys to query
 				// grab data w/ 'special' keys
-			} else if (kappa.matches(.*%) && !kappa.matches(%.*)) {
+			} else if (kappa.matches(".*%") && !kappa.matches("%.*")) {
 				// only apply to end of value
-			} else if (kappa.matches(%.*%)) {
+			} else if (kappa.matches("%.*%")) {
 				// apply regex to both ends
 			}
 			else {
