@@ -300,7 +300,7 @@ public class DBQuery {
 			}
 		}
 		for (int i = 0; !rscorepriorities.isEmpty(); i++) {
-			String kappa = rscorepriorities.pop();
+			String[] kappa = rscorepriorities.pop();
 			// kappa[0] = rscore kappa[1] = < kappa[2] = 4
 			if (kappa[1].equals("<")) {
 				for (int j = 0; j < kappa[2]; j++) {
