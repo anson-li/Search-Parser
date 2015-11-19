@@ -323,7 +323,9 @@ public class DBQuery {
 						{
 							String s = new String(data2.getData( ));
 							System.out.println(new String(data2.getData()));
-							tempKeys.add(Integer.parseInt(s));
+							if !(tempkeys.contains(Integer.parseInt(s))) {
+								tempKeys.add(Integer.parseInt(s));
+							}
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
 					} catch (Exception e) {}
@@ -347,7 +349,9 @@ public class DBQuery {
 						{
 							String s = new String(data2.getData( ));
 							System.out.println(new String(data2.getData()));
-							tempKeys.add(Integer.parseInt(s));
+							if !(tempkeys.contains(Integer.parseInt(s))) {
+								tempKeys.add(Integer.parseInt(s));
+							}
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
 					} catch (Exception e) {}
@@ -370,7 +374,9 @@ public class DBQuery {
 					{
 						String s = new String(data2.getData( ));
 						System.out.println(new String(data2.getData()));
-						tempKeys.add(Integer.parseInt(s));
+						if !(tempkeys.contains(Integer.parseInt(s))) {
+								tempKeys.add(Integer.parseInt(s));
+						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
 				} catch (Exception e) {}
