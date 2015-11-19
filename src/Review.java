@@ -1,24 +1,7 @@
-//package c291proj2;
-
-import com.sleepycat.db.*;
-
-/*
-Intended table design:
-
-create table REVIEW {
-    userId CHAR[15],
-    productId CHAR[15],
-    profileName CHAR[50],
-    helpfulness CHAR[10],
-    score DOUBLE,
-    time DATETIME,
-    summary CHAR[50],
-    text CHAR[500],
-    PRIMARY KEY (userId, productId),
-    FOREIGN KEY(productId) ON DELETE CASCADE
-}
-*/
-
+/**
+ * TODO: fill me
+ *
+ */
 public class Review {
 
     private String userId;
@@ -63,14 +46,19 @@ public class Review {
     }
     
     public void print() {
-    	System.out.println("Reviewer User Id: "+ getUserID().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
-    	System.out.println("Review Product Id: "+ getProductID().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
-    	System.out.println("Reviewer Profile Name: "+ getProfileName().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
-    	System.out.println("Review Helpfulness: "+ getHelpfulness().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Reviewer User Id: "+ readable(getUserID()));
+    	System.out.println("Review Product Id: "+ readable(getProductID()));
+    	System.out.println("Reviewer Profile Name: "+ readable(getProfileName()));
+    	System.out.println("Review Helpfulness: "+ readable(getHelpfulness()));
     	System.out.println("Review Score: "+ getScore());
-    	System.out.println("Review Time: "+ getTime().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
-    	System.out.println("Review Summary: "+ getSummary().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
-    	System.out.println("Review Text: "+ getText().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Review Time: "+ readable(getTime()));
+    	System.out.println("Review Summary: "+ readable(getSummary()));
+    	System.out.println("Review Text: "+ readable(getText()));
+    }
+
+    private String readable(String nonfriendly) {
+        return nonfriendly.replace("&quot;", "\"")
+                          .replace("\\\\\\\\", "\\");
     }
 
     public String getUserID() { return this.userId; }

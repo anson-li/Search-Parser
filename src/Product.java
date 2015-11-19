@@ -32,9 +32,14 @@ public class Product {
     }
     
     public void print() {
-    	System.out.println("Product ID: " + getID().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
-    	System.out.println("Product Title: "+ getTitle().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
-    	System.out.println("Product Price: "+ getPrice().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Product ID: " + readable(getID()));
+    	System.out.println("Product Title: "+ readable(getTitle()));
+    	System.out.println("Product Price: "+ readable(getPrice()));
+    }
+
+    private String readable(String unfriendly) {
+        return unfriendly.replace("&quot;", "\"")
+                         .replace("\\\\\\\\", "\\");
     }
 
     public String getID() { return this.productId; }
