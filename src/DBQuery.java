@@ -317,6 +317,7 @@ public class DBQuery {
 						key2.setSize(searchkey2.length());
 
 						// Returns OperationStatus
+						System.out.println("J = " +j);
 						oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
 						while (oprStatus2 == OperationStatus.SUCCESS)
 						{
