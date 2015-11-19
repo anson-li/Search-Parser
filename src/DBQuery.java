@@ -258,7 +258,6 @@ public class DBQuery {
 
 					// Returns OperationStatus
 					oprStatus1 = std_cursor1.getSearchKey(key1, data1, LockMode.DEFAULT);
-					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 					while (oprStatus1 == OperationStatus.SUCCESS)
 					{
 						String s = new String(data1.getData( ));
@@ -301,6 +300,7 @@ public class DBQuery {
 			}
 		}
 		for (int i = 0; !rscorepriorities.isEmpty(); i++) {
+			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String[] kappa = rscorepriorities.pop();
 			// kappa[0] = rscore kappa[1] = < kappa[2] = 4
 			if (kappa[1].equals("<")) {
@@ -311,7 +311,6 @@ public class DBQuery {
 						Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
 						DatabaseEntry key2 = new DatabaseEntry();
 						DatabaseEntry data2 = new DatabaseEntry();
-						ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 
 						String searchkey2 = j + ".0"; // may have to change this depending on iterator
 						key2.setData(searchkey2.getBytes()); 
