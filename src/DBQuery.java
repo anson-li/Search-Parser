@@ -299,12 +299,12 @@ public class DBQuery {
 				catch (Exception e) {}
 			}
 		}
-		for (int i = 0; !rscorepriorities.isEmpty(); i++) {
+		for (int m = 0; !rscorepriorities.isEmpty(); m++) {
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String[] kappa = rscorepriorities.pop();
 			// kappa[0] = rscore kappa[1] = < kappa[2] = 4
 			if (kappa[1].equals("<")) {
-				for (int j = 0; j < Integer.parseInt(kappa[2]); j++) {
+				for (int n = 0; n < Integer.parseInt(kappa[2]); n++) {
 					try {
 						OperationStatus oprStatus2;
 						Database std_db2 = new Database("sc.idx", null, null);
@@ -312,12 +312,12 @@ public class DBQuery {
 						DatabaseEntry key2 = new DatabaseEntry();
 						DatabaseEntry data2 = new DatabaseEntry();
 
-						String searchkey2 = j + ".0"; // may have to change this depending on iterator
+						String searchkey2 = n + ".0"; // may have to change this depending on iterator
 						key2.setData(searchkey2.getBytes()); 
 						key2.setSize(searchkey2.length());
 
 						// Returns OperationStatus
-						System.out.println("J = " +j);
+						System.out.println("N = " +n);
 						oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
 						while (oprStatus2 == OperationStatus.SUCCESS)
 						{
@@ -331,12 +331,12 @@ public class DBQuery {
 						}
 					} catch (Exception e) {}
 				}
-				if (isHPreached == false && i == 0) {
+				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
 				} else {
-					for (Integer j : indices) {
-						if (!tempKeys.contains(j)) {
-							indices.remove(j);
+					for (Integer o : indices) {
+						if (!tempKeys.contains(o)) {
+							indices.remove(o);
 						}
 					}
 				}
