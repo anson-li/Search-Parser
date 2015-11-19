@@ -112,11 +112,13 @@ public class DBQuery {
 		validate_input(input);
 		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
 		GenericStack<String> highpriorities  = new GenericStack<String>();
+		GenericStack<String[]> rscorepriorities = new GenericStack<String>();
 		ArrayList<Integer> indices = new ArrayList<Integer>();
 		ArrayList<Product> productlist = new ArrayList<Product>();
 		ArrayList<Review> reviewlist = new ArrayList<Review>();
 		Product product = new Product();
 		Review review = new Review();
+		boolean isHPreached = false;
 		
 		// parsing string :( please dont remove 
 		for( int i = 0; i < input.length; i++ )
@@ -143,7 +145,7 @@ public class DBQuery {
 				* FIXME: rscore should be in 'high priority' but contains 3 values. Process in lowpriority anyway?
 				*/
 				String[] pleaserefactor = {input[i], input[i+1], input[i+2]};
-				lowpriorities.push(pleaserefactor);
+				rscorepriorities.push(pleaserefactor);
 				i = i + 2;
 			}
 			else if (input[i].matches("rdate"))
@@ -159,6 +161,7 @@ public class DBQuery {
 		// reading high priority queue
 		for (int i = 0; !highpriorities.isEmpty(); i++) {
 			String kappa = highpriorities.pop();
+			isHPreached = true;
 			if (kappa.matches("r:.*")) {
 				try {
 					OperationStatus oprStatus;
@@ -296,6 +299,91 @@ public class DBQuery {
 				catch (Exception e) {}
 			}
 		}
+		for (int i = 0; !rscorepriorities.isEmpty(); i++) {
+			String kappa = rscorepriorities.pop();
+			// kappa[0] = rscore kappa[1] = < kappa[2] = 4
+			if (kappa[1].equals("<")) {
+				for (int j = 0; j < kappa[2]; j++) {
+					try {
+						OperationStatus oprStatus2;
+						Database std_db2 = new Database("sc.idx", null, null);
+						Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+						DatabaseEntry key2 = new DatabaseEntry();
+						DatabaseEntry data2 = new DatabaseEntry();
+						
+						String searchkey2 = j + ".0"; // may have to change this depending on iterator
+						key2.setData(searchkey2.getBytes()); 
+						key2.setSize(searchkey2.length());
+
+						// Returns OperationStatus
+						oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+						while (oprStatus2 == OperationStatus.SUCCESS)
+						{
+							String s = new String(data2.getData( ));
+							System.out.println(new String(data2.getData()));
+							tempKeys.add(Integer.parseInt(s));
+							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+						}
+					} catch (Exception e) {}
+				}
+			} else if (kappa[1].equals(">")) {
+				for (int j = 5; j > kappa[2]; j--) {
+					try {
+						OperationStatus oprStatus2;
+						Database std_db2 = new Database("sc.idx", null, null);
+						Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+						DatabaseEntry key2 = new DatabaseEntry();
+						DatabaseEntry data2 = new DatabaseEntry();
+						
+						String searchkey2 = j + ".0"; // may have to change this depending on iterator
+						key2.setData(searchkey2.getBytes()); 
+						key2.setSize(searchkey2.length());
+
+						// Returns OperationStatus
+						oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+						while (oprStatus2 == OperationStatus.SUCCESS)
+						{
+							String s = new String(data2.getData( ));
+							System.out.println(new String(data2.getData()));
+							tempKeys.add(Integer.parseInt(s));
+							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+						}
+					} catch (Exception e) {}
+				}
+			} else if (kappa[1].equals("=")) {
+				try {
+					OperationStatus oprStatus2;
+					Database std_db2 = new Database("sc.idx", null, null);
+					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+					DatabaseEntry key2 = new DatabaseEntry();
+					DatabaseEntry data2 = new DatabaseEntry();
+					
+					String searchkey2 = kappa[2] + ".0"; // may have to change this depending on iterator
+					key2.setData(searchkey2.getBytes()); 
+					key2.setSize(searchkey2.length());
+
+					// Returns OperationStatus
+					oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+					while (oprStatus2 == OperationStatus.SUCCESS)
+					{
+						String s = new String(data2.getData( ));
+						System.out.println(new String(data2.getData()));
+						tempKeys.add(Integer.parseInt(s));
+						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+					}
+				} catch (Exception e) {}
+			}
+			if (isHPreached == false && i == 0) {
+				indices = tempKeys;
+			} else {
+				for (Integer j : indices) {
+					if (!tempKeys.contains(j)) {
+						indices.remove(j);
+					}
+				}
+			}
+		}
+
 		for (Integer k : indices) {			
 			try {
 				OperationStatus oprStatus;
