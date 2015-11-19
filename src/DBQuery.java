@@ -325,6 +325,7 @@ public class DBQuery {
 							System.out.println(new String(data2.getData()));
 							if (!(tempKeys.contains(Integer.parseInt(s)))) {
 								tempKeys.add(Integer.parseInt(s));
+								System.out.println("ADDED DO0D");
 							}
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
