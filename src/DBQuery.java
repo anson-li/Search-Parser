@@ -47,7 +47,6 @@ public class DBQuery {
     
     private Query userQuery;
 
-
     DBQuery() {
         userQuery = new Query("");
     }
@@ -62,6 +61,7 @@ public class DBQuery {
 
         public void setQuery(String query) {
             this.query = query;
+            compress();
         }
 
         @Override
@@ -72,25 +72,28 @@ public class DBQuery {
         public boolean isValid() {
             
         }
-
+        
+        private void compress() {
+            query = query.replaceAll("[  ]*<[  ]*", "<")
+                         .replaceAll("[  ]*=[  ]*", "=")
+                         .replaceAll("[  ]*>[  ]*", ">");
+        }
     }
     
     public void requestUserQuery() throws IOException {
-
         System.out.print(">> ");
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
-        line = buffer.readLine();
+        userQuery.setQuery(buffer.readLine());
     }
 
-    public boolean extractSubqueries() {
-        String[] input = line.split(" ");
-		validate_input(input);
-		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
-		GenericStack<String> highpriorities  = new GenericStack<String>();
-		GenericStack<String[]> rscorepriorities = new GenericStack<String[]>();
-		ArrayList<Integer> indices = new ArrayList<Integer>();
-		ArrayList<Product> productlist = new ArrayList<Product>();
-		ArrayList<Review> reviewlist = new ArrayList<Review>();
+    public void loadSubqueryPriorityQ(Query query) {
+        if (!query.isValid())
+            return; // TODO: throw an exception.
+
+        for (String subquery : query.getQuery().split(" "))
+        {
+
+        }
     }
 
     
