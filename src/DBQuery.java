@@ -331,6 +331,15 @@ public class DBQuery {
 						}
 					} catch (Exception e) {}
 				}
+				if (isHPreached == false && i == 0) {
+					indices = tempKeys;
+				} else {
+					for (Integer j : indices) {
+						if (!tempKeys.contains(j)) {
+							indices.remove(j);
+						}
+					}
+				}
 			} else if (kappa[1].equals(">")) {
 				for (int j = 5; j > Integer.parseInt(kappa[2]); j--) {
 					try {
@@ -357,6 +366,15 @@ public class DBQuery {
 						}
 					} catch (Exception e) {}
 				}
+				if (isHPreached == false && i == 0) {
+					indices = tempKeys;
+				} else {
+					for (Integer j : indices) {
+						if (!tempKeys.contains(j)) {
+							indices.remove(j);
+						}
+					}
+				}
 			} else if (kappa[1].equals("=")) {
 				try {
 					OperationStatus oprStatus2;
@@ -381,18 +399,18 @@ public class DBQuery {
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
 				} catch (Exception e) {}
-			}
-			if (isHPreached == false && i == 0) {
-				indices = tempKeys;
-			} else {
-				for (Integer j : indices) {
-					if (!tempKeys.contains(j)) {
-						indices.remove(j);
+				if (isHPreached == false && i == 0) {
+					indices = tempKeys;
+				} else {
+					for (Integer j : indices) {
+						if (!tempKeys.contains(j)) {
+							indices.remove(j);
+						}
 					}
 				}
 			}
 		}
-
+		System.out.println("Indices length = " + indices.getSize());
 		for (Integer k : indices) {			
 			try {
 				OperationStatus oprStatus;
