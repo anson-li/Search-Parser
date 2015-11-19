@@ -219,7 +219,7 @@ public class DBQuery {
 					{
 						String s = new String(data2.getData( ));
 						if (!(tempKeys.contains(Integer.parseInt(s)))) {
-							System.out.println("Match made it: new value: " + new String(data2.getData()));
+							System.out.println(new String(data2.getData()));
 							tempKeys.add(Integer.parseInt(s));
 						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
@@ -323,7 +323,6 @@ public class DBQuery {
 						key2.setSize(searchkey2.length());
 
 						// Returns OperationStatus
-						System.out.println("N = " +n);
 						oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
 						while (oprStatus2 == OperationStatus.SUCCESS)
 						{
@@ -331,7 +330,6 @@ public class DBQuery {
 							System.out.println(new String(data2.getData()));
 							if (!(tempKeys.contains(Integer.parseInt(s)))) {
 								tempKeys.add(Integer.parseInt(s));
-								System.out.println("ADDED DO0D");
 							}
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
@@ -416,7 +414,6 @@ public class DBQuery {
 				}
 			}
 		}
-		System.out.println("Indices length = " + indices.size());
 		for (Integer k : indices) {			
 			try {
 				OperationStatus oprStatus;
@@ -475,7 +472,7 @@ public class DBQuery {
 							    DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 							    Date valuedate = df.parse(mappa[2] + " 00:00:00");
 							    System.out.println("Valuedate: " + valuedate.getTime() + " || Review: " + review.getTime());
-							    long valuedatedoesntmatataer = (valuedate.getTime() / 1000) - 25200;
+							    long valuedatedoesntmatataer = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
 								switch (comparator) {
 									case "<":
 										if (!(Long.parseLong(review.getTime()) < valuedatedoesntmatataer)) {
