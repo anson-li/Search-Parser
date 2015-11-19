@@ -61,6 +61,17 @@ public class Review {
     public void setText(String data) {
         this.text = data;
     }
+    
+    public void print() {
+    	System.out.println("Reviewer User Id: "+ getUserID().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Review Product Id: "+ getProductID().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Reviewer Profile Name: "+ getProfileName().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Review Helpfulness: "+ getHelpfulness().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Review Score: "+ getScore());
+    	System.out.println("Review Time: "+ getTime().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Review Summary: "+ getSummary().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Review Text: "+ getText().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    }
 
     public String getUserID() { return this.userId; }
     public String getProductID() { return this.productId; }

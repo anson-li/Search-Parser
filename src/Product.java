@@ -30,6 +30,12 @@ public class Product {
     public void setPrice(String data) {
             this.price = data;
     }
+    
+    public void print() {
+    	System.out.println("Product ID: " + getID().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Product Title: "+ getTitle().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    	System.out.println("Product Price: "+ getPrice().replace("&quot;","\"").replace("\\\\\\\\", "\\"));
+    }
 
     public String getID() { return this.productId; }
     public String getTitle() { return this.title; }
