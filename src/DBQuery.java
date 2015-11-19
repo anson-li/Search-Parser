@@ -191,11 +191,8 @@ public class DBQuery {
 					
 				}
 				catch (Exception e) {}
-				for (Integer help : indices) {
-		
-				} 
 			}
-			if (kappa.matches("p:.*")) {
+			else if (kappa.matches("p:.*")) {
 				try {
 					OperationStatus oprStatus2;
 					Database std_db2 = new Database("pt.idx", null, null);
@@ -230,10 +227,62 @@ public class DBQuery {
 					
 				}
 				catch (Exception e) {}
-				for (Integer help : indices) {
+			}
+			else {
+				try {
+					OperationStatus oprStatus1;
+					Database std_db1 = new Database("pt.idx", null, null);
+					Cursor std_cursor1 = std_db1.openCursor(null, null); // Create new cursor object
+					DatabaseEntry key1 = new DatabaseEntry();
+					DatabaseEntry data1 = new DatabaseEntry();
+					
+					String searchkey1 = kappa;
+					key1.setData(searchkey1.getBytes()); 
+					key1.setSize(searchkey1.length());
+
+					// Returns OperationStatus
+					oprStatus1 = std_cursor1.getSearchKey(key1, data1, LockMode.DEFAULT);
+					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
+					while (oprStatus1 == OperationStatus.SUCCESS)
+					{
+						String s = new String(data1.getData( ));
+						System.out.println(new String(data1.getData()));
+						tempKeys.add(Integer.parseInt(s));
+						oprStatus1 = std_cursor1.getNextDup(key1, data1, LockMode.DEFAULT);
+					}
+					OperationStatus oprStatus2;
+					Database std_db2 = new Database("rt.idx", null, null);
+					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+					DatabaseEntry key2 = new DatabaseEntry();
+					DatabaseEntry data2 = new DatabaseEntry();
+					
+					String searchkey2 = kappa;
+					key2.setData(searchkey2.getBytes()); 
+					key2.setSize(searchkey2.length());
+
+					// Returns OperationStatus
+					oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+					while (oprStatus2 == OperationStatus.SUCCESS)
+					{
+						String s = new String(data2.getData( ));
+						System.out.println(new String(data2.getData()));
+						tempKeys.add(Integer.parseInt(s));
+						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+					}
+					if (i == 0) {
+						indices = tempKeys;
+					}
+					if (i != 0) {
+						for (Integer j : indices) {
+							if (!tempKeys.contains(j)) {
+								indices.remove(j);
+							}
+						}
+					}
 					
 				}
-			} 
+				catch (Exception e) {}
+			}
 		}
 		for (Integer k : indices) {			
 			try {
