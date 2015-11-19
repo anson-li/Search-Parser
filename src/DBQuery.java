@@ -181,7 +181,9 @@ public class DBQuery {
 					{
 						String s = new String(data.getData( ));
 						System.out.println(s);
-						tempKeys.add(Integer.parseInt(s));
+						if (!(tempKeys.contains(Integer.parseInt(s)))) {
+							tempKeys.add(Integer.parseInt(s));
+						}
 						oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
 					}
 					if (i == 0) {
@@ -217,7 +219,9 @@ public class DBQuery {
 					{
 						String s = new String(data2.getData( ));
 						System.out.println(new String(data2.getData()));
-						tempKeys.add(Integer.parseInt(s));
+						if (!(tempKeys.contains(Integer.parseInt(s)))) {
+							tempKeys.add(Integer.parseInt(s));
+						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
 					if (i == 0) {
@@ -281,7 +285,9 @@ public class DBQuery {
 					{
 						String s = new String(data2.getData( ));
 						System.out.println(new String(data2.getData()));
-						tempKeys.add(Integer.parseInt(s));
+						if (!(tempKeys.contains(Integer.parseInt(s)))) {
+							tempKeys.add(Integer.parseInt(s));
+						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
 					if (i == 0) {
