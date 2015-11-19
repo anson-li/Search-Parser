@@ -112,7 +112,7 @@ public class DBQuery {
 		validate_input(input);
 		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
 		GenericStack<String> highpriorities  = new GenericStack<String>();
-		GenericStack<String[]> rscorepriorities = new GenericStack<String>();
+		GenericStack<String[]> rscorepriorities = new GenericStack<String[]>();
 		ArrayList<Integer> indices = new ArrayList<Integer>();
 		ArrayList<Product> productlist = new ArrayList<Product>();
 		ArrayList<Review> reviewlist = new ArrayList<Review>();
@@ -250,6 +250,7 @@ public class DBQuery {
 					Cursor std_cursor1 = std_db1.openCursor(null, null); // Create new cursor object
 					DatabaseEntry key1 = new DatabaseEntry();
 					DatabaseEntry data1 = new DatabaseEntry();
+					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 					
 					String searchkey1 = kappa;
 					key1.setData(searchkey1.getBytes()); 
@@ -303,14 +304,15 @@ public class DBQuery {
 			String[] kappa = rscorepriorities.pop();
 			// kappa[0] = rscore kappa[1] = < kappa[2] = 4
 			if (kappa[1].equals("<")) {
-				for (int j = 0; j < kappa[2]; j++) {
+				for (int j = 0; j < Integer.parseInt(kappa[2]); j++) {
 					try {
 						OperationStatus oprStatus2;
 						Database std_db2 = new Database("sc.idx", null, null);
 						Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
 						DatabaseEntry key2 = new DatabaseEntry();
 						DatabaseEntry data2 = new DatabaseEntry();
-						
+						ArrayList<Integer> tempKeys = new ArrayList<Integer>();
+
 						String searchkey2 = j + ".0"; // may have to change this depending on iterator
 						key2.setData(searchkey2.getBytes()); 
 						key2.setSize(searchkey2.length());
@@ -327,7 +329,7 @@ public class DBQuery {
 					} catch (Exception e) {}
 				}
 			} else if (kappa[1].equals(">")) {
-				for (int j = 5; j > kappa[2]; j--) {
+				for (int j = 5; j > Integer.parseInt(kappa[2]); j--) {
 					try {
 						OperationStatus oprStatus2;
 						Database std_db2 = new Database("sc.idx", null, null);
