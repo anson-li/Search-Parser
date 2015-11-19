@@ -410,7 +410,7 @@ public class DBQuery {
 				}
 			}
 		}
-		System.out.println("Indices length = " + indices.getSize());
+		System.out.println("Indices length = " + indices.size());
 		for (Integer k : indices) {			
 			try {
 				OperationStatus oprStatus;
