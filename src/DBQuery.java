@@ -366,7 +366,7 @@ public class DBQuery {
 						}
 					} catch (Exception e) {}
 				}
-				if (isHPreached == false && n == 0) {
+				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
 				} else {
 					for (Integer o : indices) {
@@ -399,7 +399,7 @@ public class DBQuery {
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
 				} catch (Exception e) {}
-				if (isHPreached == false && i == 0) {
+				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
 				} else {
 					for (Integer o : indices) {
