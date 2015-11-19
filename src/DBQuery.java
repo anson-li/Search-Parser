@@ -218,8 +218,8 @@ public class DBQuery {
 					while (oprStatus2 == OperationStatus.SUCCESS)
 					{
 						String s = new String(data2.getData( ));
-						System.out.println(new String(data2.getData()));
 						if (!(tempKeys.contains(Integer.parseInt(s)))) {
+							System.out.println("Match made it: new value: " + new String(data2.getData()));
 							tempKeys.add(Integer.parseInt(s));
 						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
