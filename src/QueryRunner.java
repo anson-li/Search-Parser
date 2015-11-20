@@ -1,13 +1,21 @@
 public class QueryRunner {
 
 	public static void main(String[] args) {
-		
+	    
+        DBMS dbHandler;    
         try {
-            DBMS dbHandler = new DBMS();
+            dbHandler = new DBMS();
         } catch (DBMSException dbmse) {
             System.out.println(dbmse.getMessage());
+        }
         
-        while(true)
+        if(dbHandler == null)
+            return;
+
+        while(true) {
+            dbHandler.requestUserQuery();
+            
+        }
 
 	}
 }
