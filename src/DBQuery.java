@@ -1,4 +1,8 @@
 import com.sleepycat.db.*;
+
+import datastructs.Product;
+import datastructs.Review;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;

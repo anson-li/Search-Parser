@@ -1,3 +1,4 @@
+package querier;
 public class Query {
     private String query;
     

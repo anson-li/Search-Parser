@@ -1,3 +1,4 @@
+package datastructs;
 public class GenericStack<T> extends java.util.ArrayList<T> {
     
     public GenericStack() {}

@@ -1,3 +1,5 @@
+package querier;
+
 public class QueryRunner {
 
 	public static void main(String[] args) {

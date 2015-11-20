@@ -1,3 +1,4 @@
+package parser;
 /**
 * Phase 1: Preparing Data Files
 *
@@ -52,10 +53,10 @@ create table REVIEW {
 */
 //package c291proj2;
 
-import com.sleepycat.db.*;
+import datastructs.Product;
+import datastructs.Review;
+
 import java.io.*;
-import java.util.regex.*;
-import java.lang.*;
 
 public class parser {
 
