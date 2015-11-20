@@ -6,7 +6,8 @@ public class QueryRunner {
             DBMS dbHandler = new DBMS();
         } catch (DBMSException dbmse) {
             System.out.println(dbmse.getMessage());
-        }
+        
+        while(true)
 
 	}
 }

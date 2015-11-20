@@ -69,5 +69,4 @@ public class Review {
     public String getTime() { return this.time; }
     public String getSummary() { return this.summary; }
     public String getText() { return this.text; }
-
 } 

@@ -57,7 +57,8 @@ public class DBMS {
     private void verifyDB() throws DBMSException {
         for(File file : getIndexFiles()) {
             if (!file.isFile())
-                throw new DBMSException("Index file not defined: " + file.getName());
+                throw new DBMSException("Index file not defined: " 
+                                        + file.getName());
         }
     }
 
