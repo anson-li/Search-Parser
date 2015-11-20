@@ -1,8 +1,12 @@
+export floc=~drafiei/291/pub/$1
+
+cat $floc/$1.txt | java parser.DataFileGenerator
+
 echo "Comparing reviews.txt..."
-diff reviews.txt ~drafiei/291/pub/10/reviews.txt
+wdiff -3 reviews.txt $floc/reviews.txt
 echo "Comparing pterms.txt..."
-diff pterms.txt ~drafiei/291/pub/10/pterms.txt
+wdiff -3 pterms.txt $floc/pterms.txt
 echo "Comparing scores.txt..."
-diff scores.txt ~drafiei/291/pub/10/scores.txt
+wdiff -3 scores.txt $floc/scores.txt
 echo "Comparing rterms.txt..."
-diff rterms.txt ~drafiei/291/pub/10/rterms.txt
+wdiff -3 rterms.txt $floc/rterms.txt

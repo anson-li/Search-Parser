@@ -128,7 +128,7 @@ public class DataFileGenerator {
     }
     
     public void processReviews() {
-        for(int reviewNum = 1; grabNextLine(); reviewNum++) {
+        for(int reviewNum = 1; grabNextLine();) {
             try {
                 if(assignToField())
                     continue;
@@ -137,6 +137,7 @@ public class DataFileGenerator {
                     writeRTerms(reviewNum);
                     writePTerms(reviewNum);
                     writeRScore(reviewNum);
+                    reviewNum += 1;
                 }
             } catch (IllegalArgumentException iae) {
                 System.err.println("Error at review " + reviewNum);
@@ -147,7 +148,7 @@ public class DataFileGenerator {
     }
     
     private void writeReview(int reviewNum) {
-        reviewsWriter.println( reviewNum                + "," 
+        reviewsWriter.println(reviewNum                + "," 
                              + product.getID()          + ",\""
                              + product.getTitle()       + "\","
                              + product.getPrice()       + ","
@@ -171,7 +172,7 @@ public class DataFileGenerator {
     }
     
     private String[] getWords(String s) {
-        return s.split("[^0-9^a-z^A-Z^_]");
+        return s.split("[^0-9a-zA-Z_]");
     }
     
     private void writePTerms(int reviewNum) {
