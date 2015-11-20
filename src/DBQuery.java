@@ -53,7 +53,6 @@ public class DBQuery {
     
     private class Query {
         private String query;
-        private String[] subqueries;
 
         Query(String query) {
             this.query = query;
@@ -64,13 +63,17 @@ public class DBQuery {
             compress();
         }
 
+        public String getQuery() {
+            return query;
+        }
+
         @Override
         public String toString() {
             return query;
         }
 
         public boolean isValid() {
-            
+            return false;
         }
         
         private void compress() {
