@@ -1,8 +1,8 @@
-package querier;
+package datastructs;
 public class Query {
     private String query;
     
-    Query(String query) {
+    public Query(String query) {
         this.query = query;
     }
 

@@ -1,16 +1,13 @@
 package querier;
 //import com.sleepycat.db.*;
 
+import datastructs.Query;
 import exceptions.DBMSException;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.regex.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class DBMS {
 
@@ -18,10 +15,11 @@ public class DBMS {
     private String rtermsIndex  = "rt.idx";
     private String ptermsIndex  = "pt.idx";
     private String rscoreIndex  = "sc.idx";
-    private Query userQuery;
-
+    
+    BufferedReader buffer;
+    
     DBMS() throws DBMSException {
-        userQuery = new Query("");
+        buffer = new BufferedReader(new InputStreamReader(System.in));
         verifyDB();
     }
     
@@ -43,10 +41,9 @@ public class DBMS {
         return files;
     }
 
-    public void requestUserQuery() throws IOException {
+    public void requestUserQuery(Query query) throws IOException {
         System.out.print(">> ");
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
-        userQuery.setQuery(buffer.readLine());
+        query.setQuery(buffer.readLine());
     }
 
     public void loadSubqueryPriorityQ(Query query) {
