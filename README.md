@@ -18,6 +18,7 @@ Before you begin to use Berkeley DB, please enter the following commands into th
 
 	export CLASSPATH=$CLASSPATH:.:/usr/share/java/db.jar
 	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/oracle/lib
+	rm -f *.idx pterms.txt reviews.txt rterms.txt scores.txt
 
 These ensure that the proper libaries are referenced for Berkeley DB production.
 Once you have setup the correct paths, enter the /src folder. Then, simply compile every related function:

@@ -279,10 +279,25 @@ public class DBQuery {
 				}
 				catch (Exception e) {}
 			} else if (kappa.matches("%.*") && !kappa.matches(".*%")) {
-				// only apply regex at the beginning of the value to match keys
-				// grab all keys
-				// compile list of 'special' keys to query
-				// grab data w/ 'special' keys
+				// Acquire a cursor for the table.
+		        Cursor cursor = table.openCursor(null, null);
+		        DatabaseEntry foo = new DatabaseEntry();
+		        Database std_db1 = new Database("pt.idx", null, null);
+		        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
+		        bulk_data.setData(new byte[1024 * 30000]); // how to setData? 
+		        bulk_data.setUserBuffer(1024 * 30000, true);
+
+		        // Walk through the table, printing the key/data pairs.
+		        while (cursor.getNext(foo, bulk_data, null) == OperationStatus.SUCCESS) {
+		            StringEntry key;
+		            key = new StringEntry();
+		            data = new StringEntry();
+
+		            while (bulk_data.next(key, data))
+		                System.out.println(key.getString() + " : " + data.getString());
+		        }
+		        cursor.close();
+		        std_db1.close();
 			} else if (kappa.matches(".*%") && !kappa.matches("%.*")) {
 				// only apply to end of value
 			} else if (kappa.matches("%.*%")) {
