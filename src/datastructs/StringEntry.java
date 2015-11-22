@@ -2,7 +2,7 @@ package datastructs;
 
 import com.sleepycat.db.*;
 
-static class StringEntry extends DatabaseEntry {
+public class StringEntry extends DatabaseEntry {
         
         StringEntry() {
         }
