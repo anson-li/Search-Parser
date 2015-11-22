@@ -300,23 +300,25 @@ public class DBQuery {
 				catch (Exception e) {}
 			} else if (kappa.matches("%.*") && !kappa.matches(".*%")) {
 				// Acquire a cursor for the table.
-		        DatabaseEntry entry = new DatabaseEntry();
-		        Database std_db1 = new Database("pt.idx", null, null);
-		        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
-		        Cursor cursor = std_db1.openCursor(null, null);
-		        bulk_data.setData(new byte[1024 * 30000]); // how to setData? 
-		        bulk_data.setUserBuffer(1024 * 30000, true);
+				try {
+			        DatabaseEntry entry = new DatabaseEntry();
+			        Database std_db1 = new Database("pt.idx", null, null);
+			        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
+			        Cursor cursor = std_db1.openCursor(null, null);
+			        bulk_data.setData(new byte[1024 * 30000]); // how to setData? 
+			        bulk_data.setUserBuffer(1024 * 30000, true);
 
-		        // Walk through the table, printing the key/data pairs.
-		        while (cursor.getNext(entry, bulk_data, null) == OperationStatus.SUCCESS) {
-		            StringEntry key = new StringEntry();
-		            StringEntry data = new StringEntry();
+			        // Walk through the table, printing the key/data pairs.
+			        while (cursor.getNext(entry, bulk_data, null) == OperationStatus.SUCCESS) {
+			            StringEntry key = new StringEntry();
+			            StringEntry data = new StringEntry();
 
-		            while (bulk_data.next(key, data))
-		                System.out.println(key.getString() + " : " + data.getString());
-		        }
-		        cursor.close();
-		        std_db1.close();
+			            while (bulk_data.next(key, data))
+			                System.out.println(key.getString() + " : " + data.getString());
+			        }
+			        cursor.close();
+			        std_db1.close();
+			    catch (Exception e) {}
 			} else if (kappa.matches(".*%") && !kappa.matches("%.*")) {
 				// only apply to end of value
 			} else if (kappa.matches("%.*%")) {
