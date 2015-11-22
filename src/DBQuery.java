@@ -318,7 +318,7 @@ public class DBQuery {
 			        }
 			        cursor.close();
 			        std_db1.close();
-			    catch (Exception e) {}
+			    } catch (Exception e) {}
 			} else if (kappa.matches(".*%") && !kappa.matches("%.*")) {
 				// only apply to end of value
 			} else if (kappa.matches("%.*%")) {
