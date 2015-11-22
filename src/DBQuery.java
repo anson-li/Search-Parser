@@ -298,7 +298,7 @@ public class DBQuery {
 					
 				}
 				catch (Exception e) {}
-			} else if (kappa.matches("%.*") && !kappa.matches(".*%")) {
+			} else if (kappa.matches("%.*") || kappa.matches(".*%")) {
 				// Acquire a cursor for the table.
 				try {
 					ArrayList<String> list = new ArrayList<String>();
@@ -341,7 +341,7 @@ public class DBQuery {
 			        }
 
 			        ArrayList<String> matches = new ArrayList<String>();
-					Pattern p = Pattern.compile(kappa);
+					Pattern p = Pattern.compile(kappa.replace("%", ".*"));
 					for (String s:list) {
 						if (p.matcher(s).matches()) {
 					    	matches.add(s);
@@ -357,11 +357,7 @@ public class DBQuery {
 			        cursor2.close();
 			        std_db2.close();
 			    } catch (Exception e) {}
-			} else if (kappa.matches(".*%") && !kappa.matches("%.*")) {
-				// only apply to end of value
-			} else if (kappa.matches("%.*%")) {
-				// apply regex to both ends
-			}
+			} 
 			else {
 				try {
 					OperationStatus oprStatus1;
