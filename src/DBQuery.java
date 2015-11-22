@@ -290,9 +290,8 @@ public class DBQuery {
 
 		        // Walk through the table, printing the key/data pairs.
 		        while (cursor.getNext(entry, bulk_data, null) == OperationStatus.SUCCESS) {
-		            StringEntry key, data;
-		            key = new StringEntry();
-		            data = new StringEntry();
+		            StringEntry key = new StringEntry();
+		            StringEntry data = new StringEntry();
 
 		            while (bulk_data.next(key, data))
 		                System.out.println(key.getString() + " : " + data.getString());
