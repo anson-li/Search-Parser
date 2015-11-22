@@ -340,12 +340,22 @@ public class DBQuery {
 			            }
 			        }
 
-			        for (String val : list) {
+			        ArrayList<String> matches = new ArrayList<String>();
+					Pattern p = Pattern.compile(kappa);
+					for (String s:list) {
+						if (p.matcher(s).matches()) {
+					    	matches.add(s);
+					    }
+					}
+
+					for (String val : matches) {
 			        	System.out.println(val);
 			        }
 
 			        cursor.close();
 			        std_db1.close();
+			        cursor2.close();
+			        std_db2.close();
 			    } catch (Exception e) {}
 			} else if (kappa.matches(".*%") && !kappa.matches("%.*")) {
 				// only apply to end of value
