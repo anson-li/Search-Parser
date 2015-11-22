@@ -241,7 +241,6 @@ public class DBQuery {
 					while (oprStatus == OperationStatus.SUCCESS)
 					{
 						String s = new String(data.getData( ));
-						System.out.println(s);
 						if (!(tempKeys.contains(Integer.parseInt(s)))) {
 							tempKeys.add(Integer.parseInt(s));
 						}
@@ -280,7 +279,6 @@ public class DBQuery {
 					{
 						String s = new String(data2.getData( ));
 						if (!(tempKeys.contains(Integer.parseInt(s)))) {
-							System.out.println(new String(data2.getData()));
 							tempKeys.add(Integer.parseInt(s));
 						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
@@ -365,7 +363,6 @@ public class DBQuery {
 						while (oprStatus3 == OperationStatus.SUCCESS)
 						{
 							String s = new String(data3.getData( ));
-							System.out.println(new String(data3.getData()));
 							tempKeys.add(Integer.parseInt(s));
 							oprStatus3 = std_cursor3.getNextDup(key3, data3, LockMode.DEFAULT);
 						}
@@ -385,7 +382,6 @@ public class DBQuery {
 						while (oprStatus4 == OperationStatus.SUCCESS)
 						{
 							String s = new String(data4.getData( ));
-							System.out.println(new String(data4.getData()));
 							if (!(tempKeys.contains(Integer.parseInt(s)))) {
 								tempKeys.add(Integer.parseInt(s));
 							}
@@ -428,7 +424,6 @@ public class DBQuery {
 					while (oprStatus1 == OperationStatus.SUCCESS)
 					{
 						String s = new String(data1.getData( ));
-						System.out.println(new String(data1.getData()));
 						tempKeys.add(Integer.parseInt(s));
 						oprStatus1 = std_cursor1.getNextDup(key1, data1, LockMode.DEFAULT);
 					}
@@ -447,7 +442,6 @@ public class DBQuery {
 					while (oprStatus2 == OperationStatus.SUCCESS)
 					{
 						String s = new String(data2.getData( ));
-						System.out.println(new String(data2.getData()));
 						if (!(tempKeys.contains(Integer.parseInt(s)))) {
 							tempKeys.add(Integer.parseInt(s));
 						}
@@ -490,7 +484,6 @@ public class DBQuery {
 						while (oprStatus2 == OperationStatus.SUCCESS)
 						{
 							String s = new String(data2.getData( ));
-							System.out.println(new String(data2.getData()));
 							if (!(tempKeys.contains(Integer.parseInt(s)))) {
 								tempKeys.add(Integer.parseInt(s));
 							}
@@ -525,7 +518,6 @@ public class DBQuery {
 						while (oprStatus2 == OperationStatus.SUCCESS)
 						{
 							String s = new String(data2.getData( ));
-							System.out.println(new String(data2.getData()));
 							if (!(tempKeys.contains(Integer.parseInt(s)))) {
 								tempKeys.add(Integer.parseInt(s));
 							}
@@ -559,7 +551,6 @@ public class DBQuery {
 					while (oprStatus2 == OperationStatus.SUCCESS)
 					{
 						String s = new String(data2.getData( ));
-						System.out.println(new String(data2.getData()));
 						if (!(tempKeys.contains(Integer.parseInt(s)))) {
 								tempKeys.add(Integer.parseInt(s));
 						}
@@ -634,7 +625,6 @@ public class DBQuery {
 								String comparator = mappa[1];
 							    DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 							    Date valuedate = df.parse(mappa[2] + " 00:00:00");
-							    System.out.println("Valuedate: " + valuedate.getTime() + " || Review: " + review.getTime());
 							    long valuedatedoesntmatataer = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
 								switch (comparator) {
 									case "<":

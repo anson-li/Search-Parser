@@ -19,7 +19,7 @@ public class Product {
     }
     
     public void print() {
-      System.out.println("\n+=-=-=-=-=-=+ PRODUCT +=-=-=-=-=-=-=+");
+        System.out.println("\n+=-=-=-=-=-=+ PRODUCT +-=-=-=-=-=-=+");
     	System.out.println("Product ID: "    + readable(getID()));
     	System.out.println("Product Title: " + readable(getTitle()));
     	System.out.println("Product Price: " + readable(getPrice()));
