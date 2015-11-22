@@ -49,6 +49,25 @@ public class DBQuery {
 	** results as in the 9th query except the product price must be greater than 20 and less than 60.
 	camera rdate > 2007/06/20 pprice > 20 pprice < 60
 	*/
+
+	static class StringEntry extends DatabaseEntry {
+        StringEntry() {
+        }
+
+        StringEntry(String value) {
+            setString(value);
+        }
+
+        void setString(String value) {
+            byte[] data = value.getBytes();
+            setData(data);
+            setSize(data.length);
+        }
+
+        String getString() {
+            return new String(getData(), getOffset(), getSize());
+        }
+    }
     
     private Query userQuery;
 
