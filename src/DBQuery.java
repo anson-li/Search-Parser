@@ -377,8 +377,8 @@ public class DBQuery {
 						DatabaseEntry data4 = new DatabaseEntry();
 						
 						String searchkey4 = val;
-						key2.setData(searchkey4.getBytes()); 
-						key2.setSize(searchkey4.length());
+						key4.setData(searchkey4.getBytes()); 
+						key4.setSize(searchkey4.length());
 
 						// Returns OperationStatus
 						oprStatus4 = std_cursor4.getSearchKey(key4, data4, LockMode.DEFAULT);
