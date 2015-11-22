@@ -280,16 +280,16 @@ public class DBQuery {
 				catch (Exception e) {}
 			} else if (kappa.matches("%.*") && !kappa.matches(".*%")) {
 				// Acquire a cursor for the table.
-		        Cursor cursor = table.openCursor(null, null);
-		        DatabaseEntry foo = new DatabaseEntry();
+		        DatabaseEntry entry = new DatabaseEntry();
 		        Database std_db1 = new Database("pt.idx", null, null);
 		        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
+		        Cursor cursor = std_db1.openCursor(null, null);
 		        bulk_data.setData(new byte[1024 * 30000]); // how to setData? 
 		        bulk_data.setUserBuffer(1024 * 30000, true);
 
 		        // Walk through the table, printing the key/data pairs.
-		        while (cursor.getNext(foo, bulk_data, null) == OperationStatus.SUCCESS) {
-		            StringEntry key;
+		        while (cursor.getNext(entry, bulk_data, null) == OperationStatus.SUCCESS) {
+		            StringEntry key, data;
 		            key = new StringEntry();
 		            data = new StringEntry();
 
