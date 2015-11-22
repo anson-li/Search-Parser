@@ -2,6 +2,7 @@ import com.sleepycat.db.*;
 
 import datastructs.Product;
 import datastructs.Review;
+import datastructs.StringEntry;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -585,4 +586,5 @@ public class DBQuery {
 		// TODO Auto-generated method stub
 		
 	}
+
 }
