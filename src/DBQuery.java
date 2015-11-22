@@ -348,9 +348,61 @@ public class DBQuery {
 					    }
 					}
 
+					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 					for (String val : matches) {
-			        	System.out.println(val);
+			        	OperationStatus oprStatus3;
+						Database std_db3 = new Database("pt.idx", null, null);
+						Cursor std_cursor3 = std_db3.openCursor(null, null); // Create new cursor object
+						DatabaseEntry key3 = new DatabaseEntry();
+						DatabaseEntry data3 = new DatabaseEntry();
+						
+						String searchkey3 = val;
+						key3.setData(searchkey3.getBytes()); 
+						key3.setSize(searchkey3.length());
+
+						// Returns OperationStatus
+						oprStatus3 = std_cursor3.getSearchKey(key3, data3, LockMode.DEFAULT);
+						while (oprStatus3 == OperationStatus.SUCCESS)
+						{
+							String s = new String(data3.getData( ));
+							System.out.println(new String(data3.getData()));
+							tempKeys.add(Integer.parseInt(s));
+							oprStatus3 = std_cursor3.getNextDup(key3, data3, LockMode.DEFAULT);
+						}
+
+						OperationStatus oprStatus4;
+						Database std_db4 = new Database("rt.idx", null, null);
+						Cursor std_cursor4 = std_db4.openCursor(null, null); // Create new cursor object
+						DatabaseEntry key4 = new DatabaseEntry();
+						DatabaseEntry data4 = new DatabaseEntry();
+						
+						String searchkey4 = val;
+						key2.setData(searchkey4.getBytes()); 
+						key2.setSize(searchkey4.length());
+
+						// Returns OperationStatus
+						oprStatus4 = std_cursor4.getSearchKey(key4, data4, LockMode.DEFAULT);
+						while (oprStatus4 == OperationStatus.SUCCESS)
+						{
+							String s = new String(data4.getData( ));
+							System.out.println(new String(data4.getData()));
+							if (!(tempKeys.contains(Integer.parseInt(s)))) {
+								tempKeys.add(Integer.parseInt(s));
+							}
+							oprStatus4 = std_cursor4.getNextDup(key4, data4, LockMode.DEFAULT);
+						}
 			        }
+
+			        if (i == 0) {
+						indices = tempKeys;
+					}
+					if (i != 0) {
+						for (Integer j : indices) {
+							if (!tempKeys.contains(j)) {
+								indices.remove(j);
+							}
+						}
+					}
 
 			        cursor.close();
 			        std_db1.close();
