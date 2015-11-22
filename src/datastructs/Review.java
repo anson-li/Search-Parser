@@ -44,6 +44,7 @@ public class Review {
     }
     
     public void print() {
+        System.out.println("+=-=-=-=-=-=+ REVIEW +=-=-=-=-=-=-=+");
     	System.out.println("Reviewer User Id: "      + readable(getUserID()));
     	System.out.println("Review Product Id: "     + readable(getProductID()));
     	System.out.println("Reviewer Profile Name: " + readable(getProfileName()));
@@ -52,6 +53,8 @@ public class Review {
     	System.out.println("Review Time: "           + readable(getTime()));
     	System.out.println("Review Summary: "        + readable(getSummary()));
     	System.out.println("Review Text: "           + readable(getText()));
+        System.out.println("+=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=+");
+
     }
 
     private String readable(String nonfriendly) {
