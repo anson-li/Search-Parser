@@ -19,33 +19,33 @@ public class DBQuery {
 	/*
 	QUERIES TO PROCESS:
 	p:camera
-	** The first query returns all records that have the term camera in the product title. 
+	** The first query returns all records that have the term camera in the product title.
 	r:great
-	** The second query return all records that have the term great in the review summary or text. 
+	** The second query return all records that have the term great in the review summary or text.
 	camera
-	** The third query returns all records that have the term camera in one of the fields product title, 
+	** The third query returns all records that have the term camera in one of the fields product title,
 	** review summary or review text.
 	cam%
-	** The fourth query returns all records that have a term starting with cam in one of the fields 
-	** product title, review summary or review text. 
+	** The fourth query returns all records that have a term starting with cam in one of the fields
+	** product title, review summary or review text.
 	r:great cam%
-	** The fifth query returns all records that have the term great in the review summary or text 
-	** and a term starting with cam in one of the fields product title, review summary or review text. 
+	** The fifth query returns all records that have the term great in the review summary or text
+	** and a term starting with cam in one of the fields product title, review summary or review text.
 	rscore > 4
 	** The sixth query returns all records with a review score greater than 4.
 	camera rscore < 3
-	** The 7th query is the same as the third query except it returns only those records with a 
+	** The 7th query is the same as the third query except it returns only those records with a
 	** review score less than 3.
 	pprice < 60 camera
-	** The 8th query is the same as the third query except the query only returns those records 
-	** where price is present and has a value less than 60. Note that there is no index on the price field; 
-	** this field is checked after retrieving the candidate records using conditions on which indexes are available (e.g. terms). 
+	** The 8th query is the same as the third query except the query only returns those records
+	** where price is present and has a value less than 60. Note that there is no index on the price field;
+	** this field is checked after retrieving the candidate records using conditions on which indexes are available (e.g. terms).
 	camera rdate > 2007/06/20
-	** The 9th query returns the records that have the term camera in one of the fields product title, review 
-	** summary or review text, and the review date is after 2007/06/20. Since there is no index on the review date, 
-	** this condition is checked after checking the conditions on terms. Also the review date stored in file reviews.txt 
-	** is in the form of a timestamp, and the date give in the query must be converted to a timestamp before a comparison 
-	** (e.g. check out the date object in the datetime package for Python). Finally the last query returns the same set of 
+	** The 9th query returns the records that have the term camera in one of the fields product title, review
+	** summary or review text, and the review date is after 2007/06/20. Since there is no index on the review date,
+	** this condition is checked after checking the conditions on terms. Also the review date stored in file reviews.txt
+	** is in the form of a timestamp, and the date give in the query must be converted to a timestamp before a comparison
+	** (e.g. check out the date object in the datetime package for Python). Finally the last query returns the same set of
 	** results as in the 9th query except the product price must be greater than 20 and less than 60.
 	camera rdate > 2007/06/20 pprice > 20 pprice < 60
 	*/
@@ -68,13 +68,13 @@ public class DBQuery {
             return new String(getData(), getOffset(), getSize());
         }
     }
-    
+
     DBQuery() {
-        
+
     }
 
 	public static void main(String[] args) {
-		
+
         // start of separate method 1
 
 		System.out.println("Enter your query below:");
@@ -85,11 +85,11 @@ public class DBQuery {
 		System.out.println("You input " + line);
 
         // end of separate method 1
-		
+
         // start of separate method 2
 
-		String[] input = line.split(" "); 
-		//Hence, rscore<20, rscore< 20, rscore <20, and rscore     <    20 are all valid and would return the same matches. 
+		String[] input = line.split(" ");
+		//Hence, rscore<20, rscore< 20, rscore <20, and rscore     <    20 are all valid and would return the same matches.
 		validate_input(input);
 		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
 		GenericStack<String> highpriorities  = new GenericStack<String>();
@@ -100,15 +100,15 @@ public class DBQuery {
 		Product product = new Product();
 		Review review = new Review();
 		boolean isHPreached = false;
-		
-		// parsing string :( please dont remove 
+
+		// parsing string :( please dont remove
 		for( int i = 0; i < input.length; i++ )
 		{
 			if (input[i].matches("(?i:r:.*)"))
 			{
 				String stringarray = input[i];
 				highpriorities.push(stringarray);
-			} 
+			}
 			else if (input[i].matches("(?i:p:.*)"))
 			{
 				String stringarray = input[i];
@@ -124,7 +124,7 @@ public class DBQuery {
 			{
 				/**
 				* FIXME: rscore should be in 'high priority' but contains 3 values. Process in lowpriority anyway?
-				* FIXME: have to parse 0 spaces , 1 space and multiple spaces in between! 
+				* FIXME: have to parse 0 spaces , 1 space and multiple spaces in between!
 				*/
 				String[] pleaserefactor = {input[i], input[i+1], input[i+2]};
 				rscorepriorities.push(pleaserefactor);
@@ -151,9 +151,9 @@ public class DBQuery {
 					Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
 					DatabaseEntry key = new DatabaseEntry();
 					DatabaseEntry data = new DatabaseEntry();
-					
+
 					String searchkey = kappa.replaceAll("r:", "").toLowerCase();
-					key.setData(searchkey.getBytes()); 
+					key.setData(searchkey.getBytes());
 					key.setSize(searchkey.length());
 
 					// Returns OperationStatus
@@ -177,7 +177,7 @@ public class DBQuery {
 							}
 						}
 					}
-					
+
 				}
 				catch (Exception e) {}
 			}
@@ -188,9 +188,9 @@ public class DBQuery {
 					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
 					DatabaseEntry key2 = new DatabaseEntry();
 					DatabaseEntry data2 = new DatabaseEntry();
-					
+
 					String searchkey2 = kappa.replaceAll("p:", "").toLowerCase();
-					key2.setData(searchkey2.getBytes()); 
+					key2.setData(searchkey2.getBytes());
 					key2.setSize(searchkey2.length());
 
 					// Returns OperationStatus
@@ -214,7 +214,7 @@ public class DBQuery {
 							}
 						}
 					}
-					
+
 				}
 				catch (Exception e) {}
 			} else if (kappa.matches("%.*") || kappa.matches(".*%")) {
@@ -225,7 +225,7 @@ public class DBQuery {
 			        Database std_db1 = new Database("pt.idx", null, null);
 			        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
 			        Cursor cursor = std_db1.openCursor(null, null);
-			        bulk_data.setData(new byte[1024 * 30000]); // how to setData? 
+			        bulk_data.setData(new byte[1024 * 30000]); // how to setData?
 			        bulk_data.setUserBuffer(1024 * 30000, true);
 
 			        // Walk through the table, printing the key/data pairs.
@@ -244,7 +244,7 @@ public class DBQuery {
 			        Database std_db2 = new Database("rt.idx", null, null);
 			        MultipleKeyDataEntry bulk_data2 = new MultipleKeyDataEntry();
 			        Cursor cursor2 = std_db2.openCursor(null, null);
-			        bulk_data2.setData(new byte[1024 * 30000]); // how to setData? 
+			        bulk_data2.setData(new byte[1024 * 30000]); // how to setData?
 			        bulk_data2.setUserBuffer(1024 * 30000, true);
 
 			        // Walk through the table, printing the key/data pairs.
@@ -274,9 +274,9 @@ public class DBQuery {
 						Cursor std_cursor3 = std_db3.openCursor(null, null); // Create new cursor object
 						DatabaseEntry key3 = new DatabaseEntry();
 						DatabaseEntry data3 = new DatabaseEntry();
-						
+
 						String searchkey3 = val.toLowerCase();
-						key3.setData(searchkey3.getBytes()); 
+						key3.setData(searchkey3.getBytes());
 						key3.setSize(searchkey3.length());
 
 						// Returns OperationStatus
@@ -293,9 +293,9 @@ public class DBQuery {
 						Cursor std_cursor4 = std_db4.openCursor(null, null); // Create new cursor object
 						DatabaseEntry key4 = new DatabaseEntry();
 						DatabaseEntry data4 = new DatabaseEntry();
-						
+
 						String searchkey4 = val.toLowerCase();
-						key4.setData(searchkey4.getBytes()); 
+						key4.setData(searchkey4.getBytes());
 						key4.setSize(searchkey4.length());
 
 						// Returns OperationStatus
@@ -325,7 +325,7 @@ public class DBQuery {
 			        cursor2.close();
 			        std_db2.close();
 			    } catch (Exception e) {}
-			} 
+			}
 			else {
 				try {
 					OperationStatus oprStatus1;
@@ -334,9 +334,9 @@ public class DBQuery {
 					DatabaseEntry key1 = new DatabaseEntry();
 					DatabaseEntry data1 = new DatabaseEntry();
 					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
-					
+
 					String searchkey1 = kappa.toLowerCase();
-					key1.setData(searchkey1.getBytes()); 
+					key1.setData(searchkey1.getBytes());
 					key1.setSize(searchkey1.length());
 
 					// Returns OperationStatus
@@ -352,9 +352,9 @@ public class DBQuery {
 					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
 					DatabaseEntry key2 = new DatabaseEntry();
 					DatabaseEntry data2 = new DatabaseEntry();
-					
+
 					String searchkey2 = kappa.toLowerCase();
-					key2.setData(searchkey2.getBytes()); 
+					key2.setData(searchkey2.getBytes());
 					key2.setSize(searchkey2.length());
 
 					// Returns OperationStatus
@@ -377,7 +377,7 @@ public class DBQuery {
 							}
 						}
 					}
-					
+
 				}
 				catch (Exception e) {}
 			}
@@ -396,7 +396,7 @@ public class DBQuery {
 						DatabaseEntry data2 = new DatabaseEntry();
 
 						String searchkey2 = n + ".0"; // may have to change this depending on iterator
-						key2.setData(searchkey2.getBytes()); 
+						key2.setData(searchkey2.getBytes());
 						key2.setSize(searchkey2.length());
 
 						// Returns OperationStatus
@@ -428,9 +428,9 @@ public class DBQuery {
 						Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
 						DatabaseEntry key2 = new DatabaseEntry();
 						DatabaseEntry data2 = new DatabaseEntry();
-						
+
 						String searchkey2 = n + ".0"; // may have to change this depending on iterator
-						key2.setData(searchkey2.getBytes()); 
+						key2.setData(searchkey2.getBytes());
 						key2.setSize(searchkey2.length());
 
 						// Returns OperationStatus
@@ -461,9 +461,9 @@ public class DBQuery {
 					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
 					DatabaseEntry key2 = new DatabaseEntry();
 					DatabaseEntry data2 = new DatabaseEntry();
-					
+
 					String searchkey2 = kappa[2] + ".0"; // may have to change this depending on iterator
-					key2.setData(searchkey2.getBytes()); 
+					key2.setData(searchkey2.getBytes());
 					key2.setSize(searchkey2.length());
 
 					// Returns OperationStatus
@@ -488,16 +488,16 @@ public class DBQuery {
 				}
 			}
 		}
-		for (Integer k : indices) {			
+		for (Integer k : indices) {
 			try {
 				OperationStatus oprStatus;
 				Database std_db = new Database("rw.idx", null, null);
 				Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
 				DatabaseEntry key = new DatabaseEntry();
 				DatabaseEntry data = new DatabaseEntry();
-				
+
 				String searchkey = k.toString().toLowerCase();
-				key.setData(searchkey.getBytes()); 
+				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
 
 				// Returns OperationStatus
@@ -505,9 +505,9 @@ public class DBQuery {
 				while (oprStatus == OperationStatus.SUCCESS)
 				{
 					String s = new String(data.getData( ));
-									
+
 					load_data(product, review, s);
-					
+
 					/**
 					 * FIXME:XXX:TODO: reading low priority queue
 					 */
@@ -571,20 +571,20 @@ public class DBQuery {
 							}
 						}
 						product.print();
-						review.print();	
+						review.print();
 					}
 					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
-				}			
+				}
 			}
 			catch (Exception e) {e.printStackTrace();}
 		}
-		
+
 	}
 
 	private static void load_data(Product product, Review review, String s) {
-		
+
 		Scanner scan = new Scanner(s);
-		
+
 		review.setProductID(scan.findInLine("[\\w]+,\"").replace(",\"", ""));
 		product.setID(review.getProductID());
 		product.setTitle(scan.findInLine("[^\"]+\",").replace("\",", ""));
@@ -600,7 +600,7 @@ public class DBQuery {
 
 	private static void validate_input(String[] input) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
