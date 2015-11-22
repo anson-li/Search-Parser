@@ -301,6 +301,7 @@ public class DBQuery {
 			} else if (kappa.matches("%.*") && !kappa.matches(".*%")) {
 				// Acquire a cursor for the table.
 				try {
+					ArrayList<String> list = new ArrayList<String>();
 			        DatabaseEntry entry = new DatabaseEntry();
 			        Database std_db1 = new Database("pt.idx", null, null);
 			        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
@@ -313,9 +314,35 @@ public class DBQuery {
 			            StringEntry key = new StringEntry();
 			            StringEntry data = new StringEntry();
 
-			            while (bulk_data.next(key, data))
-			                System.out.println(key.getString() + " : " + data.getString());
+			            while (bulk_data.next(key, data)) {
+			            	if (!list.contains(key.getString())) {
+			            		list.add(key.getString());
+			            	}
+			            }
 			        }
+
+			        Database std_db2 = new Database("rt.idx", null, null);
+			        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
+			        Cursor cursor = std_db2.openCursor(null, null);
+			        bulk_data.setData(new byte[1024 * 30000]); // how to setData? 
+			        bulk_data.setUserBuffer(1024 * 30000, true);
+
+			        // Walk through the table, printing the key/data pairs.
+			        while (cursor.getNext(entry, bulk_data, null) == OperationStatus.SUCCESS) {
+			            StringEntry key = new StringEntry();
+			            StringEntry data = new StringEntry();
+
+			            while (bulk_data.next(key, data)) {
+			            	if (!list.contains(key.getString())) {
+			            		list.add(key.getString());
+			            	}
+			            }
+			        }
+
+			        for (String val : list) {
+			        	System.out.println(val);
+			        }
+
 			        cursor.close();
 			        std_db1.close();
 			    } catch (Exception e) {}
