@@ -333,7 +333,7 @@ public class DBQuery {
 			            StringEntry key = new StringEntry();
 			            StringEntry data = new StringEntry();
 
-			            while (bulk_data.next(key, data)) {
+			            while (bulk_data2.next(key, data)) {
 			            	if (!list.contains(key.getString())) {
 			            		list.add(key.getString());
 			            	}
