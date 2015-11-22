@@ -169,7 +169,8 @@ public class DBQuery {
 		
         // start of separate method 2
 
-		String[] input = line.split(" ");
+		String[] input = line.split(" "); 
+		//Hence, rscore<20, rscore< 20, rscore <20, and rscore     <    20 are all valid and would return the same matches. 
 		validate_input(input);
 		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
 		GenericStack<String> highpriorities  = new GenericStack<String>();
@@ -184,32 +185,33 @@ public class DBQuery {
 		// parsing string :( please dont remove 
 		for( int i = 0; i < input.length; i++ )
 		{
-			if (input[i].matches("r:.*"))
+			if (input[i].matches("(?i:r:.*)"))
 			{
 				String stringarray = input[i];
 				highpriorities.push(stringarray);
 			} 
-			else if (input[i].matches("p:.*"))
+			else if (input[i].matches("(?i:p:.*)"))
 			{
 				String stringarray = input[i];
 				highpriorities.push(stringarray);
 			}
-			else if (input[i].matches("pprice"))
+			else if (input[i].matches("(?i:pprice)"))
 			{
 				String[] pleaserefactor = {input[i], input[i+1], input[i+2]};
 				lowpriorities.push(pleaserefactor);
 				i = i + 2;
 			}
-			else if (input[i].matches("rscore"))
+			else if (input[i].matches("(?i:rscore)"))
 			{
 				/**
 				* FIXME: rscore should be in 'high priority' but contains 3 values. Process in lowpriority anyway?
+				* FIXME: have to parse 0 spaces , 1 space and multiple spaces in between! 
 				*/
 				String[] pleaserefactor = {input[i], input[i+1], input[i+2]};
 				rscorepriorities.push(pleaserefactor);
 				i = i + 2;
 			}
-			else if (input[i].matches("rdate"))
+			else if (input[i].matches("(?i:rdate)"))
 			{
 				String[] pleaserefactor = {input[i], input[i+1], input[i+2]};
 				lowpriorities.push(pleaserefactor);
@@ -231,7 +233,7 @@ public class DBQuery {
 					DatabaseEntry key = new DatabaseEntry();
 					DatabaseEntry data = new DatabaseEntry();
 					
-					String searchkey = kappa.replaceAll("r:", "");
+					String searchkey = kappa.replaceAll("r:", "").toLowerCase();
 					key.setData(searchkey.getBytes()); 
 					key.setSize(searchkey.length());
 
@@ -268,7 +270,7 @@ public class DBQuery {
 					DatabaseEntry key2 = new DatabaseEntry();
 					DatabaseEntry data2 = new DatabaseEntry();
 					
-					String searchkey2 = kappa.replaceAll("p:", "");
+					String searchkey2 = kappa.replaceAll("p:", "").toLowerCase();
 					key2.setData(searchkey2.getBytes()); 
 					key2.setSize(searchkey2.length());
 
@@ -339,7 +341,7 @@ public class DBQuery {
 			        }
 
 			        ArrayList<String> matches = new ArrayList<String>();
-					Pattern p = Pattern.compile(kappa.replace("%", ".*"));
+					Pattern p = Pattern.compile("(?i:" + kappa.replace("%", ".*") + ")");
 					for (String s:list) {
 						if (p.matcher(s).matches()) {
 					    	matches.add(s);
@@ -354,7 +356,7 @@ public class DBQuery {
 						DatabaseEntry key3 = new DatabaseEntry();
 						DatabaseEntry data3 = new DatabaseEntry();
 						
-						String searchkey3 = val;
+						String searchkey3 = val.toLowerCase();
 						key3.setData(searchkey3.getBytes()); 
 						key3.setSize(searchkey3.length());
 
@@ -373,7 +375,7 @@ public class DBQuery {
 						DatabaseEntry key4 = new DatabaseEntry();
 						DatabaseEntry data4 = new DatabaseEntry();
 						
-						String searchkey4 = val;
+						String searchkey4 = val.toLowerCase();
 						key4.setData(searchkey4.getBytes()); 
 						key4.setSize(searchkey4.length());
 
@@ -415,7 +417,7 @@ public class DBQuery {
 					DatabaseEntry data1 = new DatabaseEntry();
 					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 					
-					String searchkey1 = kappa;
+					String searchkey1 = kappa.toLowerCase();
 					key1.setData(searchkey1.getBytes()); 
 					key1.setSize(searchkey1.length());
 
@@ -433,7 +435,7 @@ public class DBQuery {
 					DatabaseEntry key2 = new DatabaseEntry();
 					DatabaseEntry data2 = new DatabaseEntry();
 					
-					String searchkey2 = kappa;
+					String searchkey2 = kappa.toLowerCase();
 					key2.setData(searchkey2.getBytes()); 
 					key2.setSize(searchkey2.length());
 
@@ -576,7 +578,7 @@ public class DBQuery {
 				DatabaseEntry key = new DatabaseEntry();
 				DatabaseEntry data = new DatabaseEntry();
 				
-				String searchkey = k.toString();
+				String searchkey = k.toString().toLowerCase();
 				key.setData(searchkey.getBytes()); 
 				key.setSize(searchkey.length());
 
