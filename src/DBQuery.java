@@ -321,14 +321,15 @@ public class DBQuery {
 			            }
 			        }
 
+			        DatabaseEntry entry2 = new DatabaseEntry();
 			        Database std_db2 = new Database("rt.idx", null, null);
-			        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
-			        Cursor cursor = std_db2.openCursor(null, null);
-			        bulk_data.setData(new byte[1024 * 30000]); // how to setData? 
-			        bulk_data.setUserBuffer(1024 * 30000, true);
+			        MultipleKeyDataEntry bulk_data2 = new MultipleKeyDataEntry();
+			        Cursor cursor2 = std_db2.openCursor(null, null);
+			        bulk_data2.setData(new byte[1024 * 30000]); // how to setData? 
+			        bulk_data2.setUserBuffer(1024 * 30000, true);
 
 			        // Walk through the table, printing the key/data pairs.
-			        while (cursor.getNext(entry, bulk_data, null) == OperationStatus.SUCCESS) {
+			        while (cursor2.getNext(entry2, bulk_data2, null) == OperationStatus.SUCCESS) {
 			            StringEntry key = new StringEntry();
 			            StringEntry data = new StringEntry();
 
