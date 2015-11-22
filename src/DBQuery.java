@@ -405,9 +405,9 @@ public class DBQuery {
 			        std_db1.close();
 			        cursor2.close();
 			        std_db2.close();
-			        cursor3.close();
+			        std_cursor3.close();
 			        std_db3.close();
-			        cursor4.close();
+			        std_cursor4.close();
 			        std_db4.close();
 			    } catch (Exception e) {}
 			} 
