@@ -1,4 +1,5 @@
 package datastructs;
+@SuppressWarnings("serial")
 public class GenericStack<T> extends java.util.ArrayList<T> {
     
     public GenericStack() {}

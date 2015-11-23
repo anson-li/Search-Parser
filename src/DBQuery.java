@@ -3,11 +3,9 @@ import com.sleepycat.db.*;
 import datastructs.GenericStack;
 import datastructs.Product;
 import datastructs.Review;
-import datastructs.StringEntry;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.*;
@@ -15,41 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class DBQuery {
-
-	/*
-	QUERIES TO PROCESS:
-	p:camera
-	** The first query returns all records that have the term camera in the product title.
-	r:great
-	** The second query return all records that have the term great in the review summary or text.
-	camera
-	** The third query returns all records that have the term camera in one of the fields product title,
-	** review summary or review text.
-	cam%
-	** The fourth query returns all records that have a term starting with cam in one of the fields
-	** product title, review summary or review text.
-	r:great cam%
-	** The fifth query returns all records that have the term great in the review summary or text
-	** and a term starting with cam in one of the fields product title, review summary or review text.
-	rscore > 4
-	** The sixth query returns all records with a review score greater than 4.
-	camera rscore < 3
-	** The 7th query is the same as the third query except it returns only those records with a
-	** review score less than 3.
-	pprice < 60 camera
-	** The 8th query is the same as the third query except the query only returns those records
-	** where price is present and has a value less than 60. Note that there is no index on the price field;
-	** this field is checked after retrieving the candidate records using conditions on which indexes are available (e.g. terms).
-	camera rdate > 2007/06/20
-	** The 9th query returns the records that have the term camera in one of the fields product title, review
-	** summary or review text, and the review date is after 2007/06/20. Since there is no index on the review date,
-	** this condition is checked after checking the conditions on terms. Also the review date stored in file reviews.txt
-	** is in the form of a timestamp, and the date give in the query must be converted to a timestamp before a comparison
-	** (e.g. check out the date object in the datetime package for Python). Finally the last query returns the same set of
-	** results as in the 9th query except the product price must be greater than 20 and less than 60.
-	camera rdate > 2007/06/20 pprice > 20 pprice < 60
-	*/
-
+	
 	static class StringEntry extends DatabaseEntry {
         StringEntry() {
         }
@@ -89,14 +53,10 @@ public class DBQuery {
         // start of separate method 2
 
 		String[] input = line.split(" ");
-		//Hence, rscore<20, rscore< 20, rscore <20, and rscore     <    20 are all valid and would return the same matches.
-		validate_input(input);
 		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
 		GenericStack<String> highpriorities  = new GenericStack<String>();
 		GenericStack<String[]> rscorepriorities = new GenericStack<String[]>();
 		ArrayList<Integer> indices = new ArrayList<Integer>();
-		ArrayList<Product> productlist = new ArrayList<Product>();
-		ArrayList<Review> reviewlist = new ArrayList<Review>();
 		Product product = new Product();
 		Review review = new Review();
 		boolean isHPreached = false;
@@ -385,7 +345,6 @@ public class DBQuery {
 		for (int m = 0; !rscorepriorities.isEmpty(); m++) {
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String[] kappa = rscorepriorities.pop();
-			// kappa[0] = rscore kappa[1] = < kappa[2] = 4
 			if (kappa[1].equals("<")) {
 				for (int n = 0; n < Integer.parseInt(kappa[2]); n++) {
 					try {
@@ -513,7 +472,7 @@ public class DBQuery {
 					 */
 					GenericStack<String[]> tmplow = new GenericStack<String[]>(lowpriorities);
 					Bill: {
-						for (int l = 0; !tmplow.isEmpty(); l++) {
+						while(!tmplow.isEmpty()) {
 							String[] mappa = tmplow.pop();
 							if (mappa[0].equals("pprice") ) {
 								String comparator = mappa[1];
@@ -596,11 +555,7 @@ public class DBQuery {
 		review.setTime(scan.findInLine("[^,]+,\"").replace(",\"", ""));
 		review.setSummary(scan.findInLine("[^\"]+\",\"").replace("\",\"", ""));
 		review.setText(scan.findInLine("[^\"]+\"").replace("\"", ""));
+		
+		scan.close();
 	}
-
-	private static void validate_input(String[] input) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
