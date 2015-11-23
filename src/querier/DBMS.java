@@ -25,6 +25,8 @@ public class DBMS {
     private GenericStack<String> rscorepriorities;
     private ArrayList<Integer> indices;
     
+    private enum COMPARE { GREATER, LESS, EQUAL };
+    
     DBMS() throws DBMSException {
         buffer = new BufferedReader(new InputStreamReader(System.in));
         
@@ -67,13 +69,17 @@ public class DBMS {
     public void processQuery(Query query) {
         loadSubqueryPriorityQ(query);
         
+        boolean has_hp_query = false;
+        
         try {
-        	processHighPriorities();
+        	has_hp_query = processHighPriorities();
         } catch (DatabaseException de) {
         	// TODO:
         } catch (FileNotFoundException fnfe) {
         	// TODO:
         }
+        
+        processRScorePriority();
     }
 
     private void loadSubqueryPriorityQ(Query query) {
@@ -113,6 +119,39 @@ public class DBMS {
     {
         query = query.replace("p:", "").toLowerCase();
     	queryDB(query, rtermsIndex, resultIndices);
+    }
+    
+    private void queryRScore(String query, ArrayList<Integer> resultIndices, COMPARE cmp) 
+    		throws FileNotFoundException, DatabaseException
+    {
+    	if (cmp == COMPARE.EQUAL) {
+    		query = query.replace("rscore=", "").toLowerCase();
+        	queryDB(query, rscoreIndex, resultIndices);
+        	return;
+    	} else if (cmp == COMPARE.LESS) {
+    		query = query.replace("rscore<", "");
+    	} else {
+    		query = query.replace("rscore>", "");
+    	}
+    	
+    	OperationStatus oprStatus;
+		Database std_db = new Database(rscoreIndex, null, null);
+		Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
+		DatabaseEntry key = new DatabaseEntry();
+		DatabaseEntry data = new DatabaseEntry();
+		String searchkey = "";
+		if (query.matches("[\\d]*"))
+			searchkey = query + ".0";
+		
+		key.setData(searchkey.getBytes());
+		key.setSize(searchkey.length());
+		
+		if (cmp == COMPARE.LESS) {
+			
+		} else {
+			
+		}
+		
     }
     
     private void queryDB(String query, String db_name, ArrayList<Integer> indices) 
@@ -170,7 +209,12 @@ public class DBMS {
                         if (!next_result_indices.contains(j))
                             indices.remove(j);
             } else if (subquery.matches(".*%")) {
+                subquery = subquery.split("%")[0];
+                
                 // TODO:
+                // TODO:
+                // TODO:
+                
             } else {
             	ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryPTerms(subquery, next_result_indices);
@@ -183,7 +227,29 @@ public class DBMS {
                             indices.remove(j);
             }
         }
-        
         return true;
+    }
+
+    private void processRScorePriority(boolean has_high_priority) {
+    	while(!rscorepriorities.isEmpty()) {
+			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
+			String subquery = rscorepriorities.pop();
+			COMPARE cmp = COMPARE.EQUAL;
+			if (subquery.matches("rscore<.*"))
+				cmp = COMPARE.LESS;
+			else if (subquery.matches("rscore=.*"))
+				cmp = COMPARE.EQUAL;
+			else if (subquery.matches("rscore>.*"))
+				cmp = COMPARE.GREATER;
+			
+			if (cmp == COMPARE.EQUAL) {
+				// TODO
+			}
+			
+			
+			
+			
+			
+		}
     }
 }
