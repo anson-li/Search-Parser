@@ -67,13 +67,17 @@ public class DBMS {
     public void processQuery(Query query) {
         loadSubqueryPriorityQ(query);
         
+        boolean has_hp_query = false;
+        
         try {
-        	processHighPriorities();
+        	has_hp_query = processHighPriorities();
         } catch (DatabaseException de) {
         	// TODO:
         } catch (FileNotFoundException fnfe) {
         	// TODO:
         }
+        
+        processRScorePriority();
     }
 
     private void loadSubqueryPriorityQ(Query query) {
@@ -113,6 +117,11 @@ public class DBMS {
     {
         query = query.replace("p:", "").toLowerCase();
     	queryDB(query, rtermsIndex, resultIndices);
+    }
+    
+    private void queryRScore(String query, ArrayList<Integer> resultIndices)
+    {
+    	
     }
     
     private void queryDB(String query, String db_name, ArrayList<Integer> indices) 
@@ -170,7 +179,12 @@ public class DBMS {
                         if (!next_result_indices.contains(j))
                             indices.remove(j);
             } else if (subquery.matches(".*%")) {
+                subquery = subquery.split("%")[0];
+                
                 // TODO:
+                // TODO:
+                // TODO:
+                
             } else {
             	ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryPTerms(subquery, next_result_indices);
@@ -183,7 +197,116 @@ public class DBMS {
                             indices.remove(j);
             }
         }
-        
         return true;
+    }
+
+    private void processRScorePriority(boolean has_high_priority) {
+    	while(!rscorepriorities.isEmpty()) {
+			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
+			String subquery = rscorepriorities.pop();
+			if (subquery.matches("rscore<.*")) {
+				String value = subquery.replace("rscore<", "");
+				for (int n = 0; n < Integer.parseInt(value); n++) {
+					
+					
+					
+					OperationStatus oprStatus2;
+					Database std_db2 = new Database("sc.idx", null, null);
+					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+					DatabaseEntry key2 = new DatabaseEntry();
+					DatabaseEntry data2 = new DatabaseEntry();
+
+					String searchkey2 = n + ".0"; // may have to change this depending on iterator
+					key2.setData(searchkey2.getBytes());
+					key2.setSize(searchkey2.length());
+
+					// Returns OperationStatus
+					oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+					while (oprStatus2 == OperationStatus.SUCCESS)
+					{
+						String s = new String(data2.getData( ));
+						if (!(tempKeys.contains(Integer.parseInt(s)))) {
+							tempKeys.add(Integer.parseInt(s));
+						}
+						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+					}
+				}
+				if (!has_high_priority && m == 0) {
+					indices = tempKeys;
+				} else {
+					for (Integer o : indices) {
+						if (!tempKeys.contains(o)) {
+							indices.remove(o);
+						}
+					}
+				}
+			} else if (kappa[1].equals(">")) {
+				for (int n = 5; n > Integer.parseInt(kappa[2]); n--) {
+					try {
+						OperationStatus oprStatus2;
+						Database std_db2 = new Database("sc.idx", null, null);
+						Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+						DatabaseEntry key2 = new DatabaseEntry();
+						DatabaseEntry data2 = new DatabaseEntry();
+
+						String searchkey2 = n + ".0"; // may have to change this depending on iterator
+						key2.setData(searchkey2.getBytes());
+						key2.setSize(searchkey2.length());
+
+						// Returns OperationStatus
+						oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+						while (oprStatus2 == OperationStatus.SUCCESS)
+						{
+							String s = new String(data2.getData( ));
+							if (!(tempKeys.contains(Integer.parseInt(s)))) {
+								tempKeys.add(Integer.parseInt(s));
+							}
+							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+						}
+					} catch (Exception e) {}
+				}
+				if (isHPreached == false && m == 0) {
+					indices = tempKeys;
+				} else {
+					for (Integer o : indices) {
+						if (!tempKeys.contains(o)) {
+							indices.remove(o);
+						}
+					}
+				}
+			} else if (kappa[1].equals("=")) {
+				try {
+					OperationStatus oprStatus2;
+					Database std_db2 = new Database("sc.idx", null, null);
+					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+					DatabaseEntry key2 = new DatabaseEntry();
+					DatabaseEntry data2 = new DatabaseEntry();
+
+					String searchkey2 = kappa[2] + ".0"; // may have to change this depending on iterator
+					key2.setData(searchkey2.getBytes());
+					key2.setSize(searchkey2.length());
+
+					// Returns OperationStatus
+					oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+					while (oprStatus2 == OperationStatus.SUCCESS)
+					{
+						String s = new String(data2.getData( ));
+						if (!(tempKeys.contains(Integer.parseInt(s)))) {
+								tempKeys.add(Integer.parseInt(s));
+						}
+						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+					}
+				} catch (Exception e) {}
+				if (isHPreached == false && m == 0) {
+					indices = tempKeys;
+				} else {
+					for (Integer o : indices) {
+						if (!tempKeys.contains(o)) {
+							indices.remove(o);
+						}
+					}
+				}
+			}
+		}
     }
 }
