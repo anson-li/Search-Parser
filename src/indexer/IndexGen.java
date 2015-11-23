@@ -16,7 +16,7 @@ public class IndexGen{
 	}
 
 	//http://www.mkyong.com/java/how-to-execute-shell-command-from-java/
-	private String executeCommand(String command) {
+	public String executeCommand(String command) {
 		String[] cmd = {"/bin/sh", "-c", command};
 		StringBuffer output = new StringBuffer();
 		Process p;

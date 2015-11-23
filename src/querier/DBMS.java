@@ -25,6 +25,8 @@ public class DBMS {
     private GenericStack<String> rscorepriorities;
     private ArrayList<Integer> indices;
     
+    private enum COMPARE { GREATER, LESS, EQUAL };
+    
     DBMS() throws DBMSException {
         buffer = new BufferedReader(new InputStreamReader(System.in));
         
@@ -119,9 +121,37 @@ public class DBMS {
     	queryDB(query, rtermsIndex, resultIndices);
     }
     
-    private void queryRScore(String query, ArrayList<Integer> resultIndices)
+    private void queryRScore(String query, ArrayList<Integer> resultIndices, COMPARE cmp) 
+    		throws FileNotFoundException, DatabaseException
     {
+    	if (cmp == COMPARE.EQUAL) {
+    		query = query.replace("rscore=", "").toLowerCase();
+        	queryDB(query, rscoreIndex, resultIndices);
+        	return;
+    	} else if (cmp == COMPARE.LESS) {
+    		query = query.replace("rscore<", "");
+    	} else {
+    		query = query.replace("rscore>", "");
+    	}
     	
+    	OperationStatus oprStatus;
+		Database std_db = new Database(rscoreIndex, null, null);
+		Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
+		DatabaseEntry key = new DatabaseEntry();
+		DatabaseEntry data = new DatabaseEntry();
+		String searchkey = "";
+		if (query.matches("[\\d]*"))
+			searchkey = query + ".0";
+		
+		key.setData(searchkey.getBytes());
+		key.setSize(searchkey.length());
+		
+		if (cmp == COMPARE.LESS) {
+			
+		} else {
+			
+		}
+		
     }
     
     private void queryDB(String query, String db_name, ArrayList<Integer> indices) 
@@ -204,109 +234,22 @@ public class DBMS {
     	while(!rscorepriorities.isEmpty()) {
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String subquery = rscorepriorities.pop();
-			if (subquery.matches("rscore<.*")) {
-				String value = subquery.replace("rscore<", "");
-				for (int n = 0; n < Integer.parseInt(value); n++) {
-					
-					
-					
-					OperationStatus oprStatus2;
-					Database std_db2 = new Database("sc.idx", null, null);
-					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
-					DatabaseEntry key2 = new DatabaseEntry();
-					DatabaseEntry data2 = new DatabaseEntry();
-
-					String searchkey2 = n + ".0"; // may have to change this depending on iterator
-					key2.setData(searchkey2.getBytes());
-					key2.setSize(searchkey2.length());
-
-					// Returns OperationStatus
-					oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
-					while (oprStatus2 == OperationStatus.SUCCESS)
-					{
-						String s = new String(data2.getData( ));
-						if (!(tempKeys.contains(Integer.parseInt(s)))) {
-							tempKeys.add(Integer.parseInt(s));
-						}
-						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
-					}
-				}
-				if (!has_high_priority && m == 0) {
-					indices = tempKeys;
-				} else {
-					for (Integer o : indices) {
-						if (!tempKeys.contains(o)) {
-							indices.remove(o);
-						}
-					}
-				}
-			} else if (kappa[1].equals(">")) {
-				for (int n = 5; n > Integer.parseInt(kappa[2]); n--) {
-					try {
-						OperationStatus oprStatus2;
-						Database std_db2 = new Database("sc.idx", null, null);
-						Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
-						DatabaseEntry key2 = new DatabaseEntry();
-						DatabaseEntry data2 = new DatabaseEntry();
-
-						String searchkey2 = n + ".0"; // may have to change this depending on iterator
-						key2.setData(searchkey2.getBytes());
-						key2.setSize(searchkey2.length());
-
-						// Returns OperationStatus
-						oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
-						while (oprStatus2 == OperationStatus.SUCCESS)
-						{
-							String s = new String(data2.getData( ));
-							if (!(tempKeys.contains(Integer.parseInt(s)))) {
-								tempKeys.add(Integer.parseInt(s));
-							}
-							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
-						}
-					} catch (Exception e) {}
-				}
-				if (isHPreached == false && m == 0) {
-					indices = tempKeys;
-				} else {
-					for (Integer o : indices) {
-						if (!tempKeys.contains(o)) {
-							indices.remove(o);
-						}
-					}
-				}
-			} else if (kappa[1].equals("=")) {
-				try {
-					OperationStatus oprStatus2;
-					Database std_db2 = new Database("sc.idx", null, null);
-					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
-					DatabaseEntry key2 = new DatabaseEntry();
-					DatabaseEntry data2 = new DatabaseEntry();
-
-					String searchkey2 = kappa[2] + ".0"; // may have to change this depending on iterator
-					key2.setData(searchkey2.getBytes());
-					key2.setSize(searchkey2.length());
-
-					// Returns OperationStatus
-					oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
-					while (oprStatus2 == OperationStatus.SUCCESS)
-					{
-						String s = new String(data2.getData( ));
-						if (!(tempKeys.contains(Integer.parseInt(s)))) {
-								tempKeys.add(Integer.parseInt(s));
-						}
-						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
-					}
-				} catch (Exception e) {}
-				if (isHPreached == false && m == 0) {
-					indices = tempKeys;
-				} else {
-					for (Integer o : indices) {
-						if (!tempKeys.contains(o)) {
-							indices.remove(o);
-						}
-					}
-				}
+			COMPARE cmp = COMPARE.EQUAL;
+			if (subquery.matches("rscore<.*"))
+				cmp = COMPARE.LESS;
+			else if (subquery.matches("rscore=.*"))
+				cmp = COMPARE.EQUAL;
+			else if (subquery.matches("rscore>.*"))
+				cmp = COMPARE.GREATER;
+			
+			if (cmp == COMPARE.EQUAL) {
+				// TODO
 			}
+			
+			
+			
+			
+			
 		}
     }
 }

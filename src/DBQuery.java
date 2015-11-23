@@ -3,6 +3,7 @@ import com.sleepycat.db.*;
 import datastructs.GenericStack;
 import datastructs.Product;
 import datastructs.Review;
+import indexer.IndexGen;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -38,14 +39,15 @@ public class DBQuery {
     }
 
 	public static void main(String[] args) {
-
+		
         // start of separate method 1
 
 		System.out.println("Enter your query below:");
-		BufferedReader buffer=new BufferedReader(new InputStreamReader(System.in));
+		Scanner scan = new Scanner (System.in);
 		String line = "";
-		try { line = buffer.readLine(); }
+		try { line = scan.nextLine(); }
 		catch (Exception e) {}
+		scan.close();
 		System.out.println("You input " + line);
 
         // end of separate method 1
@@ -177,16 +179,119 @@ public class DBQuery {
 
 				}
 				catch (Exception e) {}
-			} else if (kappa.matches("%.*") || kappa.matches(".*%")) {
+			} else if (kappa.matches(".*%")) {
 				// Acquire a cursor for the table.
 				try {
+					
+					IndexGen shell = new IndexGen();
+					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
+
+					for ( String match : shell.executeCommand("grep -oh \""+ kappa.toLowerCase().replace("%", "") +"[[:alpha:]]*\" 'rterms.txt' | sort | uniq").split("\n")) {
+						try {
+							OperationStatus oprStatus1;
+							Database std_db1 = new Database("pt.idx", null, null);
+							Cursor std_cursor1 = std_db1.openCursor(null, null); // Create new cursor object
+							DatabaseEntry key1 = new DatabaseEntry();
+							DatabaseEntry data1 = new DatabaseEntry();
+							
+							String searchkey1 = match.toLowerCase();
+							key1.setData(searchkey1.getBytes());
+							key1.setSize(searchkey1.length());
+
+							// Returns OperationStatus
+							oprStatus1 = std_cursor1.getSearchKey(key1, data1, LockMode.DEFAULT);
+							while (oprStatus1 == OperationStatus.SUCCESS)
+							{
+								String s = new String(data1.getData( ));
+								tempKeys.add(Integer.parseInt(s));
+								oprStatus1 = std_cursor1.getNextDup(key1, data1, LockMode.DEFAULT);
+							}
+							OperationStatus oprStatus2;
+							Database std_db2 = new Database("rt.idx", null, null);
+							Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+							DatabaseEntry key2 = new DatabaseEntry();
+							DatabaseEntry data2 = new DatabaseEntry();
+
+							String searchkey2 = match.toLowerCase();
+							key2.setData(searchkey2.getBytes());
+							key2.setSize(searchkey2.length());
+
+							// Returns OperationStatus
+							oprStatus2 = std_cursor2.getSearchKey(key2, data2, LockMode.DEFAULT);
+							while (oprStatus2 == OperationStatus.SUCCESS)
+							{
+								String s = new String(data2.getData( ));
+								if (!(tempKeys.contains(Integer.parseInt(s)))) {
+									tempKeys.add(Integer.parseInt(s));
+								}
+								oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+							}
+							std_cursor1.close();
+							std_db1.close();
+
+						}
+						catch (Exception e) {}
+					}
+					
+
+					if (i == 0) {
+						indices = tempKeys;
+					}
+					if (i != 0) {
+						for (Integer j : indices) {
+							if (!tempKeys.contains(j)) {
+								indices.remove(j);
+							}
+						}
+					}
+					
+					/*
+					
+					OperationStatus oprStatus2;
+					Database std_db2 = new Database("rt.idx", null, null);
+					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
+					DatabaseEntry key2 = new DatabaseEntry();
+					DatabaseEntry data2 = new DatabaseEntry();
+					
+					oprStatus2 = std_cursor2.getFirst(key2, data2, LockMode.DEFAULT);
+					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
+					while (oprStatus2 == OperationStatus.SUCCESS)
+					{
+						while (oprStatus2 == OperationStatus.SUCCESS) {
+							String s = new String(data2.getData( ));
+							//String k = new String(key2.getData( ));
+							//System.out.println("String : " + s + " Key : " + k);
+							
+							Pattern p = Pattern.compile("(?i:" + kappa.replace("%", ".*") + ")");
+							if (s.matches(kappa.replace("%", "")) p.matcher(s).matches() {
+								if (!(tempKeys.contains(Integer.parseInt(key2.getData().toString())))) {
+									tempKeys.add(Integer.parseInt(key2.getData().toString()));
+								}
+							}
+							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
+						}
+						oprStatus2 = std_cursor2.getNextNoDup(key2, data2, LockMode.DEFAULT);
+					}
+					if (i == 0) {
+						indices = tempKeys;
+					}
+					if (i != 0) {
+						for (Integer j : indices) {
+							if (!tempKeys.contains(j)) {
+								indices.remove(j);
+							}
+						}
+					}
+			        std_cursor2.close();
+			        std_db2.close();
+					
 					ArrayList<String> list = new ArrayList<String>();
 			        DatabaseEntry entry = new DatabaseEntry();
 			        Database std_db1 = new Database("pt.idx", null, null);
 			        MultipleKeyDataEntry bulk_data = new MultipleKeyDataEntry();
 			        Cursor cursor = std_db1.openCursor(null, null);
-			        bulk_data.setData(new byte[1024 * 30000]); // how to setData?
-			        bulk_data.setUserBuffer(1024 * 30000, true);
+			        bulk_data.setData(new byte[1024 * 100000]); // how to setData?
+			        bulk_data.setUserBuffer(1024 * 100000, true);
 
 			        // Walk through the table, printing the key/data pairs.
 			        while (cursor.getNext(entry, bulk_data, null) == OperationStatus.SUCCESS) {
@@ -204,9 +309,9 @@ public class DBQuery {
 			        Database std_db2 = new Database("rt.idx", null, null);
 			        MultipleKeyDataEntry bulk_data2 = new MultipleKeyDataEntry();
 			        Cursor cursor2 = std_db2.openCursor(null, null);
-			        bulk_data2.setData(new byte[1024 * 30000]); // how to setData?
-			        bulk_data2.setUserBuffer(1024 * 30000, true);
-
+			        bulk_data2.setData(new byte[1024 * 100000]); // how to setData?
+			        bulk_data2.setUserBuffer(1024 * 100000, true);
+			        System.out.println("1");
 			        // Walk through the table, printing the key/data pairs.
 			        while (cursor2.getNext(entry2, bulk_data2, null) == OperationStatus.SUCCESS) {
 			            StringEntry key = new StringEntry();
@@ -218,7 +323,7 @@ public class DBQuery {
 			            	}
 			            }
 			        }
-
+			        System.out.println("2");
 			        ArrayList<String> matches = new ArrayList<String>();
 					Pattern p = Pattern.compile("(?i:" + kappa.replace("%", ".*") + ")");
 					for (String s:list) {
@@ -226,9 +331,10 @@ public class DBQuery {
 					    	matches.add(s);
 					    }
 					}
-
+			        System.out.println("3");
 					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 					for (String val : matches) {
+						System.out.println(val);
 			        	OperationStatus oprStatus3;
 						Database std_db3 = new Database("pt.idx", null, null);
 						Cursor std_cursor3 = std_db3.openCursor(null, null); // Create new cursor object
@@ -283,7 +389,7 @@ public class DBQuery {
 			        cursor.close();
 			        std_db1.close();
 			        cursor2.close();
-			        std_db2.close();
+			        std_db2.close();*/
 			    } catch (Exception e) {}
 			}
 			else {
@@ -343,6 +449,7 @@ public class DBQuery {
 			}
 		}
 		for (int m = 0; !rscorepriorities.isEmpty(); m++) {
+			System.out.println("Size of indices is: " + indices.size());
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String[] kappa = rscorepriorities.pop();
 			if (kappa[1].equals("<")) {
@@ -368,7 +475,10 @@ public class DBQuery {
 							}
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
-					} catch (Exception e) {}
+
+						std_cursor2.close();
+						std_db2.close();
+					} catch (Exception e) {e.printStackTrace();}
 				}
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
@@ -402,6 +512,9 @@ public class DBQuery {
 							}
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
+
+						std_db2.close();
+						std_cursor2.close();
 					} catch (Exception e) {}
 				}
 				if (isHPreached == false && m == 0) {
@@ -435,6 +548,9 @@ public class DBQuery {
 						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
+
+					std_db2.close();
+					std_cursor2.close();
 				} catch (Exception e) {}
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
@@ -446,7 +562,9 @@ public class DBQuery {
 					}
 				}
 			}
+			
 		}
+		System.out.println("Size of indices is: " + indices.size());
 		for (Integer k : indices) {
 			try {
 				OperationStatus oprStatus;
@@ -529,14 +647,18 @@ public class DBQuery {
 								}
 							}
 						}
-						product.print();
-						review.print();
+						System.out.print(k + ", ");
+						//product.print();
+						//review.print();
 					}
 					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
 				}
+				std_cursor.close();
+				std_db.close();
 			}
-			catch (Exception e) {e.printStackTrace();}
-		}
+			catch (Exception e) {e.printStackTrace(); System.out.println("....." + k + "....");}
+		} 
+		System.out.println();
 
 	}
 
@@ -546,7 +668,7 @@ public class DBQuery {
 
 		review.setProductID(scan.findInLine("[\\w]+,\"").replace(",\"", ""));
 		product.setID(review.getProductID());
-		product.setTitle(scan.findInLine("[^\"]+\",").replace("\",", ""));
+		product.setTitle(scan.findInLine("[^\"]*\",").replace("\",", ""));
 		product.setPrice(scan.findInLine("[^,]+,").replace(",", ""));
 		review.setUserID(scan.findInLine("[\\w]+,\"").replace(",\"", ""));
 		review.setProfileName(scan.findInLine("[^\"]+\",").replace("\",", ""));
