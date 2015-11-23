@@ -23,7 +23,7 @@ Before you begin to use Berkeley DB, please enter the following commands into th
 These ensure that the proper libaries are referenced for Berkeley DB production.
 Once you have setup the correct paths, enter the /src folder. Then, simply compile every related function:
 
-	javac Review.java Product.java parser.java IndexGen.java
+	javac Review.java Product.java parser.java IndexGen.java DBQuery.java
 
 Then, run the first program with:
 
@@ -43,3 +43,6 @@ Create the indexes required for part three using the aforementioned program:
 	java IndexGen
 
 Once this is run, the .idx values for all files will be generated.
+
+####3. Running queries
+I don't know anymore ! please help me i' m s t u c k i n a c o m p u
