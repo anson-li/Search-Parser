@@ -131,8 +131,7 @@ public class DBMS {
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
     	
         System.out.println("Num of indices before pprice rdate constraints: " + indices.size());
-        int counter = 0;
-    	if (indices.isEmpty())
+        if (indices.isEmpty())
     		System.out.println("No results matching given query.");
 
 		for (Integer index : indices) {
@@ -210,19 +209,16 @@ public class DBMS {
 					}
 			    	
 					System.out.print(" "+ index +" ");
-					counter += 1;
 		    		
-					///product.print();
-					//review.print();
-					
-					//oprStatus = std_cursor.getNextNoDup(key, data, LockMode.DEFAULT);
+					//product.print(); // TODO:
+					//review.print(); // TODO:
 				}
 				std_cursor.close();
 				std_db.close();
 		    	
 			}
 		}
-    	System.out.println("Done. Counter: " + counter);
+    	System.out.println();
 	}
 
     /**
@@ -419,8 +415,9 @@ public class DBMS {
                 } else {
                 	check_file += "'rterms.txt' 'pterms.txt'";
                 }
-            	for ( String match : shell.executeCommand("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort | uniq").split("\n")) {
-					queryPTerms(match, next_result_indices);
+            	for ( String match : shell.executeCommand("grep -h \"\\b"+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort -t, -k 2,2n -u | grep -o \"\\b"+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" | sort | uniq").split("\n")) {
+					System.out.println(match);
+            	    queryPTerms(match, next_result_indices);
 					queryRTerms(match, next_result_indices);
 				}
 				
