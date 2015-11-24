@@ -142,11 +142,11 @@ public class DBMS {
 							
 							if (product.getPrice().equals("unknown"))
 								break Bill;
-							if (subquery.matches("pprice<.*") && !(Double.parseDouble(product.getPrice()) < value))
+							if (subquery.matches("pprice<.*") && !(Double.parseDouble(product.getPrice()) > value))
 								continue;
 							else if (subquery.matches("pprice=.*") && !(Double.parseDouble(product.getPrice()) == value))
 								continue;
-							else if (subquery.matches("pprice>.*") && !(Double.parseDouble(product.getPrice()) > value))
+							else if (subquery.matches("pprice>.*") && !(Double.parseDouble(product.getPrice()) < value))
 								continue;
 							else
 								break Bill;
