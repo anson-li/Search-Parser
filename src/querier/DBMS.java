@@ -311,6 +311,7 @@ public class DBMS {
         for (int i = 0; !highpriorities.isEmpty(); i++) {
             String subquery = highpriorities.pop();
             if (subquery.matches("r:[^%]*")) {
+            	System.out.println("suquery match r: " + subquery);
                 ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryRTerms(subquery, next_result_indices);
             	if (i == 0)
@@ -323,6 +324,7 @@ public class DBMS {
             	}
                 
             } else if (subquery.matches("p:[^%]*")) {
+            	System.out.println("suquery match p: " + subquery);
             	ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryRTerms(subquery, next_result_indices);
             	if (i == 0)
