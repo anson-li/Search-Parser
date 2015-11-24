@@ -259,16 +259,12 @@ public class DBMS {
     	OperationStatus oprStatus;
 		Database std_db = new Database(rscoreIndex, null, null);
 		Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
-		DatabaseEntry key = new DatabaseEntry();
-		DatabaseEntry data = new DatabaseEntry();
-		String searchkey = "";
-		searchkey = query + ".0";
-		key.setData(searchkey.getBytes());
-		key.setSize(searchkey.length());
 		
 		if (cmp == COMPARE.LESS) {
 			for (int n = 0; n < Integer.parseInt(query); n++) {
-				searchkey = n + ".0";
+				String searchkey = n + ".0";
+				DatabaseEntry key = new DatabaseEntry();
+				DatabaseEntry data = new DatabaseEntry();
 				System.out.println("adding scores: " + n);
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
@@ -285,7 +281,9 @@ public class DBMS {
 				
 		} else {
 			for (int n = 5; n > Integer.parseInt(query); n--) {
-				searchkey = n + ".0";
+				String searchkey = n + ".0";
+				DatabaseEntry key = new DatabaseEntry();
+				DatabaseEntry data = new DatabaseEntry();
 				System.out.println("adding scores: " + n + " " + resultIndices.size());
 				oprStatus = std_cursor.getFirst(key, data, LockMode.DEFAULT);
 				key.setData(searchkey.getBytes());
