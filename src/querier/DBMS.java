@@ -309,7 +309,7 @@ public class DBMS {
     private boolean processHighPriorities() 
     		throws DatabaseException, FileNotFoundException
     {
-        if (highpriorities.isEmpty())
+        if (!highpriorities.isEmpty())
             return false;
                 
         for (int i = 0; !highpriorities.isEmpty(); i++) {
