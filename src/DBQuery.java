@@ -487,7 +487,7 @@ public class DBQuery {
 					for (int i = 0; i < indices.size(); i++) {
 						int o = indices.get(i);
 						if (!tempKeys.contains(o)) {
-							indices.remove(o);
+							indices.remove(i);
 						}
 					}
 				}
