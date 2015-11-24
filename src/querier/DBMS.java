@@ -266,8 +266,9 @@ public class DBMS {
 		
 		if (cmp == COMPARE.LESS) {
 			for (int n = 0; n < Integer.parseInt(query); n++) {
-				String searchkey = n + ".0";
-				DatabaseEntry key = new DatabaseEntry();
+			    String searchkey = new String();
+                searchkey = n + ".0";
+                DatabaseEntry key = new DatabaseEntry();
 				DatabaseEntry data = new DatabaseEntry();
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
@@ -284,7 +285,8 @@ public class DBMS {
 				
 		} else {
 			for (int n = 5; n > Integer.parseInt(query); n--) {
-				String searchkey = n + ".0";
+				String searchkey = new String();
+				searchkey = n + ".0";
 				DatabaseEntry key = new DatabaseEntry();
 				DatabaseEntry data = new DatabaseEntry();
 				oprStatus = std_cursor.getFirst(key, data, LockMode.DEFAULT);
