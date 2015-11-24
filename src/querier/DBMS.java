@@ -262,18 +262,43 @@ public class DBMS {
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
 		String searchkey = "";
-		if (query.matches("[\\d]*"))
-			searchkey = query + ".0";
-		
+		searchkey = query + ".0";
 		key.setData(searchkey.getBytes());
 		key.setSize(searchkey.length());
 		
 		if (cmp == COMPARE.LESS) {
-			
+			for (int n = 0; n < Integer.parseInt(query); n++) {
+				searchkey = query + ".0";
+				key.setData(searchkey.getBytes());
+				key.setSize(searchkey.length());
+				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
+				while (oprStatus == OperationStatus.SUCCESS)
+				{
+					String s = new String(data.getData( ));
+					if (!(resultIndices.contains(Integer.parseInt(s)))) {
+						resultIndices.add(Integer.parseInt(s));
+					}
+					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
+				}
+			}
+				
 		} else {
-			
+			for (int n = 5; n > Integer.parseInt(query); n--) {
+				searchkey = query + ".0";
+				key.setData(searchkey.getBytes());
+				key.setSize(searchkey.length());
+				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
+				while (oprStatus == OperationStatus.SUCCESS)
+				{
+					String s = new String(data.getData( ));
+					if (!(resultIndices.contains(Integer.parseInt(s)))) {
+						resultIndices.add(Integer.parseInt(s));
+					}
+					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
+				}
+			}
 		}
-    }
+	}	
     
     private void queryDB(String query, String db_name, ArrayList<Integer> indices) 
     		throws DatabaseException, FileNotFoundException
@@ -386,6 +411,7 @@ public class DBMS {
     private void processRScorePriority(boolean has_high_priority) 
     		throws FileNotFoundException, DatabaseException
     {
+    	boolean first = true;
     	while(!rscorepriorities.isEmpty()) {
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String subquery = rscorepriorities.pop();
@@ -397,14 +423,21 @@ public class DBMS {
 			else if (subquery.matches("rscore>.*"))
 				cmp = COMPARE.GREATER;
 			
-			if (cmp == COMPARE.EQUAL)
-				queryRScore(subquery, tempKeys, cmp);
+			queryRScore(subquery, tempKeys, cmp);
 			
-			
-			
-			
-			
-			
+			if (!has_high_priority && first) {
+				indices = tempKeys;
+				first = false;
+			} else {
+
+				Iterator<Integer> iter = indices.iterator();
+				while(iter.hasNext())
+					if (!tempKeys.contains(iter.next()))
+						iter.remove();
+			}
 		}
-    }
+	}
+    
+    
+    
 }
