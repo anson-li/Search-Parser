@@ -513,8 +513,9 @@ public class DBQuery {
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
 
-						std_db2.close();
 						std_cursor2.close();
+						std_db2.close();
+
 					} catch (Exception e) {}
 				}
 				if (isHPreached == false && m == 0) {
@@ -548,9 +549,9 @@ public class DBQuery {
 						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
-
-					std_db2.close();
+					
 					std_cursor2.close();
+					std_db2.close();
 				} catch (Exception e) {}
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
