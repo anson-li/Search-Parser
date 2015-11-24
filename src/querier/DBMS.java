@@ -87,7 +87,7 @@ public class DBMS {
     public void requestUserQuery(Query query) throws IOException, DBMSExitException {
         System.out.print(">> ");
         query.setQuery(buffer.readLine());
-        if (query.toString().equals("exit()"))
+        if (query.toString().toLowerCase().equals("exit()") || query.toString().toLowerCase().equals("quit()"))
         	throw new DBMSExitException("Caught exit()");
     }
     
@@ -222,7 +222,12 @@ public class DBMS {
 	}
 
     /**
-    * 
+    * Loads the data recieved in the string s
+    * into a product and review object,
+    * for use in user display later.
+    * @param product object to read into
+    * @param review object to read into
+    * @param s object to read from
     */
 	private void load_data(Product product, Review review, String s) {
         // parses the received string, imports into product and review objects.
@@ -303,6 +308,14 @@ public class DBMS {
     	queryDB(query, ptermsIndex, resultIndices);
     }
     
+    /**
+    * Instantiates the query for rscore
+    * @param query contains user query
+    * @param cmp contains compare structure
+    * @param resultIndices passes the indices that store the result
+    * @throws DatabaseException when BerkeleyDB passes errors
+    * @throws FileNotFoundException when respective .idx or .txt value not found
+    */
     private void queryRScore(String query, ArrayList<Integer> resultIndices, COMPARE cmp) 
     		throws FileNotFoundException, DatabaseException
     {
@@ -362,8 +375,16 @@ public class DBMS {
 				}
 			}
 		}
-	}	
-    
+	}
+
+    /**
+    * Generic query process
+    * @param query contains parsed query for process
+    * @param db_name contains database to query
+    * @param indices passes the indices that store the result
+    * @throws DatabaseException when BerkeleyDB passes errors
+    * @throws FileNotFoundException when respective .idx or .txt value not found
+    */
     private void queryDB(String query, String db_name, ArrayList<Integer> indices) 
     		throws DatabaseException, FileNotFoundException
     {
@@ -390,7 +411,13 @@ public class DBMS {
         std_cursor.close();
         std_db.close();
     }
-    
+
+    /**
+    * Instantiates the processing hierarchy for high priorities
+    * @throws DatabaseException when BerkeleyDB passes errors
+    * @throws FileNotFoundException when respective .idx or .txt value not found
+    * @return conditional depending on whether the stack is empty at startup
+    */
     private boolean processHighPriorities() 
     		throws DatabaseException, FileNotFoundException
     {
@@ -470,6 +497,12 @@ public class DBMS {
         return true;
     }
 
+    /**
+    * Instantiates the processing hierarchy for rscore priorities
+    * @param has_high_priority depending on whether or not a high priority condition was prev. entered.
+    * @throws DatabaseException when BerkeleyDB passes errors
+    * @throws FileNotFoundException when respective .idx or .txt value not found
+    */
     private void processRScorePriority(boolean has_high_priority) 
     		throws FileNotFoundException, DatabaseException
     {
@@ -499,7 +532,10 @@ public class DBMS {
 			}
 		}
 	}
-    
+
+    /**
+    * Resets the structures to prevent 'spill'.
+    */
     public void reset() {
         lowpriorities    = new GenericStack<String>();
         highpriorities   = new GenericStack<String>();
