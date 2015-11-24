@@ -42,7 +42,10 @@ public class Review {
     public void setText(String data) {
         this.text = data;
     }
-    
+
+    /**
+    * Prints the recieved value in conjunction with the product query information.
+    */
     public void print() {
         System.out.println("+=-=-=-=-=-=+ REVIEW +=-=-=-=-=-=-=+");
     	System.out.println("Reviewer User Id: "      + readable(getUserID()));
@@ -57,6 +60,10 @@ public class Review {
 
     }
 
+    /**
+    * Parses BerkeleyDB's string structure to make it user-friendly.
+    * @return cleaned string for processing / viewing.
+    */
     private String readable(String nonfriendly) {
         return nonfriendly.replace("&quot;", "\"")
                           .replace("\\\\\\\\", "\\");

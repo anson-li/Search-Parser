@@ -24,6 +24,10 @@ public class Query {
         return true; // TODO:
     }
 
+    /**
+    * Cleans up the query with extra whitespace,
+    * returns the query with a single whitespace if necessary. 
+    */
     private void compress() {
         query = query.replaceAll("[  ]*<[  ]*", "<")
                      .replaceAll("[  ]*=[  ]*", "=")
