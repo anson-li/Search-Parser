@@ -413,9 +413,9 @@ public class DBMS {
     {
     	boolean first = true;
     	while(!rscorepriorities.isEmpty()) {
-    		System.out.println("Score query: " + subquery);
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String subquery = rscorepriorities.pop();
+    		System.out.println("Score query: " + subquery);
 			COMPARE cmp = COMPARE.EQUAL;
 			if (subquery.matches("rscore<.*"))
 				cmp = COMPARE.LESS;
