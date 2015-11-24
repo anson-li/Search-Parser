@@ -23,6 +23,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+* DBMS forms the processing head of the query system
+* Takes values sent by QueryRunner and sends to processing.
+*/
 public class DBMS {
     private String reviewsIndex ;
     private String rtermsIndex  ;
@@ -35,7 +39,8 @@ public class DBMS {
     private ArrayList<Integer> indices;
     
     private enum COMPARE { GREATER, LESS, EQUAL };
-    DBMS() throws DBMSException {
+    public DBMS() throws DBMSException {
+        // references all .idx values used before for processing.
         buffer = new BufferedReader(new InputStreamReader(System.in));
         
 
@@ -51,7 +56,10 @@ public class DBMS {
         indices			 = new ArrayList<Integer>();
     }
 
-
+    /**
+    * Verifies the validity of the .idx defined.
+    * @throws DBMSException
+    */
     private void verifyDB() throws DBMSException {
         for(File file : getIndexFiles()) {
             if (!file.isFile())
@@ -59,6 +67,10 @@ public class DBMS {
         }
     }
 
+    /**
+    * Sets the file array to the .idx values determined.
+    * @return file array for processing.
+    */
     private File[] getIndexFiles() {
         File[] files = new File[4];
         files[0]     = new File(reviewsIndex);
@@ -68,6 +80,10 @@ public class DBMS {
         return files;
     }
 
+    /**
+    * Process the user values.
+    * @param query input by user
+    */
     public void requestUserQuery(Query query) throws IOException, DBMSExitException {
         System.out.print(">> ");
         query.setQuery(buffer.readLine());
@@ -75,6 +91,10 @@ public class DBMS {
         	throw new DBMSExitException("Caught exit()");
     }
     
+    /**
+    * Main processing hub for processing user query.
+    * @param query input by user
+    */
     public void processQuery(Query query) {
         loadSubqueryPriorityQ(query);
         
@@ -102,6 +122,12 @@ public class DBMS {
 		
     }
 
+    /**
+    * Prints the results obtained by BerkeleyDB
+    * @throws DatabaseException whenever BerkeleyDB is violateed
+    * @throws FileNotFoundException when .idx files not found or .txt files not found.
+    * @throws ParseException when ParseDouble returns an error.
+    */
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
     	
         System.out.println("Num of indices before pprice rdate constraints: " + indices.size());
@@ -133,7 +159,7 @@ public class DBMS {
 					load_data(product, review, s);
 	
 					/**
-					 * FIXME:XXX:TODO: reading low priority queue
+					 * Filters low priority queue for pprice / rdate processes.
 					 */
 					GenericStack<String> tmplow = new GenericStack<String>(lowpriorities);
 					while(!tmplow.isEmpty()) {
@@ -154,49 +180,32 @@ public class DBMS {
 								break Bill;
 							
 						} else if (subquery.matches("rdate.*")) {
-                                String comparator = subquery.substring(5, 6);
-                                DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-                                Date valuedate = df.parse(subquery.substring(6) + " 00:00:00");
-                                long valuedatedoesntmatataer = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
-                                switch (comparator) {
-                                    case "<":
-                                        if (!(Long.parseLong(review.getTime()) < valuedatedoesntmatataer)) {
-                                            break Bill;
-                                        } else {
-                                            break;
-                                        }
-                                    case ">":
-                                        if (!(Long.parseLong(review.getTime()) > valuedatedoesntmatataer)) {
-                                            break Bill;
-                                        } else {
-                                            break;
-                                        }
-                                    case "=":
-                                        if (!(Long.parseLong(review.getTime()) == valuedatedoesntmatataer)) {
-                                            break Bill;
-                                        } else {
-                                            break;
-                                        }
-                                    default:
+                            String comparator = subquery.substring(5, 6);
+                            DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+                            Date valuedate = df.parse(subquery.substring(6) + " 00:00:00");
+                            long valuedatedoesntmatataer = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
+                            switch (comparator) {
+                                case "<":
+                                    if (!(Long.parseLong(review.getTime()) < valuedatedoesntmatataer)) {
                                         break Bill;
-                                }
-                            
-						    
-						    /*
-							DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-						    Date valuedate = df.parse(subquery.replace("rdate", "").replace(">", "").replace("=", "").replace("<", "") + " 00:00:00");
-						    long value = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
-							
-							if (product.getPrice().equals("unknown"))
-								break Bill;
-							if (subquery.matches("rdate<.*") && !(Long.parseLong(review.getTime()) > value))
-								continue;
-							else if (subquery.matches("rdate=.*") && !(Long.parseLong(review.getTime()) == value))
-								continue;
-							else if (subquery.matches("rdate>.*") && !(Long.parseLong(review.getTime()) < value))
-								continue;
-							else
-								break Bill;*/
+                                    } else {
+                                        break;
+                                    }
+                                case ">":
+                                    if (!(Long.parseLong(review.getTime()) > valuedatedoesntmatataer)) {
+                                        break Bill;
+                                    } else {
+                                        break;
+                                    }
+                                case "=":
+                                    if (!(Long.parseLong(review.getTime()) == valuedatedoesntmatataer)) {
+                                        break Bill;
+                                    } else {
+                                        break;
+                                    }
+                                default:
+                                    break Bill;
+                            }
 						}
 					}
 			    	
@@ -216,9 +225,11 @@ public class DBMS {
     	System.out.println("Done. Counter: " + counter);
 	}
 
-
+    /**
+    * 
+    */
 	private void load_data(Product product, Review review, String s) {
-
+        // parses the received string, imports into product and review objects.
 		Scanner scan = new Scanner(s);
 
 		review.setProductID(scan.findInLine("[\\w]+,\"").replace(",\"", ""));
@@ -237,7 +248,10 @@ public class DBMS {
 		
 	}
 
-
+    /**
+    * Parses the query and splits it into three query stacks for correct processing order.
+    * @param query used to parse.
+    */
 	private void loadSubqueryPriorityQ(Query query) {
         if (!query.isValid())
             return; // TODO: throw an exception.
@@ -262,14 +276,30 @@ public class DBMS {
                 highpriorities.push(subquery);
         }
     }
-    
+
+    /**
+    * Instantiates the query for rterms
+    * Used whenever a query that contains a r: is used
+    * @param query contains user query
+    * @param resultIndices passes the indices that store the result
+    * @throws DatabaseException when BerkeleyDB passes errors
+    * @throws FileNotFoundException when respective .idx or .txt value not found
+    */
     private void queryRTerms(String query, ArrayList<Integer> resultIndices) 
     		throws DatabaseException, FileNotFoundException
     {
     	query = query.replace("r:", "").toLowerCase();
     	queryDB(query, rtermsIndex, resultIndices);
     }
-    
+
+    /**
+    * Instantiates the query for pterms
+    * Used whenever a query that contains a p: is used
+    * @param query contains user query
+    * @param resultIndices passes the indices that store the result
+    * @throws DatabaseException when BerkeleyDB passes errors
+    * @throws FileNotFoundException when respective .idx or .txt value not found
+    */
     private void queryPTerms(String query, ArrayList<Integer> resultIndices) 
     		throws DatabaseException, FileNotFoundException
     {
