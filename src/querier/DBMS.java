@@ -108,7 +108,102 @@ public class DBMS {
     		System.out.println("No results matching given query.");
 
 		for (Integer index : indices) {
-    		
+			try {
+				OperationStatus oprStatus;
+				Database std_db = new Database("rw.idx", null, null);
+				Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
+				DatabaseEntry key = new DatabaseEntry();
+				DatabaseEntry data = new DatabaseEntry();
+				Product product  = new Product();
+				Review review = new Review();
+
+				String searchkey = index.toString().toLowerCase();
+				key.setData(searchkey.getBytes());
+				key.setSize(searchkey.length());
+
+				// Returns OperationStatus
+				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
+				while (oprStatus == OperationStatus.SUCCESS)
+				{
+					String s = new String(data.getData( ));
+
+					load_data(product, review, s);
+
+					/**
+					 * FIXME:XXX:TODO: reading low priority queue
+					 */
+					GenericStack<String> tmplow = new GenericStack<String>(lowpriorities);
+					Bill: {
+						while(!tmplow.isEmpty()) {
+							String mappa = tmplow.pop();
+							if (mappa.matches("pprice") ) {
+								String comparator = mappa.substring(7, 8);
+								Double value = Double.parseDouble(mappa.replace("pprice", "").replace(">", "").replace("=", "").replace("<", ""));
+								switch (comparator) {
+									case "<":
+										if (product.getPrice().equals("unknown") || !(Double.parseDouble(product.getPrice()) < value)) {
+											break Bill;
+										} else {
+											break;
+										}
+									case ">":
+										if (product.getPrice().equals("unknown") || !(Double.parseDouble(product.getPrice()) > value)) {
+											break Bill;
+										} else {
+											break;
+										}
+									case "=":
+										if (product.getPrice().equals("unknown") || !(Double.parseDouble(product.getPrice()) == value)) {
+											break Bill;
+										} else {
+											break;
+										}
+									default:
+										break Bill;
+								}
+							}
+							if (mappa.matches("rdate") ) {
+								String comparator = mappa.substring(6,7);
+							    DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+							    Date valuedate = df.parse(mappa.replace("pprice", "").replace(">", "").replace("=", "").replace("<", "") + " 00:00:00");
+							    long valuedatedoesntmatataer = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
+								switch (comparator) {
+									case "<":
+										if (!(Long.parseLong(review.getTime()) < valuedatedoesntmatataer)) {
+											break Bill;
+										} else {
+											break;
+										}
+									case ">":
+										if (!(Long.parseLong(review.getTime()) > valuedatedoesntmatataer)) {
+											break Bill;
+										} else {
+											break;
+										}
+									case "=":
+										if (!(Long.parseLong(review.getTime()) == valuedatedoesntmatataer)) {
+											break Bill;
+										} else {
+											break;
+										}
+									default:
+										break Bill;
+								}
+							}
+						}
+						System.out.print(index + ", ");
+						//product.print();
+						//review.print();
+					}
+					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
+				}
+				std_cursor.close();
+				std_db.close();
+			}
+			catch (Exception e) {e.printStackTrace(); System.out.println("....." + index + "....");}
+		}
+			
+    		/*
     		OperationStatus oprStatus;
 			Database std_db = new Database("rw.idx", null, null);
 			Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
@@ -132,7 +227,7 @@ public class DBMS {
 	
 					/**
 					 * FIXME:XXX:TODO: reading low priority queue
-					 */
+					 
 					GenericStack<String> tmplow = new GenericStack<String>(lowpriorities);
 					while(!tmplow.isEmpty()) {
 						String subquery = tmplow.pop();
@@ -179,9 +274,7 @@ public class DBMS {
 				std_cursor.close();
 				std_db.close();
 		    	
-			}
-		}
-    	System.out.println();
+			}*/
 	}
 
 
