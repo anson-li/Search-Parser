@@ -104,6 +104,9 @@ public class DBMS {
 
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
     	
+    	if (indices.isEmpty())
+    		System.out.println("No results matching given query.");
+    	
     	for (Integer index : indices) {
     		
     		System.out.println("Num results: " + indices.size());
@@ -152,7 +155,7 @@ public class DBMS {
 							
 						} else if (subquery.matches("rdate.*")) {
 							DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
-						    Date valuedate = df.parse(subquery.replace("rdate(<|=|>)", "") + " 00:00:00");
+						    Date valuedate = df.parse(subquery.replace("rdate", "").replace(">", "").replace("=", "").replace("<", "") + " 00:00:00");
 						    long value = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
 							
 							if (product.getPrice().equals("unknown"))
