@@ -239,7 +239,7 @@ public class DBMS {
     		throws DatabaseException, FileNotFoundException
     {
         query = query.replace("p:", "").toLowerCase();
-    	queryDB(query, rtermsIndex, resultIndices);
+    	queryDB(query, ptermsIndex, resultIndices);
     }
     
     private void queryRScore(String query, ArrayList<Integer> resultIndices, COMPARE cmp) 
