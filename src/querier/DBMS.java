@@ -125,17 +125,17 @@ public class DBMS {
 
 			// Returns OperationStatus
 			oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
-			while (oprStatus == OperationStatus.SUCCESS)
-			{
-				String s = new String(data.getData( ));
-
-				load_data(product, review, s);
-
-				/**
-				 * FIXME:XXX:TODO: reading low priority queue
-				 */
-				GenericStack<String> tmplow = new GenericStack<String>(lowpriorities);
-				Bill: {
+			Bill: {
+				while (oprStatus == OperationStatus.SUCCESS)
+				{
+					String s = new String(data.getData( ));
+	
+					load_data(product, review, s);
+	
+					/**
+					 * FIXME:XXX:TODO: reading low priority queue
+					 */
+					GenericStack<String> tmplow = new GenericStack<String>(lowpriorities);
 					while(!tmplow.isEmpty()) {
 						String subquery = tmplow.pop();
 						
@@ -145,11 +145,11 @@ public class DBMS {
 							if (product.getPrice().equals("unknown"))
 								break Bill;
 							if (subquery.matches("pprice<.*") && !(Double.parseDouble(product.getPrice()) < value))
-								{}//break;
+								continue;
 							else if (subquery.matches("pprice=.*") && !(Double.parseDouble(product.getPrice()) == value))
-								{}//break;
+								continue;
 							else if (subquery.matches("pprice>.*") && !(Double.parseDouble(product.getPrice()) > value))
-								{}//break;
+								continue;
 							else
 								break Bill;
 							
@@ -161,28 +161,29 @@ public class DBMS {
 							if (product.getPrice().equals("unknown"))
 								break Bill;
 							if (subquery.matches("rdate<.*") && (Long.parseLong(review.getTime()) < value))
-								{}//break;
+								continue;
 							else if (subquery.matches("rdate=.*") && (Long.parseLong(review.getTime()) == value))
-								{}//break;
+								continue;
 							else if (subquery.matches("rdate>.*") && (Long.parseLong(review.getTime()) > value))
-								{}//break;
+								continue;
 							else
 								break Bill;
 						}
 					}
-					
+						
 					System.out.print("'"+ index +"'");
 		    		if (index != (indices.size()))
 		    			System.out.print(",");
 		    		
 					///product.print();
 					//review.print();
+					
+					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
 				}
-				oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
+				std_cursor.close();
+				std_db.close();
 			}
-			std_cursor.close();
-			std_db.close();
-    	}
+		}
     	System.out.println("]");
 	}
 
