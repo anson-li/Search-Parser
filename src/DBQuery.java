@@ -11,9 +11,10 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 
 public class DBQuery {
-	
+
 	static class StringEntry extends DatabaseEntry {
         StringEntry() {
         }
@@ -483,7 +484,7 @@ public class DBQuery {
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
 				} else {
-					
+
 					Iterator<Integer> iter = indices.iterator();
 					while(iter.hasNext()) {
 						if (!tempKeys.contains(iter.next())) {
@@ -515,8 +516,9 @@ public class DBQuery {
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
 
-						std_db2.close();
 						std_cursor2.close();
+						std_db2.close();
+
 					} catch (Exception e) {}
 				}
 				if (isHPreached == false && m == 0) {
@@ -551,8 +553,8 @@ public class DBQuery {
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
 
-					std_db2.close();
 					std_cursor2.close();
+					std_db2.close();
 				} catch (Exception e) {}
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
