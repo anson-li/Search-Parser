@@ -103,6 +103,9 @@ public class DBMS {
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
     	
     	for (Integer index : indices) {
+    		
+    		System.out.println("Num results: " + indices.size());
+    		
     		OperationStatus oprStatus;
 			Database std_db = new Database("rw.idx", null, null);
 			Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
