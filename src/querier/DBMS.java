@@ -369,7 +369,8 @@ public class DBMS {
                 	check_file += "'rterms.txt' 'pterms.txt'";
                 }
             	for ( String match : shell.executeCommand("grep -h \"\\b"+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort -t, -k 2,2n -u | grep -o \"\\b"+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" | sort | uniq").split("\n")) {
-					queryPTerms(match, next_result_indices);
+					System.out.println(match);
+            	    queryPTerms(match, next_result_indices);
 					queryRTerms(match, next_result_indices);
 				}
 				
