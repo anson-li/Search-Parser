@@ -158,11 +158,11 @@ public class DBMS {
 							
 							if (product.getPrice().equals("unknown"))
 								break Bill;
-							if (subquery.matches("rdate<.*") && (Long.parseLong(review.getTime()) > value))
+							if (subquery.matches("rdate<.*") && (Long.parseLong(review.getTime()) < value))
 								continue;
 							else if (subquery.matches("rdate=.*") && (Long.parseLong(review.getTime()) == value))
 								continue;
-							else if (subquery.matches("rdate>.*") && (Long.parseLong(review.getTime()) < value))
+							else if (subquery.matches("rdate>.*") && (Long.parseLong(review.getTime()) > value))
 								continue;
 							else
 								break Bill;
