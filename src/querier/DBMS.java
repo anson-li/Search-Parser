@@ -181,9 +181,8 @@ public class DBMS {
 			}
 			std_cursor.close();
 			std_db.close();
-		}
-		
-    	System.out.println();
+    	}
+    	System.out.println("]");
 	}
 
 
