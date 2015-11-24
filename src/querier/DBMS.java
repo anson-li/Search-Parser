@@ -320,8 +320,10 @@ public class DBMS {
                 
                 if (subquery.matches("r:[^%]*")) {
                 	check_file += "'rterms.txt'";
+                	subquery = subquery.replace("r:", "");
                 } else if (subquery.matches("p:[^%]*")) {
                 	check_file += "'pterms.txt'";
+                	subquery = subquery.replace("p:", "");
                 } else {
                 	check_file += "'rterms.txt' 'pterms.txt'";
                 }
