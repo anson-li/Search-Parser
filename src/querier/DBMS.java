@@ -293,9 +293,9 @@ public class DBMS {
             }
             oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
         }
-        
-        std_db.close();
+
         std_cursor.close();
+        std_db.close();
     }
     
     private boolean processHighPriorities() 
