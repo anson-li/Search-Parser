@@ -201,6 +201,7 @@ public class DBMS {
         if (!query.isValid())
             return; // TODO: throw an exception.
 
+        System.out.println("loading suqueries..."); // TODO:
         for (String subquery : query.getQuery().split(" "))
         {
         	System.out.println(subquery);
