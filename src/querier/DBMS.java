@@ -171,8 +171,8 @@ public class DBMS {
 						}
 					}
 					
-					product.print();
-					review.print();
+					///product.print();
+					//review.print();
 				}
 				oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
 			}
