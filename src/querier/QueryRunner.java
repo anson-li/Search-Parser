@@ -8,10 +8,6 @@ import exceptions.DBMSExitException;
 
 public class QueryRunner {
 
-    /**
-    * QueryRunner forms the UI section of the query
-    * Parses the users' request and sends to DBMS to process.
-    */
 	public static void main(String[] args) {
 	    
         DBMS dbHandler = null;    
@@ -38,7 +34,6 @@ public class QueryRunner {
             	return;
             }
             
-            // resets for additional queries
             dbHandler.processQuery(userQuery);
             dbHandler.reset();
         }
