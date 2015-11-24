@@ -289,6 +289,7 @@ public class DBMS {
 				System.out.println("adding scores: " + n + " " + resultIndices.size());
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
+				oprStatus = std_cursor.getFirst(key, data, LockMode.DEFAULT);
 				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
 				while (oprStatus == OperationStatus.SUCCESS)
 				{
