@@ -106,7 +106,7 @@ public class DBMS {
     	
     	if (indices.isEmpty())
     		System.out.println("No results matching given query.");
-    	System.out.print("[");
+
 		for (Integer index : indices) {
     		
     		OperationStatus oprStatus;
@@ -169,9 +169,7 @@ public class DBMS {
 						}
 					}
 			    	
-					//System.out.print("'"+ index +"'");
-		    		//if (index != (indices.size()))
-		    		//	System.out.print(",");
+					System.out.print(" "+ index +" ");
 		    		
 					///product.print();
 					//review.print();
@@ -180,11 +178,10 @@ public class DBMS {
 				}
 				std_cursor.close();
 				std_db.close();
-				System.out.print("Num results: " + indices.size());
 		    	
 			}
 		}
-    	System.out.println("]");
+    	System.out.println();
 	}
 
 
