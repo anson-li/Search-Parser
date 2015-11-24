@@ -297,6 +297,7 @@ public class DBMS {
 					if (!(resultIndices.contains(Integer.parseInt(s)))) {
 						resultIndices.add(Integer.parseInt(s));
 					}
+					System.out.println(s);
 					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
 				}
 			}
