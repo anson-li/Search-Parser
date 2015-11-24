@@ -483,9 +483,11 @@ public class DBQuery {
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
 				} else {
-					for (Integer o : indices) {
-						if (!tempKeys.contains(o)) {
-							indices.remove(o);
+					
+					Iterator<Integer> iter = indices.iterator();
+					while(iter.hasNext()) {
+						if (!tempKeys.contains(iter.next())) {
+							iter.remove();
 						}
 					}
 				}
