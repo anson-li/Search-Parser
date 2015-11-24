@@ -326,7 +326,7 @@ public class DBMS {
             } else if (subquery.matches("p:[^%]*")) {
             	System.out.println("suquery match p: " + subquery);
             	ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
-            	queryRTerms(subquery, next_result_indices);
+            	queryPTerms(subquery, next_result_indices);
             	if (i == 0)
                     indices = next_result_indices;
             	else {
