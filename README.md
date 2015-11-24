@@ -23,7 +23,8 @@ Before you begin to use Berkeley DB, please enter the following commands into th
 These ensure that the proper libaries are referenced for Berkeley DB production.
 Once you have setup the correct paths, enter the /src folder. Then, simply compile every related function:
 
-	javac datastructs/Review.java datastructs/Product.java datastructs/GenericStack.java datastructs/Query.java datastructs/StringEntry.java exceptions/DBMSException.java indexer/IndexGen.java parser/DataFileGenerator.java parser/parser.java DBQuery.java 
+	javac datastructs/Review.java datastructs/Product.java datastructs/GenericStack.java datastructs/Query.java datastructs/StringEntry.java exceptions/DBMSException.java indexer/IndexGen.java parser/DataFileGenerator.java parser/parser.java querier/DBMS.java querier/QueryRunner.java
+
 
 Then, run the first program with:
 
@@ -46,7 +47,7 @@ Once this is run, the .idx values for all files will be generated.
 ####3. Running queries
 Once you have built the indexes, all that's left is running the query system. That can be done by:
 
-	java DBQuery
+	java querier.QueryRunner
 
 The following queries are available:
 	
