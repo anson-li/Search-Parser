@@ -273,7 +273,6 @@ public class DBMS {
 		} else {
 			
 		}
-		
     }
     
     private void queryDB(String query, String db_name, ArrayList<Integer> indices) 
