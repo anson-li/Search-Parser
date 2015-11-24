@@ -131,9 +131,11 @@ public class DBMS {
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
     	
         System.out.println("Num of indices before pprice rdate constraints: " + indices.size());
-        if (indices.isEmpty())
+        if (indices.isEmpty()) {
     		System.out.println("No results matching given query.");
+        }
 
+        Integer counter = 0;
 		for (Integer index : indices) {
     		
     		OperationStatus oprStatus;
@@ -208,17 +210,21 @@ public class DBMS {
 						}
 					}
 			    	
-					System.out.print(" "+ index +" ");
-		    		
-					//product.print(); // TODO:
-					//review.print(); // TODO:
+					//System.out.print(" "+ index +" ");
+					product.print(); 
+					review.print(); 
+                    counter++; 
+
 				}
 				std_cursor.close();
 				std_db.close();
 		    	
 			}
 		}
-    	System.out.println();
+    	System.out.println("+=-=-=-=-=-=-=-=-=-=-=-=-=+");
+        System.out.println("Total records found: " + counter);
+        System.out.println("+=-=-=-=-=-=-=-=-=-=-=-=-=+");
+
 	}
 
     /**
