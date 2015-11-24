@@ -417,12 +417,20 @@ public class DBMS {
 			String subquery = rscorepriorities.pop();
     		System.out.println("Score query: " + subquery);
 			COMPARE cmp = COMPARE.EQUAL;
-			if (subquery.matches("rscore<.*"))
+			if (subquery.matches("rscore<.*")) {
 				cmp = COMPARE.LESS;
-			else if (subquery.matches("rscore=.*"))
+				System.out.println("less");
+			}
+			else if (subquery.matches("rscore=.*")) {
 				cmp = COMPARE.EQUAL;
-			else if (subquery.matches("rscore>.*"))
+				System.out.println("equal");
+			}
+			else if (subquery.matches("rscore>.*")) {
 				cmp = COMPARE.GREATER;
+				System.out.println("greater");
+			}
+			
+			
 			
 			queryRScore(subquery, tempKeys, cmp);
 			
