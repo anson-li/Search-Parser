@@ -312,11 +312,21 @@ public class DBMS {
         for (int i = 0; !highpriorities.isEmpty(); i++) {
             String subquery = highpriorities.pop();
             if (subquery.matches(".*%")) {
-                subquery = subquery.split("%")[0];
+                subquery = subquery.replace("%", "");
                 IndexGen shell = new IndexGen();
                 ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
-            	
-				for ( String match : shell.executeCommand("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" 'rterms.txt' | sort | uniq").split("\n")) {
+                
+                String check_file = "";
+                
+                if (subquery.matches("r:[^%]*")) {
+                	check_file += "'rterms.txt'";
+                } else if (subquery.matches("p:[^%]*")) {
+                	check_file += "'pterms.txt'";
+                } else {
+                	check_file += "'rterms.txt' 'pterms.txt'";
+                }
+            	System.out.println("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort | uniq");
+				for ( String match : shell.executeCommand("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort | uniq").split("\n")) {
 					queryPTerms(match, next_result_indices);
 					queryRTerms(match, next_result_indices);
 				}
