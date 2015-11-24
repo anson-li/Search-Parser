@@ -196,12 +196,12 @@ public class DBMS {
 		product.setTitle(scan.findInLine("[^\"]*\",").replace("\",", ""));
 		product.setPrice(scan.findInLine("[^,]+,").replace(",", ""));
 		review.setUserID(scan.findInLine("[\\w]+,\"").replace(",\"", ""));
-		review.setProfileName(scan.findInLine("[^\"]+\",").replace("\",", ""));
-		review.setHelpfulness(scan.findInLine("[^,]+,").replace(",", ""));
+		review.setProfileName(scan.findInLine("[^\"]*\",").replace("\",", ""));
+		review.setHelpfulness(scan.findInLine("[^,]*,").replace(",", ""));
 		review.setScore(Double.parseDouble(scan.findInLine("[^,]+,").replace(",", "")));
 		review.setTime(scan.findInLine("[^,]+,\"").replace(",\"", ""));
-		review.setSummary(scan.findInLine("[^\"]+\",\"").replace("\",\"", ""));
-		review.setText(scan.findInLine("[^\"]+\"").replace("\"", ""));
+		review.setSummary(scan.findInLine("[^\"]*\",\"").replace("\",\"", ""));
+		review.setText(scan.findInLine("[^\"]*\"").replace("\"", ""));
 
 		scan.close();
 		
