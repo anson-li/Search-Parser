@@ -413,6 +413,7 @@ public class DBMS {
     {
     	boolean first = true;
     	while(!rscorepriorities.isEmpty()) {
+    		System.out.println("Score query: " + subquery);
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String subquery = rscorepriorities.pop();
 			COMPARE cmp = COMPARE.EQUAL;
