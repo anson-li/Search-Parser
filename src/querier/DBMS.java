@@ -215,12 +215,12 @@ public class DBMS {
             {
                 highpriorities.push(subquery);
             }
-            else if (   subquery.matches("(?i:pprice)")
-                     || subquery.matches("(?i:rdate)"))
+            else if (   subquery.matches("(?i:pprice:.*)")
+                     || subquery.matches("(?i:rdate:.*)"))
             {
                 lowpriorities.push(subquery);
             }
-            else if (subquery.matches("(?i:rscore)"))
+            else if (subquery.matches("(?i:rscore:.*)"))
             {
                 rscorepriorities.push(subquery);
             }
