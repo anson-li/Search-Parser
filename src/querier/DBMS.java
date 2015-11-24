@@ -109,7 +109,7 @@ public class DBMS {
     	System.out.print("[");
     	for (Integer index : indices) {
     		
-    		//System.out.println("Num results: " + indices.size());
+    		System.out.println("Num results: " + indices.size());
     		
     		OperationStatus oprStatus;
 			Database std_db = new Database("rw.idx", null, null);
@@ -171,9 +171,9 @@ public class DBMS {
 						}
 					}
 						
-					System.out.print("'"+ index +"'");
-		    		if (index != (indices.size()))
-		    			System.out.print(",");
+					//System.out.print("'"+ index +"'");
+		    		//if (index != (indices.size()))
+		    		//	System.out.print(",");
 		    		
 					///product.print();
 					//review.print();
@@ -213,11 +213,9 @@ public class DBMS {
         if (!query.isValid())
             return; // TODO: throw an exception.
 
-        System.out.println("loading suqueries..."); // TODO:
         for (String subquery : query.getQuery().split(" "))
         {
-        	System.out.println(subquery);
-            if (   subquery.matches("(?i:r:.*)")
+        	if (   subquery.matches("(?i:r:.*)")
                 || subquery.matches("(?i:p:.*)"))
             {
                 highpriorities.push(subquery);
@@ -272,7 +270,6 @@ public class DBMS {
 				String searchkey = n + ".0";
 				DatabaseEntry key = new DatabaseEntry();
 				DatabaseEntry data = new DatabaseEntry();
-				System.out.println("adding scores: " + n);
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
 				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
@@ -291,7 +288,6 @@ public class DBMS {
 				String searchkey = n + ".0";
 				DatabaseEntry key = new DatabaseEntry();
 				DatabaseEntry data = new DatabaseEntry();
-				System.out.println("adding scores: " + n + " " + resultIndices.size());
 				oprStatus = std_cursor.getFirst(key, data, LockMode.DEFAULT);
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
@@ -302,7 +298,6 @@ public class DBMS {
 					if (!(resultIndices.contains(Integer.parseInt(s)))) {
 						resultIndices.add(Integer.parseInt(s));
 					}
-					System.out.println(s);
 					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
 				}
 			}
@@ -360,8 +355,7 @@ public class DBMS {
                 } else {
                 	check_file += "'rterms.txt' 'pterms.txt'";
                 }
-            	System.out.println("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort | uniq");
-				for ( String match : shell.executeCommand("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort | uniq").split("\n")) {
+            	for ( String match : shell.executeCommand("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort | uniq").split("\n")) {
 					queryPTerms(match, next_result_indices);
 					queryRTerms(match, next_result_indices);
 				}
@@ -376,7 +370,6 @@ public class DBMS {
             	}
                 
             } else if (subquery.matches("r:[^%]*")) {
-            	System.out.println("suquery match r: " + subquery);
                 ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryRTerms(subquery, next_result_indices);
             	if (i == 0)
@@ -389,7 +382,6 @@ public class DBMS {
             	}
                 
             } else if (subquery.matches("p:[^%]*")) {
-            	System.out.println("suquery match p: " + subquery);
             	ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryPTerms(subquery, next_result_indices);
             	if (i == 0)
@@ -424,7 +416,6 @@ public class DBMS {
     	while(!rscorepriorities.isEmpty()) {
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String subquery = rscorepriorities.pop();
-    		System.out.println("Score query: " + subquery);
 			COMPARE cmp = COMPARE.EQUAL;
 			if (subquery.matches("rscore<.*"))
 				cmp = COMPARE.LESS;
