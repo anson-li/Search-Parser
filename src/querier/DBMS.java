@@ -107,8 +107,7 @@ public class DBMS {
     	if (indices.isEmpty())
     		System.out.println("No results matching given query.");
     	System.out.print("[");
-		System.out.print("Num results: " + indices.size());
-    	for (Integer index : indices) {
+		for (Integer index : indices) {
     		
     		OperationStatus oprStatus;
 			Database std_db = new Database("rw.idx", null, null);
@@ -169,7 +168,8 @@ public class DBMS {
 								break Bill;
 						}
 					}
-						
+					System.out.print("Num results: " + indices.size());
+			    	
 					//System.out.print("'"+ index +"'");
 		    		//if (index != (indices.size()))
 		    		//	System.out.print(",");
