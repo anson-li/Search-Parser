@@ -5,6 +5,7 @@ import com.sleepycat.db.*;
 import datastructs.GenericStack;
 import datastructs.Query;
 import exceptions.DBMSException;
+import exceptions.DBMSExitException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -58,9 +59,11 @@ public class DBMS {
         return files;
     }
 
-    public void requestUserQuery(Query query) throws IOException {
+    public void requestUserQuery(Query query) throws IOException, DBMSExitException {
         System.out.print(">> ");
         query.setQuery(buffer.readLine());
+        if (query.equals("exit()"))
+        	throw new DBMSExitException("Caught exit()");
     }
     
     public void processQuery(Query query) {
