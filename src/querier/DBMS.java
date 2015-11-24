@@ -124,7 +124,7 @@ public class DBMS {
 			// Returns OperationStatus
 			oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
 			Bill: {
-				while (oprStatus == OperationStatus.SUCCESS)
+				if (oprStatus == OperationStatus.SUCCESS)
 				{
 					String s = new String(data.getData( ));
 	
@@ -174,7 +174,7 @@ public class DBMS {
 					///product.print();
 					//review.print();
 					
-					oprStatus = std_cursor.getNextNoDup(key, data, LockMode.DEFAULT);
+					//oprStatus = std_cursor.getNextNoDup(key, data, LockMode.DEFAULT);
 				}
 				std_cursor.close();
 				std_db.close();
