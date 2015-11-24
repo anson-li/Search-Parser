@@ -270,9 +270,11 @@ public class DBMS {
                 searchkey = n + ".0";
                 DatabaseEntry key = new DatabaseEntry();
 				DatabaseEntry data = new DatabaseEntry();
-				key.setData(searchkey.getBytes());
+				oprStatus = std_cursor.getFirst(key, data, LockMode.DEFAULT);
+                key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
-				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
+				data = new DatabaseEntry();
+                oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
 				while (oprStatus == OperationStatus.SUCCESS)
 				{
 					String s = new String(data.getData( ));
@@ -297,7 +299,6 @@ public class DBMS {
 				while (oprStatus == OperationStatus.SUCCESS)
 				{
 					String s = new String(data.getData( ));
-					System.out.println("the index is: " + s);
 					if (!(resultIndices.contains(Integer.parseInt(s)))) {
 						resultIndices.add(Integer.parseInt(s));
 					}
