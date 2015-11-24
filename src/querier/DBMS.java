@@ -286,7 +286,7 @@ public class DBMS {
 		} else {
 			for (int n = 5; n > Integer.parseInt(query); n--) {
 				searchkey = n + ".0";
-				System.out.println("adding scores: " + n);
+				System.out.println("adding scores: " + n + " " + resultIndices.size());
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
 				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
