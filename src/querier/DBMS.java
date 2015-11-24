@@ -62,7 +62,7 @@ public class DBMS {
     public void requestUserQuery(Query query) throws IOException, DBMSExitException {
         System.out.print(">> ");
         query.setQuery(buffer.readLine());
-        if (query.equals("exit()"))
+        if (query.toString().equals("exit()"))
         	throw new DBMSExitException("Caught exit()");
     }
     
