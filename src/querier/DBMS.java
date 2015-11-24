@@ -168,7 +168,6 @@ public class DBMS {
 								break Bill;
 						}
 					}
-					System.out.print("Num results: " + indices.size());
 			    	
 					//System.out.print("'"+ index +"'");
 		    		//if (index != (indices.size()))
@@ -181,6 +180,8 @@ public class DBMS {
 				}
 				std_cursor.close();
 				std_db.close();
+				System.out.print("Num results: " + indices.size());
+		    	
 			}
 		}
     	System.out.println("]");
