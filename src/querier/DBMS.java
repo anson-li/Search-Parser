@@ -268,7 +268,7 @@ public class DBMS {
 		
 		if (cmp == COMPARE.LESS) {
 			for (int n = 0; n < Integer.parseInt(query); n++) {
-				searchkey = query + ".0";
+				searchkey = n + ".0";
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
 				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
@@ -284,7 +284,7 @@ public class DBMS {
 				
 		} else {
 			for (int n = 5; n > Integer.parseInt(query); n--) {
-				searchkey = query + ".0";
+				searchkey = n + ".0";
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
 				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
@@ -417,20 +417,12 @@ public class DBMS {
 			String subquery = rscorepriorities.pop();
     		System.out.println("Score query: " + subquery);
 			COMPARE cmp = COMPARE.EQUAL;
-			if (subquery.matches("rscore<.*")) {
+			if (subquery.matches("rscore<.*"))
 				cmp = COMPARE.LESS;
-				System.out.println("less");
-			}
-			else if (subquery.matches("rscore=.*")) {
+			else if (subquery.matches("rscore=.*"))
 				cmp = COMPARE.EQUAL;
-				System.out.println("equal");
-			}
-			else if (subquery.matches("rscore>.*")) {
+			else if (subquery.matches("rscore>.*"))
 				cmp = COMPARE.GREATER;
-				System.out.println("greater");
-			}
-			
-			
 			
 			queryRScore(subquery, tempKeys, cmp);
 			
