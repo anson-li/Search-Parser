@@ -69,7 +69,7 @@ public class DBMS {
     }
 
     public void requestUserQuery(Query query) throws IOException, DBMSExitException {
-        //System.out.print(">> ");
+        System.out.print(">> ");
         query.setQuery(buffer.readLine());
         if (query.toString().equals("exit()"))
         	throw new DBMSExitException("Caught exit()");
@@ -296,6 +296,7 @@ public class DBMS {
 				while (oprStatus == OperationStatus.SUCCESS)
 				{
 					String s = new String(data.getData( ));
+					System.out.println("the index is: " + s);
 					if (!(resultIndices.contains(Integer.parseInt(s)))) {
 						resultIndices.add(Integer.parseInt(s));
 					}
