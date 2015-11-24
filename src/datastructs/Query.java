@@ -21,9 +21,13 @@ public class Query {
     }
 
     public boolean isValid() {
-        return false;
+        return true; // TODO:
     }
-        
+
+    /**
+    * Cleans up the query with extra whitespace,
+    * returns the query with a single whitespace if necessary. 
+    */
     private void compress() {
         query = query.replaceAll("[  ]*<[  ]*", "<")
                      .replaceAll("[  ]*=[  ]*", "=")

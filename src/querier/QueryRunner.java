@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import datastructs.Query;
 import exceptions.DBMSException;
+import exceptions.DBMSExitException;
 
 public class QueryRunner {
 
@@ -28,9 +29,13 @@ public class QueryRunner {
             } catch (IOException e) {
                 System.err.println("Error reading query.");
                 continue;
+            } catch (DBMSExitException e) {
+            	System.out.println("Exiting...");
+            	return;
             }
             
             dbHandler.processQuery(userQuery);
+            dbHandler.reset();
         }
 	}
 }

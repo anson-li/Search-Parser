@@ -11,6 +11,7 @@ public class StringEntry extends DatabaseEntry {
         setString(value);
     }
 
+    // berkeleyDB's DatabaseEntry converted for use as a string
     public void setString(String value) {
         byte[] data = value.getBytes();
         setData(data);

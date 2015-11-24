@@ -5,16 +5,20 @@ import datastructs.Product;
 import datastructs.Review;
 import indexer.IndexGen;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
-import java.util.regex.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 
 public class DBQuery {
-	
+	/**
+	* StringEntry structure parses DBEntry values
+	* such as keys and data into string-converted
+	* forms.
+	*/
 	static class StringEntry extends DatabaseEntry {
         StringEntry() {
         }
@@ -39,10 +43,13 @@ public class DBQuery {
     }
 
 	public static void main(String[] args) {
-		
-        // start of separate method 1
 
 		System.out.println("Enter your query below:");
+		/**
+		* Collects user-input data through scanner.
+		* Originally developed using bufferedreader,
+		* but irreconcilable team conflicts arose. 
+		*/
 		Scanner scan = new Scanner (System.in);
 		String line = "";
 		try { line = scan.nextLine(); }
@@ -50,11 +57,13 @@ public class DBQuery {
 		scan.close();
 		System.out.println("You input " + line);
 
-        // end of separate method 1
-
-        // start of separate method 2
 
 		String[] input = line.split(" ");
+		/**
+		* Three stacks are developed for processing.
+		* Processed in the following order:
+		* highpriorities, rscorepriorities, lowpriorities.
+		*/
 		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
 		GenericStack<String> highpriorities  = new GenericStack<String>();
 		GenericStack<String[]> rscorepriorities = new GenericStack<String[]>();
@@ -63,7 +72,6 @@ public class DBQuery {
 		Review review = new Review();
 		boolean isHPreached = false;
 
-		// parsing string :( please dont remove
 		for( int i = 0; i < input.length; i++ )
 		{
 			if (input[i].matches("(?i:r:.*)"))
@@ -182,7 +190,7 @@ public class DBQuery {
 			} else if (kappa.matches(".*%")) {
 				// Acquire a cursor for the table.
 				try {
-					
+
 					IndexGen shell = new IndexGen();
 					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 
@@ -193,7 +201,7 @@ public class DBQuery {
 							Cursor std_cursor1 = std_db1.openCursor(null, null); // Create new cursor object
 							DatabaseEntry key1 = new DatabaseEntry();
 							DatabaseEntry data1 = new DatabaseEntry();
-							
+
 							String searchkey1 = match.toLowerCase();
 							key1.setData(searchkey1.getBytes());
 							key1.setSize(searchkey1.length());
@@ -232,7 +240,7 @@ public class DBQuery {
 						}
 						catch (Exception e) {}
 					}
-					
+
 
 					if (i == 0) {
 						indices = tempKeys;
@@ -244,15 +252,15 @@ public class DBQuery {
 							}
 						}
 					}
-					
+
 					/*
-					
+
 					OperationStatus oprStatus2;
 					Database std_db2 = new Database("rt.idx", null, null);
 					Cursor std_cursor2 = std_db2.openCursor(null, null); // Create new cursor object
 					DatabaseEntry key2 = new DatabaseEntry();
 					DatabaseEntry data2 = new DatabaseEntry();
-					
+
 					oprStatus2 = std_cursor2.getFirst(key2, data2, LockMode.DEFAULT);
 					ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 					while (oprStatus2 == OperationStatus.SUCCESS)
@@ -261,7 +269,7 @@ public class DBQuery {
 							String s = new String(data2.getData( ));
 							//String k = new String(key2.getData( ));
 							//System.out.println("String : " + s + " Key : " + k);
-							
+
 							Pattern p = Pattern.compile("(?i:" + kappa.replace("%", ".*") + ")");
 							if (s.matches(kappa.replace("%", "")) p.matcher(s).matches() {
 								if (!(tempKeys.contains(Integer.parseInt(key2.getData().toString())))) {
@@ -284,7 +292,7 @@ public class DBQuery {
 					}
 			        std_cursor2.close();
 			        std_db2.close();
-					
+
 					ArrayList<String> list = new ArrayList<String>();
 			        DatabaseEntry entry = new DatabaseEntry();
 			        Database std_db1 = new Database("pt.idx", null, null);
@@ -437,9 +445,10 @@ public class DBQuery {
 						indices = tempKeys;
 					}
 					if (i != 0) {
-						for (Integer j : indices) {
-							if (!tempKeys.contains(j)) {
-								indices.remove(j);
+						Iterator<Integer> iter = indices.iterator();
+						while(iter.hasNext()) {
+							if (!tempKeys.contains(iter.next())) {
+								iter.remove();
 							}
 						}
 					}
@@ -448,6 +457,7 @@ public class DBQuery {
 				catch (Exception e) {}
 			}
 		}
+		// reading rscore queue
 		for (int m = 0; !rscorepriorities.isEmpty(); m++) {
 			System.out.println("Size of indices is: " + indices.size());
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
@@ -483,9 +493,11 @@ public class DBQuery {
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
 				} else {
-					for (Integer o : indices) {
-						if (!tempKeys.contains(o)) {
-							indices.remove(o);
+
+					Iterator<Integer> iter = indices.iterator();
+					while(iter.hasNext()) {
+						if (!tempKeys.contains(iter.next())) {
+							iter.remove();
 						}
 					}
 				}
@@ -513,8 +525,9 @@ public class DBQuery {
 							oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 						}
 
-						std_db2.close();
 						std_cursor2.close();
+						std_db2.close();
+
 					} catch (Exception e) {}
 				}
 				if (isHPreached == false && m == 0) {
@@ -549,8 +562,8 @@ public class DBQuery {
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
 
-					std_db2.close();
 					std_cursor2.close();
+					std_db2.close();
 				} catch (Exception e) {}
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
@@ -562,9 +575,10 @@ public class DBQuery {
 					}
 				}
 			}
-			
+
 		}
 		System.out.println("Size of indices is: " + indices.size());
+		// reading low priorities queue
 		for (Integer k : indices) {
 			try {
 				OperationStatus oprStatus;
@@ -657,11 +671,18 @@ public class DBQuery {
 				std_db.close();
 			}
 			catch (Exception e) {e.printStackTrace(); System.out.println("....." + k + "....");}
-		} 
+		}
 		System.out.println();
 
 	}
-
+	/**
+	* Loads the data recieved in the string s
+	* into a product and review object,
+	* for use in user display later.
+	* @param product object to read into
+	* @param review object to read into
+	* @param s object to read from
+	*/
 	private static void load_data(Product product, Review review, String s) {
 
 		Scanner scan = new Scanner(s);
@@ -677,7 +698,7 @@ public class DBQuery {
 		review.setTime(scan.findInLine("[^,]+,\"").replace(",\"", ""));
 		review.setSummary(scan.findInLine("[^\"]+\",\"").replace("\",\"", ""));
 		review.setText(scan.findInLine("[^\"]+\"").replace("\"", ""));
-		
+
 		scan.close();
 	}
 }
