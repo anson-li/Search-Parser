@@ -483,7 +483,9 @@ public class DBQuery {
 				if (isHPreached == false && m == 0) {
 					indices = tempKeys;
 				} else {
-					for (Integer o : indices) {
+					Iterator<Integer> iter = indices.iterator();
+					while(iter.hasNext()){
+						Integer o = iter.next();
 						if (!tempKeys.contains(o)) {
 							indices.remove(o);
 						}
@@ -549,7 +551,7 @@ public class DBQuery {
 						}
 						oprStatus2 = std_cursor2.getNextDup(key2, data2, LockMode.DEFAULT);
 					}
-					
+
 					std_cursor2.close();
 					std_db2.close();
 				} catch (Exception e) {}
