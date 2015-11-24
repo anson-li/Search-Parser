@@ -130,9 +130,11 @@ public class DBMS {
     */
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
     	
-        System.out.println("Num of indices before pprice rdate constraints: " + indices.size());
+        //System.out.println("Num of indices before pprice rdate constraints: " + indices.size());
         if (indices.isEmpty()) {
+            System.out.println("+=-=-=-=-=-=-=-=-=-=-=-=-=+");
     		System.out.println("No results matching given query.");
+            System.out.println("+=-=-=-=-=-=-=-=-=-=-=-=-=+");
         }
 
         Integer counter = 0;
@@ -449,7 +451,7 @@ public class DBMS {
                 	check_file += "'rterms.txt' 'pterms.txt'";
                 }
             	for ( String match : shell.executeCommand("grep -h \"\\b"+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" "+ check_file+" | sort -t, -k 2,2n -u | grep -o \"\\b"+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" | sort | uniq").split("\n")) {
-					System.out.println(match);
+					//System.out.println(match);
             	    queryPTerms(match, next_result_indices);
 					queryRTerms(match, next_result_indices);
 				}
