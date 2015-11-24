@@ -154,9 +154,38 @@ public class DBMS {
 								break Bill;
 							
 						} else if (subquery.matches("rdate.*")) {
+                                String comparator = subquery.substring(5, 6);
+                                DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+                                Date valuedate = df.parse(subquery.substring(6) + " 00:00:00");
+                                long valuedatedoesntmatataer = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
+                                switch (comparator) {
+                                    case "<":
+                                        if (!(Long.parseLong(review.getTime()) < valuedatedoesntmatataer)) {
+                                            break Bill;
+                                        } else {
+                                            break;
+                                        }
+                                    case ">":
+                                        if (!(Long.parseLong(review.getTime()) > valuedatedoesntmatataer)) {
+                                            break Bill;
+                                        } else {
+                                            break;
+                                        }
+                                    case "=":
+                                        if (!(Long.parseLong(review.getTime()) == valuedatedoesntmatataer)) {
+                                            break Bill;
+                                        } else {
+                                            break;
+                                        }
+                                    default:
+                                        break Bill;
+                                }
+                            }
+						    
+						    /*
 							DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 						    Date valuedate = df.parse(subquery.replace("rdate", "").replace(">", "").replace("=", "").replace("<", "") + " 00:00:00");
-						    long value = (valuedate.getTime() / 1000); // delay set by 7hours - timezone difference.
+						    long value = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
 							
 							if (product.getPrice().equals("unknown"))
 								break Bill;
@@ -167,7 +196,7 @@ public class DBMS {
 							else if (subquery.matches("rdate>.*") && !(Long.parseLong(review.getTime()) < value))
 								continue;
 							else
-								break Bill;
+								break Bill;*/
 						}
 					}
 			    	
