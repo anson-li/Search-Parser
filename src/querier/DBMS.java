@@ -8,6 +8,7 @@ import datastructs.Query;
 import datastructs.Review;
 import exceptions.DBMSException;
 import exceptions.DBMSExitException;
+import indexer.IndexGen;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -310,7 +311,26 @@ public class DBMS {
          
         for (int i = 0; !highpriorities.isEmpty(); i++) {
             String subquery = highpriorities.pop();
-            if (subquery.matches("r:[^%]*")) {
+            if (subquery.matches(".*%")) {
+                subquery = subquery.split("%")[0];
+                IndexGen shell = new IndexGen();
+                ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
+            	
+				for ( String match : shell.executeCommand("grep -oh \""+ subquery.toLowerCase().replace("%", "") +"[[:alpha:]]*\" 'rterms.txt' | sort | uniq").split("\n")) {
+					queryPTerms(match, next_result_indices);
+					queryRTerms(match, next_result_indices);
+				}
+				
+				if (i == 0)
+                    indices = next_result_indices;
+            	else {
+            		Iterator<Integer> iter = indices.iterator();
+            		while(iter.hasNext())
+                        if (!next_result_indices.contains(iter.next()))
+                            iter.remove();
+            	}
+                
+            } else if (subquery.matches("r:[^%]*")) {
             	System.out.println("suquery match r: " + subquery);
                 ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryRTerms(subquery, next_result_indices);
@@ -335,13 +355,6 @@ public class DBMS {
                         if (!next_result_indices.contains(iter.next()))
                             iter.remove();
             	}
-            } else if (subquery.matches(".*%")) {
-                subquery = subquery.split("%")[0];
-                
-                // TODO:
-                // TODO:
-                // TODO:
-                
             } else {
             	ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryPTerms(subquery, next_result_indices);
@@ -375,7 +388,6 @@ public class DBMS {
 			
 			if (cmp == COMPARE.EQUAL)
 				queryRScore(subquery, tempKeys, cmp);
-			
 			
 			
 			
