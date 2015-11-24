@@ -41,7 +41,7 @@ public class Query {
     }
 
     public void setQuery(String query) {
-        this.query = query;
+        this.query = query.toLowerCase();
         compress();
     }
 

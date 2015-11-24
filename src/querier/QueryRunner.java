@@ -30,9 +30,7 @@ public class QueryRunner {
                 continue;
             }
             
-            
-            
+            dbHandler.processQuery(userQuery);
         }
-
 	}
 }
