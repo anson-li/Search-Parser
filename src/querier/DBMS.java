@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class DBMS {
@@ -306,7 +307,7 @@ public class DBMS {
     {
         if (highpriorities.isEmpty())
             return false;
-                
+         
         for (int i = 0; !highpriorities.isEmpty(); i++) {
             String subquery = highpriorities.pop();
             if (subquery.matches("r:[^%]*")) {
@@ -314,20 +315,24 @@ public class DBMS {
             	queryRTerms(subquery, next_result_indices);
             	if (i == 0)
                     indices = next_result_indices;
-            	else
-                    for (Integer j : indices)
-                        if (!next_result_indices.contains(j))
-                            indices.remove(j);
+            	else {
+            		Iterator<Integer> iter = indices.iterator();
+            		while(iter.hasNext())
+                        if (!next_result_indices.contains(iter.next()))
+                            iter.remove();
+            	}
                 
             } else if (subquery.matches("p:[^%]*")) {
             	ArrayList<Integer> next_result_indices = new ArrayList<Integer>();
             	queryRTerms(subquery, next_result_indices);
             	if (i == 0)
                     indices = next_result_indices;
-            	else
-                    for (Integer j : indices)
-                        if (!next_result_indices.contains(j))
-                            indices.remove(j);
+            	else {
+            		Iterator<Integer> iter = indices.iterator();
+            		while(iter.hasNext())
+                        if (!next_result_indices.contains(iter.next()))
+                            iter.remove();
+            	}
             } else if (subquery.matches(".*%")) {
                 subquery = subquery.split("%")[0];
                 
@@ -341,10 +346,12 @@ public class DBMS {
             	queryRTerms(subquery, next_result_indices);
             	if (i == 0)
                     indices = next_result_indices;
-            	else
-            		for (Integer j : indices)
-                        if (!next_result_indices.contains(j))
-                            indices.remove(j);
+            	else {
+            		Iterator<Integer> iter = indices.iterator();
+            		while(iter.hasNext())
+                        if (!next_result_indices.contains(iter.next()))
+                            iter.remove();
+            	}
             }
         }
         return true;
