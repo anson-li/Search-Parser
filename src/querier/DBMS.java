@@ -145,11 +145,11 @@ public class DBMS {
 							if (product.getPrice().equals("unknown"))
 								break Bill;
 							if (subquery.matches("pprice<.*") && !(Double.parseDouble(product.getPrice()) < value))
-								break;
+								{}//break;
 							else if (subquery.matches("pprice=.*") && !(Double.parseDouble(product.getPrice()) == value))
-								break;
+								{}//break;
 							else if (subquery.matches("pprice>.*") && !(Double.parseDouble(product.getPrice()) > value))
-								break;
+								{}//break;
 							else
 								break Bill;
 							
@@ -161,11 +161,11 @@ public class DBMS {
 							if (product.getPrice().equals("unknown"))
 								break Bill;
 							if (subquery.matches("rdate<.*") && (Long.parseLong(review.getTime()) < value))
-								break;
+								{}//break;
 							else if (subquery.matches("rdate=.*") && (Long.parseLong(review.getTime()) == value))
-								break;
+								{}//break;
 							else if (subquery.matches("rdate>.*") && (Long.parseLong(review.getTime()) > value))
-								break;
+								{}//break;
 							else
 								break Bill;
 						}
