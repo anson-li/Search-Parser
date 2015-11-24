@@ -143,11 +143,11 @@ public class DBMS {
 							if (product.getPrice().equals("unknown"))
 								break Bill;
 							if (subquery.matches("pprice<.*") && !(Double.parseDouble(product.getPrice()) > value))
-								break;
+								continue;
 							else if (subquery.matches("pprice=.*") && !(Double.parseDouble(product.getPrice()) == value))
-								break;
+								continue;
 							else if (subquery.matches("pprice>.*") && !(Double.parseDouble(product.getPrice()) < value))
-								break;
+								continue;
 							else
 								break Bill;
 							
@@ -174,7 +174,7 @@ public class DBMS {
 					///product.print();
 					//review.print();
 					
-					oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
+					//oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
 				}
 				std_cursor.close();
 				std_db.close();
