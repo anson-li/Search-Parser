@@ -156,7 +156,7 @@ public class DBMS {
 						} else if (subquery.matches("rdate.*")) {
 							DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 						    Date valuedate = df.parse(subquery.replace("rdate", "").replace(">", "").replace("=", "").replace("<", "") + " 00:00:00");
-						    long value = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
+						    long value = (valuedate.getTime() / 1000); // delay set by 7hours - timezone difference.
 							
 							if (product.getPrice().equals("unknown"))
 								break Bill;
