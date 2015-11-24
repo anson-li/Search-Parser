@@ -7,6 +7,7 @@ import indexer.IndexGen;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -435,9 +436,10 @@ public class DBQuery {
 						indices = tempKeys;
 					}
 					if (i != 0) {
-						for (Integer j : indices) {
-							if (!tempKeys.contains(j)) {
-								indices.remove(j);
+						Iterator<Integer> iter = indices.iterator();
+						while(iter.hasNext()) {
+							if (!tempKeys.contains(iter.next())) {
+								iter.remove();
 							}
 						}
 					}

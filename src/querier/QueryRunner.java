@@ -34,6 +34,8 @@ public class QueryRunner {
             	return;
             }
             
+            System.out.println("reached");
+            
             dbHandler.processQuery(userQuery);
         }
 	}

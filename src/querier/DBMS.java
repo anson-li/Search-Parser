@@ -79,35 +79,25 @@ public class DBMS {
         boolean has_hp_query = false;
         
         try {
-        	has_hp_query = processHighPriorities();
-        } catch (DatabaseException de) {
-        	// TODO:
-        } catch (FileNotFoundException fnfe) {
-        	// TODO:
-        }
-        
+			has_hp_query = processHighPriorities();
+		} catch (FileNotFoundException | DatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        	
 		try {
 			processRScorePriority(has_hp_query);
-		} catch (FileNotFoundException e1) {
+		} catch (FileNotFoundException | DatabaseException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (DatabaseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
-        
-        try {
+		try {
 			printResults();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
+		} catch (FileNotFoundException | DatabaseException | ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
     }
 
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
