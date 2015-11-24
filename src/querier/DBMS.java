@@ -107,9 +107,8 @@ public class DBMS {
     	if (indices.isEmpty())
     		System.out.println("No results matching given query.");
     	System.out.print("[");
+		System.out.print("Num results: " + indices.size());
     	for (Integer index : indices) {
-    		
-    		System.out.println("Num results: " + indices.size());
     		
     		OperationStatus oprStatus;
 			Database std_db = new Database("rw.idx", null, null);
