@@ -104,6 +104,8 @@ public class DBMS {
 
     private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
     	
+        System.out.println("Num of indices before pprice rdate constraints: " + indices.size());
+        
     	if (indices.isEmpty())
     		System.out.println("No results matching given query.");
 
