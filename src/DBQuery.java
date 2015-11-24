@@ -5,11 +5,9 @@ import datastructs.Product;
 import datastructs.Review;
 import indexer.IndexGen;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.regex.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 

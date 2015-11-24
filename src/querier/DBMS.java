@@ -14,16 +14,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class DBMS {
-
-<<<<<<< HEAD
-    private String reviewsIndex = "rw.idx";
-    private String rtermsIndex  = "rt.idx";
-    private String ptermsIndex  = "pt.idx";
-    private String rscoreIndex  = "sc.idx";
-
-    BufferedReader buffer;
-
-=======
     private String reviewsIndex ;
     private String rtermsIndex  ;
     private String ptermsIndex  ;
@@ -35,8 +25,6 @@ public class DBMS {
     private ArrayList<Integer> indices;
     
     private enum COMPARE { GREATER, LESS, EQUAL };
-    
->>>>>>> 59d53297aa90eb59178a46c0bd2d5ff5f8f72aec
     DBMS() throws DBMSException {
         buffer = new BufferedReader(new InputStreamReader(System.in));
         
@@ -88,7 +76,11 @@ public class DBMS {
         	// TODO:
         }
         
-        processRScorePriority();
+        try {
+			processRScorePriority(has_hp_query);
+		} catch (FileNotFoundException | DatabaseException e) {
+			// TODO 
+		}
     }
 
     private void loadSubqueryPriorityQ(Query query) {
@@ -239,7 +231,9 @@ public class DBMS {
         return true;
     }
 
-    private void processRScorePriority(boolean has_high_priority) {
+    private void processRScorePriority(boolean has_high_priority) 
+    		throws FileNotFoundException, DatabaseException
+    {
     	while(!rscorepriorities.isEmpty()) {
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
 			String subquery = rscorepriorities.pop();
@@ -251,9 +245,10 @@ public class DBMS {
 			else if (subquery.matches("rscore>.*"))
 				cmp = COMPARE.GREATER;
 			
-			if (cmp == COMPARE.EQUAL) {
-				// TODO
-			}
+			if (cmp == COMPARE.EQUAL)
+				queryRScore(subquery, tempKeys, cmp);
+			
+			
 			
 			
 			
@@ -261,10 +256,4 @@ public class DBMS {
 			
 		}
     }
-<<<<<<< HEAD
-
-    private
 }
-=======
-}
->>>>>>> 59d53297aa90eb59178a46c0bd2d5ff5f8f72aec
