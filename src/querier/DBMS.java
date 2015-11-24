@@ -3,7 +3,9 @@ package querier;
 import com.sleepycat.db.*;
 
 import datastructs.GenericStack;
+import datastructs.Product;
 import datastructs.Query;
+import datastructs.Review;
 import exceptions.DBMSException;
 import exceptions.DBMSExitException;
 
@@ -12,7 +14,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
 
 public class DBMS {
     private String reviewsIndex ;
@@ -79,14 +86,128 @@ public class DBMS {
         	// TODO:
         }
         
-        try {
+		try {
 			processRScorePriority(has_hp_query);
-		} catch (FileNotFoundException | DatabaseException e) {
-			// TODO 
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (DatabaseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+        try {
+			printResults();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DatabaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     }
 
-    private void loadSubqueryPriorityQ(Query query) {
+    private void printResults() throws DatabaseException, FileNotFoundException, ParseException {
+    	
+    	for (Integer index : indices) {
+    		OperationStatus oprStatus;
+			Database std_db = new Database("rw.idx", null, null);
+			Cursor std_cursor = std_db.openCursor(null, null); // Create new cursor object
+			DatabaseEntry key = new DatabaseEntry();
+			DatabaseEntry data = new DatabaseEntry();
+			Product product  = new Product();
+			Review review = new Review();
+
+			String searchkey = index.toString().toLowerCase();
+			key.setData(searchkey.getBytes());
+			key.setSize(searchkey.length());
+
+			// Returns OperationStatus
+			oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
+			while (oprStatus == OperationStatus.SUCCESS)
+			{
+				String s = new String(data.getData( ));
+
+				load_data(product, review, s);
+
+				/**
+				 * FIXME:XXX:TODO: reading low priority queue
+				 */
+				GenericStack<String> tmplow = new GenericStack<String>(lowpriorities);
+				Bill: {
+					while(!tmplow.isEmpty()) {
+						String subquery = tmplow.pop();
+						
+						if (subquery.matches("pprice.*")) {
+							Double value = Double.parseDouble(subquery.replace("pprice(<|=|>)", ""));
+							
+							if (product.getPrice().equals("unknown"))
+								break Bill;
+							if (subquery.matches("pprice<.*") && !(Double.parseDouble(product.getPrice()) < value))
+								break;
+							else if (subquery.matches("pprice=.*") && !(Double.parseDouble(product.getPrice()) == value))
+								break;
+							else if (subquery.matches("pprice>.*") && !(Double.parseDouble(product.getPrice()) > value))
+								break;
+							else
+								break Bill;
+							
+						} else if (subquery.matches("rdate.*")) {
+							DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+						    Date valuedate = df.parse(subquery.replace("rdate(<|=|>)", "") + " 00:00:00");
+						    long value = (valuedate.getTime() / 1000) - 25200; // delay set by 7hours - timezone difference.
+							
+							if (product.getPrice().equals("unknown"))
+								break Bill;
+							if (subquery.matches("rdate<.*") && (Long.parseLong(review.getTime()) < value))
+								break;
+							else if (subquery.matches("rdate=.*") && (Long.parseLong(review.getTime()) == value))
+								break;
+							else if (subquery.matches("rdate>.*") && (Long.parseLong(review.getTime()) > value))
+								break;
+							else
+								break Bill;
+						}
+					}
+					
+					product.print();
+					review.print();
+				}
+				oprStatus = std_cursor.getNextDup(key, data, LockMode.DEFAULT);
+			}
+			std_cursor.close();
+			std_db.close();
+		}
+		
+    	System.out.println();
+	}
+
+
+	private void load_data(Product product, Review review, String s) {
+
+		Scanner scan = new Scanner(s);
+
+		review.setProductID(scan.findInLine("[\\w]+,\"").replace(",\"", ""));
+		product.setID(review.getProductID());
+		product.setTitle(scan.findInLine("[^\"]*\",").replace("\",", ""));
+		product.setPrice(scan.findInLine("[^,]+,").replace(",", ""));
+		review.setUserID(scan.findInLine("[\\w]+,\"").replace(",\"", ""));
+		review.setProfileName(scan.findInLine("[^\"]+\",").replace("\",", ""));
+		review.setHelpfulness(scan.findInLine("[^,]+,").replace(",", ""));
+		review.setScore(Double.parseDouble(scan.findInLine("[^,]+,").replace(",", "")));
+		review.setTime(scan.findInLine("[^,]+,\"").replace(",\"", ""));
+		review.setSummary(scan.findInLine("[^\"]+\",\"").replace("\",\"", ""));
+		review.setText(scan.findInLine("[^\"]+\"").replace("\"", ""));
+
+		scan.close();
+		
+	}
+
+
+	private void loadSubqueryPriorityQ(Query query) {
         if (!query.isValid())
             return; // TODO: throw an exception.
 
