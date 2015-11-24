@@ -14,7 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 public class DBQuery {
-
+	/**
+	* StringEntry structure parses DBEntry values
+	* such as keys and data into string-converted
+	* forms.
+	*/
 	static class StringEntry extends DatabaseEntry {
         StringEntry() {
         }
@@ -40,9 +44,12 @@ public class DBQuery {
 
 	public static void main(String[] args) {
 
-        // start of separate method 1
-
 		System.out.println("Enter your query below:");
+		/**
+		* Collects user-input data through scanner.
+		* Originally developed using bufferedreader,
+		* but irreconcilable team conflicts arose. 
+		*/
 		Scanner scan = new Scanner (System.in);
 		String line = "";
 		try { line = scan.nextLine(); }
@@ -50,11 +57,13 @@ public class DBQuery {
 		scan.close();
 		System.out.println("You input " + line);
 
-        // end of separate method 1
-
-        // start of separate method 2
 
 		String[] input = line.split(" ");
+		/**
+		* Three stacks are developed for processing.
+		* Processed in the following order:
+		* highpriorities, rscorepriorities, lowpriorities.
+		*/
 		GenericStack<String[]> lowpriorities = new GenericStack<String[]>();
 		GenericStack<String> highpriorities  = new GenericStack<String>();
 		GenericStack<String[]> rscorepriorities = new GenericStack<String[]>();
@@ -63,7 +72,6 @@ public class DBQuery {
 		Review review = new Review();
 		boolean isHPreached = false;
 
-		// parsing string :( please dont remove
 		for( int i = 0; i < input.length; i++ )
 		{
 			if (input[i].matches("(?i:r:.*)"))
@@ -449,6 +457,7 @@ public class DBQuery {
 				catch (Exception e) {}
 			}
 		}
+		// reading rscore queue
 		for (int m = 0; !rscorepriorities.isEmpty(); m++) {
 			System.out.println("Size of indices is: " + indices.size());
 			ArrayList<Integer> tempKeys = new ArrayList<Integer>();
@@ -569,6 +578,7 @@ public class DBQuery {
 
 		}
 		System.out.println("Size of indices is: " + indices.size());
+		// reading low priorities queue
 		for (Integer k : indices) {
 			try {
 				OperationStatus oprStatus;
@@ -665,7 +675,14 @@ public class DBQuery {
 		System.out.println();
 
 	}
-
+	/**
+	* Loads the data recieved in the string s
+	* into a product and review object,
+	* for use in user display later.
+	* @param product object to read into
+	* @param review object to read into
+	* @param s object to read from
+	*/
 	private static void load_data(Product product, Review review, String s) {
 
 		Scanner scan = new Scanner(s);
