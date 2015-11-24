@@ -292,6 +292,7 @@ public class DBMS {
 				oprStatus = std_cursor.getFirst(key, data, LockMode.DEFAULT);
 				key.setData(searchkey.getBytes());
 				key.setSize(searchkey.length());
+				data = new DatabaseEntry();
 				oprStatus = std_cursor.getSearchKey(key, data, LockMode.DEFAULT);
 				while (oprStatus == OperationStatus.SUCCESS)
 				{
