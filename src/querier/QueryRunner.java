@@ -37,6 +37,7 @@ public class QueryRunner {
             System.out.println("reached");
             
             dbHandler.processQuery(userQuery);
+            dbHandler.reset();
         }
 	}
 }

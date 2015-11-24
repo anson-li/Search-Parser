@@ -108,9 +108,6 @@ public class DBMS {
     		System.out.println("No results matching given query.");
     	System.out.print("[");
     	for (Integer index : indices) {
-    		System.out.print("'"+ index +"'");
-    		if (index != (indices.size()-1))
-    			System.out.print(",");
     		
     		//System.out.println("Num results: " + indices.size());
     		
@@ -174,6 +171,10 @@ public class DBMS {
 						}
 					}
 					
+					System.out.print("'"+ index +"'");
+		    		if (index != (indices.size()))
+		    			System.out.print(",");
+		    		
 					///product.print();
 					//review.print();
 				}
@@ -446,6 +447,11 @@ public class DBMS {
 		}
 	}
     
-    
+    public void reset() {
+        lowpriorities    = new GenericStack<String>();
+        highpriorities   = new GenericStack<String>();
+        rscorepriorities = new GenericStack<String>();
+        indices			 = new ArrayList<Integer>();
+    }
     
 }
