@@ -21,7 +21,7 @@ public class Query {
     }
 
     public boolean isValid() {
-        return false;
+        return true; // TODO:
     }
 
     private void compress() {
