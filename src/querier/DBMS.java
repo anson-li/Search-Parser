@@ -213,6 +213,7 @@ public class DBMS {
 
         for (String subquery : query.getQuery().split(" "))
         {
+        	System.out.println(subquery);
             if (   subquery.matches("(?i:r:.*)")
                 || subquery.matches("(?i:p:.*)"))
             {
@@ -309,7 +310,7 @@ public class DBMS {
     private boolean processHighPriorities() 
     		throws DatabaseException, FileNotFoundException
     {
-        if (!highpriorities.isEmpty())
+        if (highpriorities.isEmpty())
             return false;
                 
         for (int i = 0; !highpriorities.isEmpty(); i++) {
