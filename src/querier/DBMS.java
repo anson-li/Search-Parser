@@ -137,7 +137,7 @@ public class DBMS {
 						String subquery = tmplow.pop();
 						
 						if (subquery.matches("pprice.*")) {
-							Double value = Double.parseDouble(subquery.replace("pprice(<|=|>)", ""));
+							Double value = Double.parseDouble(subquery.replace("pprice", "").replace(">", "").replace("=", "").replace("<", ""));
 							
 							if (product.getPrice().equals("unknown"))
 								break Bill;
