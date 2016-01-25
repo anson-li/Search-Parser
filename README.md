@@ -1,4 +1,4 @@
-# CMPUT 291 Project 2
+# SearchParser
 
 ## References:
 Berkeley DB development structure, C / Java-based.
